@@ -3,7 +3,8 @@ import moonIcon from "../images/svgs/moon-svgrepo-com.svg";
 import sunIcon from "../images/svgs/sun-svgrepo-com.svg";
 import menuWhite from "../images/svgs/menu-svgrepo-com-white.svg";
 import menuBlack from "../images/svgs/menu-svgrepo-com-black.svg";
-import TAKKinshipLogo from "../images/TAK Kinship-Logo.png";
+import TAKKinshipLogoDark from "../images/TAK Kinship-Logo-Dark.svg";
+import TAKKinshipLogoLight from "../images/TAK Kinship-Logo-light.svg";
 import "../css/navbar.css";
 import { Link } from "react-router-dom";
 import configImages from "./configImages";
@@ -74,11 +75,9 @@ const NavigationBar = ({ className }) => {
       <div className="logo">
         <img
           src={
-            configImages +
-            "/TAK%20Kniship/website%20images/" +
-            "lgbobj12tl3tglzffs3r"
+            themeColor === "light" ? TAKKinshipLogoLight : TAKKinshipLogoDark
           }
-          alt=""
+          alt="TAK Kinship Logo"
         />
 
         <div className="menu-slide-btn" onClick={handleChangeMobileNav}>

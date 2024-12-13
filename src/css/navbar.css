@@ -55,8 +55,11 @@
   border: 0.5px solid var(--brand-color);
   cursor: pointer;
 }
+.nav .logo {
+  padding: calc((60px - 45px) / 2);
+}
 .nav .logo > img {
-  height: 60px;
+  height: 45px;
 }
 #themeChange {
   display: none;
