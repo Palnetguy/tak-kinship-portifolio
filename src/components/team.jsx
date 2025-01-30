@@ -100,13 +100,11 @@ const Team = ({ setIsLoading }) => {
 
       <div className="profileCardContainer">
         {teamData.map((e, index) => (
-          <div ref={profileCarsRef}>
+          <div>
             <div
               // className=""
               key={e.id}
-              className={`profileCard box titleNotSeen ${
-                profileCarsInview ? "titleInView" : ""
-              }`}
+              className={`profileCard box  `}
             >
               <div className="proImg">
                 <img src={`${e.profile_picture}`} alt="" />

@@ -122,13 +122,11 @@ const Portfolio = ({ setIsLoading }) => {
 
         <div className="projectsContainer">
           {filteredportfolioArray.map((e) => (
-            <div ref={projectsRef}>
+            <div>
               <div
                 // className="singleProject"
                 key={e.id}
-                className={`singleProject elementOut ${
-                  projectsInview ? "elementIn" : ""
-                }`}
+                className={`singleProject `}
               >
                 <img
                   src={`${e.project_background_image}`}

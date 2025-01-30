@@ -224,7 +224,7 @@ const Footer = ({ setIsLoading }) => {
       <hr />
       <div className="bottom">
         <p class="creadits">
-          © 2024 Created by: <a href="#">TAK Kinship</a>
+          © {new Date().getFullYear()} Created by: <a href="#">TAK Kinship</a>
         </p>
         <div>
           <a href="">Privacy Policy</a>
