@@ -12,8 +12,21 @@ import axios from "axios";
 import configHeaders from "./config-headers";
 import configImages from "./configImages";
 
+import TAKKinshipLogoDark from "../images/TAK Kinship-Logo-Dark.svg";
+import TAKKinshipLogoLight from "../images/TAK Kinship-Logo-light.svg";
+
 const Footer = ({ setIsLoading }) => {
   const footerItems = document.querySelectorAll(".footer_element_animated");
+
+  const [changeThemeKey, setChangeThemeKey] = useState(0);
+  const [themeColor, setThemeColor] = useState("dark");
+
+  useEffect(() => {
+    setThemeColor(localStorage.getItem("themeColor"));
+    document
+      .querySelector("body")
+      .setAttribute("data-theme", localStorage.getItem("themeColor"));
+  }, [changeThemeKey]);
 
   const handleIntersection = (entries) => {
     entries.forEach((entry) => {
@@ -84,8 +97,9 @@ const Footer = ({ setIsLoading }) => {
       <div className="top">
         <div className="">
           <div className="box footer_element_animated">
-            <a href="#" className="logo" style={{ "--delay": "0ms" }}>
-              <img
+            {/* <a href="#" className="logo" style={{ "--delay": "0ms" }}> */}
+            {/* <img
+
                 class="my-2"
                 src={
                   configImages +
@@ -93,8 +107,18 @@ const Footer = ({ setIsLoading }) => {
                   "lgbobj12tl3tglzffs3r"
                 }
                 alt=""
+              /> */}
+            <div className="logo">
+              <img
+                src={
+                  themeColor === "light"
+                    ? TAKKinshipLogoLight
+                    : TAKKinshipLogoDark
+                }
+                alt="TAK Kinship Logo"
               />
-            </a>
+            </div>
+            {/* </a> */}
             <p style={{ "--delay": "100ms" }}>
               Your journey with us is more than code and pixels; it's a
               heartfelt melody, harmonizing dreams and reality in the grand
