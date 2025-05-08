@@ -85,9 +85,10 @@ const Portfolio = ({ setIsLoading }) => {
       <div className="projects">
         <div
           // className=""
-          className={`navProjects elementOut ${
-            navProjectsInview ? "elementIn" : ""
-          }`}
+          // className={`navProjects elementOut ${
+          //   navProjectsInview ? "elementIn" : ""
+          // }`}
+          className={`navProjects elementOut`}
           ref={navProjectsRef}
         >
           <ul>
