@@ -9,7 +9,7 @@ import AboutPage from "./pages/about-page";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import ContactPage from "./pages/contact-page";
 import GalleryPage from "./pages/gallery-page";
-import OffersPage from "./pages/offers-page";
+// import ServicesPage from "./pages/services-page";
 import PortfolioPage from "./pages/portfolio-page";
 import EachProject from "./pages/each-project-page";
 import particlesOptions from "./components/particals/particlesjs-config.json";
@@ -20,6 +20,12 @@ import ArrowBackUp from "./components/arrowBackUp";
 import PreLoaderFull from "./components/preLoaderFull";
 import TermsPage from "./pages/terms_page";
 import PrivacyPage from "./pages/privacy_policy_page ";
+import ServicesPage from "./pages/services-page";
+import EachServiceTemplatePage from "./components/each-service-template-page";
+import WebDevelopmentMore from "./pages/web-development-more";
+import AppDevelopmentMore from "./pages/app-development-more";
+import DesktopDevelopmentMore from "./pages/desktop-development-more";
+import UxUiDevelopmentMore from "./pages/ui-ux-development-more";
 
 function App() {
   useEffect(() => {
@@ -99,8 +105,8 @@ function App() {
               element={<GalleryPage setAllDoneLoading={handleLoadingAll} />}
             />
             <Route
-              path="/offers"
-              element={<OffersPage setAllDoneLoading={handleLoadingAll} />}
+              path="/services"
+              element={<ServicesPage setAllDoneLoading={handleLoadingAll} />}
             />
             <Route
               path="/portfolio"
@@ -134,6 +140,36 @@ function App() {
                   termsInfo={termsInfo}
                   setAllDoneLoading={handleLoadingAll}
                 />
+              }
+            />
+            <Route
+              path="/test"
+              element={
+                <EachServiceTemplatePage setAllDoneLoading={handleLoadingAll} />
+              }
+            />
+            <Route
+              path="/web-development"
+              element={
+                <WebDevelopmentMore setAllDoneLoading={handleLoadingAll} />
+              }
+            />
+            <Route
+              path="/app-development"
+              element={
+                <AppDevelopmentMore setAllDoneLoading={handleLoadingAll} />
+              }
+            />
+            <Route
+              path="/desktop-development"
+              element={
+                <DesktopDevelopmentMore setAllDoneLoading={handleLoadingAll} />
+              }
+            />
+            <Route
+              path="/ui-ux-development"
+              element={
+                <UxUiDevelopmentMore setAllDoneLoading={handleLoadingAll} />
               }
             />
           </Routes>

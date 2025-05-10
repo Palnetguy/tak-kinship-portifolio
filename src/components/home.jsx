@@ -59,13 +59,18 @@ const Home = () => {
           </Link>
         </div>
         <div className="rht-home" ref={rightRef}>
-          <img
+          {/* <img
             className={`isNotVisibleIm ${rightInView ? "homeEmisVisible" : ""}`}
             src={
               configImages +
               "/TAK%20Kniship/website%20images/" +
               "k5bpzmwoynrhw52fiejy"
             }
+            alt=""
+          /> */}
+          <img
+            className={`isNotVisibleIm ${rightInView ? "homeEmisVisible" : ""}`}
+            src={homeImg}
             alt=""
           />
         </div>

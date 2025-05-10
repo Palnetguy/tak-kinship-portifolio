@@ -1,0 +1,101 @@
+.messege-from-ceo{
+    padding: 0 var(--main-margin);
+    padding-top: 100px;
+}
+.messege-from-ceo > .title {
+  font-size: 30px !important;
+  font-weight: 500 !important;
+}
+.messege-from-ceo > .title-2 {
+  font-size: 18px !important;
+  font-weight: 400 !important;
+  line-height: 1.5 !important;
+  opacity: 0.5 !important;
+}
+
+.messege-from-ceo .img-info {
+  display: flex;
+  gap: 3em;
+  /* background: rgb(220, 188, 188); */
+  margin-top: 1em;
+  position: relative;
+  margin-left: 5px;
+  align-items: end;
+}
+.messege-from-ceo .img-info > div {
+  width: 50%;
+}
+.messege-from-ceo .img-info > .image {
+  background: teal;
+  aspect-ratio: 1.5/ 1;
+  position: relative;
+  /* background: var(--bodyColor); */
+  transition: 0.5s ease-in-out;
+
+
+}
+.messege-from-ceo .img-info > .image img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.messege-from-ceo .img-info > .image > .ovl {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  /* background: rgba(0, 0, 0, 0.5); */
+}
+
+.messege-from-ceo .img-info > .image::after {
+  content: "";
+  position: absolute;
+  width: 25px;
+  height: 25px;
+  background: var(--brand-color);
+  top: -4px;
+  left: -4px;
+  z-index: -1;
+}
+.messege-from-ceo .img-info > .image::before {
+  content: "";
+  position: absolute;
+  width: 25px;
+  height: 25px;
+  background: var(--brand-color);
+  right: -4px;
+  top: -4px;
+  z-index: -1;
+}
+.messege-from-ceo .img-info > .image .ovl::after {
+  content: "";
+  position: absolute;
+  width: 25px;
+  height: 25px;
+  background: var(--brand-color);
+  bottom: -4px;
+  left: -4px;
+  z-index: -1;
+}
+.messege-from-ceo .img-info > .image .ovl::before {
+  content: "";
+  position: absolute;
+  width: 25px;
+  height: 25px;
+  background: var(--brand-color);
+  right: -4px;
+  bottom: -4px;
+  z-index: -1;
+
+}
+
+.messege-from-ceo .img-info > .info::before{
+    content: ",,";
+    /* position: absolute; */
+    position: relative;
+    font-size: 5em;
+    color: var(--brand-color);
+    font-weight: 900;
+    transform: rotate(90deg);
+
+}

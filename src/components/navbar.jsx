@@ -6,7 +6,7 @@ import menuBlack from "../images/svgs/menu-svgrepo-com-black.svg";
 import TAKKinshipLogoDark from "../images/TAK Kinship-Logo-Dark.svg";
 import TAKKinshipLogoLight from "../images/TAK Kinship-Logo-light.svg";
 import "../css/navbar.css";
-import { Link } from "react-router-dom";  
+import { Link } from "react-router-dom";
 import configImages from "./configImages";
 
 const NavigationBar = ({ className }) => {
@@ -100,8 +100,8 @@ const NavigationBar = ({ className }) => {
           </Link>
         </li>
         <li>
-          <Link target="_top" to="/offers">
-            Offers
+          <Link target="_top" to="/services">
+            services
           </Link>
         </li>
         <li>

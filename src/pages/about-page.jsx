@@ -4,6 +4,7 @@ import AboutUs from "../components/about-us";
 import ContactUs from "../components/contact-us";
 import Footer from "../components/footer";
 import OtherPageBanner from "../components/other-page-banner";
+import MessegeFromCeo from "../components/messege-from-ceo";
 
 const AboutPage = ({ setAllDoneLoading }) => {
   const [loadingAbout, setLoadingAbout] = useState(true);
@@ -53,7 +54,8 @@ const AboutPage = ({ setAllDoneLoading }) => {
         title="About Us"
         infomation="In the vast tapestry of the web, we don't just create technology; we compose symphonies of connection."
       />
-      <AboutUs setIsLoading={handleLoadingAbout} />
+      <AboutUs setIsLoading={handleLoadingAbout} showAllInfo={true} />
+      <MessegeFromCeo />
       <FAQComponent setIsLoading={handleLoadingFaQs} />
       <ContactUs setIsLoading={handleLoadingContactInfo} />
       <Footer setIsLoading={handleLoadingFooter} />

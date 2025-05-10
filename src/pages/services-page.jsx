@@ -3,9 +3,10 @@ import FAQComponent from "../components/FAQComponent";
 import ContactUs from "../components/contact-us";
 import Footer from "../components/footer";
 import OtherPageBanner from "../components/other-page-banner";
-import Offers from "../components/our-offers";
+import services from "../components/our-services";
+import Services from "../components/our-services";
 
-const OffersPage = ({ setAllDoneLoading }) => {
+const ServicesPage = ({ setAllDoneLoading }) => {
   const [loadingFaQs, setLoadingFaQs] = useState(true);
 
   const handleLoadingFaQs = (isLoading) => {
@@ -38,11 +39,11 @@ const OffersPage = ({ setAllDoneLoading }) => {
   return (
     <section>
       <OtherPageBanner
-        pageName="OFFERS"
-        title="Our Offers"
+        pageName="services"
+        title="Our services"
         infomation=" Let every service be the spark that fuels your vision and propels your goals. Your success, our mission – together, we code the path to achievement."
       />
-      <Offers />
+      <Services />
       <FAQComponent setIsLoading={handleLoadingFaQs} />
       <ContactUs setIsLoading={handleLoadingContactInfo} />
       <Footer setIsLoading={handleLoadingFooter} />
@@ -50,4 +51,4 @@ const OffersPage = ({ setAllDoneLoading }) => {
   );
 };
 
-export default OffersPage;
+export default ServicesPage;

@@ -1,12 +1,13 @@
 import { useInView } from "react-intersection-observer";
-import "../css/offers.css";
+import "../css/services.css";
 
 import uiDesignIn from "../images/UI Development im.jpg";
 import appDevIn from "../images/App Development im.png";
 import webDevIn from "../images/Web Development im.jpg";
 import desktopDevIn from "../images/Desktop Development im.jpg";
+import { Link } from "react-router-dom";
 
-const Offers = () => {
+const Services = () => {
   const [pretitleRef, pretitleInview] = useInView({
     triggerOnce: true,
     threshold: 0.5,
@@ -20,47 +21,47 @@ const Offers = () => {
     threshold: 0.5,
   });
 
-  const [offerRef1, offerRef1Inview] = useInView({
+  const [serviceRef1, serviceRef1Inview] = useInView({
     triggerOnce: true,
     threshold: 0.5,
   });
-  const [offerRef2, offerRef2Inview] = useInView({
+  const [serviceRef2, serviceRef2Inview] = useInView({
     triggerOnce: true,
     threshold: 0.5,
   });
-  const [offerRef3, offerRef3Inview] = useInView({
+  const [serviceRef3, serviceRef3Inview] = useInView({
     triggerOnce: true,
     threshold: 0.5,
   });
-  const [offerRef4, offerRef4Inview] = useInView({
+  const [serviceRef4, serviceRef4Inview] = useInView({
     triggerOnce: true,
     threshold: 0.5,
   });
 
   return (
-    <div className="offers">
+    <div className="services">
       <div className="heading">
         <h4
           className={`pretitle titleNotInview ${
-            pretitleInview ? "offersInView" : ""
+            pretitleInview ? "servicesInView" : ""
           }`}
           ref={pretitleRef}
           style={{ "--delay": "000ms" }}
         >
-          OUR OFFERS
+          OUR services
         </h4>
         <h1
           className={`title titleNotInview ${
-            titleInview ? "offersInView" : ""
+            titleInview ? "servicesInView" : ""
           }`}
           style={{ "--delay": "200ms" }}
           ref={titleRef}
         >
-          What We’re Offering?
+          What we Offer?
         </h1>
         <p
           className={`titleNotInview post-title ${
-            pInview ? "offersInView" : ""
+            pInview ? "servicesInView" : ""
           }`}
           style={{ "--delay": "400ms" }}
           ref={ptitleRef}
@@ -72,61 +73,72 @@ const Offers = () => {
       </div>
 
       <div
-        // className="offers-ech"
-        className={`offers-ech `}
-        // ref={offerRef1}
+        // className="services-ech"
+        className={`services-ech `}
+        // ref={serviceRef1}
       >
-        <OfferOne
+        <ServiceOne
           title={"Web Developement"}
           information={
             "We craft dynamic and responsive websites that go beyond aesthetics. Our web development services ensure seamless user experiences, robust functionality, and a strong online presence. From intuitive interfaces to scalable back-end solutions, we turn your digital vision into a captivating reality."
           }
-          className={`${offerRef1Inview ? "offersInView" : ""}`}
-          // ref={offerRef1}
+          className={`${serviceRef1Inview ? "servicesInView" : ""}`}
+          // ref={serviceRef1}
 
-          outerRef={offerRef1}
+          outerRef={serviceRef1}
           image={webDevIn}
+          link={"/web-development"}
         />
 
-        <OfferOne
+        <ServiceOne
           title={"App Developement"}
           information={
             "We excel in creating innovative and user-centric mobile applications. Our app development services encompass the entire process, from ideation to deployment. Whether it's iOS or Android, we specialize in turning ideas into engaging, high-performance applications that resonate with your audience."
           }
-          className={`${offerRef2Inview ? "offersInView" : ""}`}
-          outerRef={offerRef2}
+          className={`${serviceRef2Inview ? "servicesInView" : ""}`}
+          outerRef={serviceRef2}
           image={appDevIn}
+          link={"/app-development"}
         />
 
-        <OfferOne
+        <ServiceOne
           title={"Desktop Developement"}
           information={
             "Experience the power of tailored desktop applications with Palnet. Our desktop development services are designed for efficiency, security, and user-friendliness. We bring your ideas to life with applications that seamlessly integrate into your workflow, ensuring a reliable and intuitive desktop experience."
           }
-          className={`${offerRef3Inview ? "offersInView" : ""}`}
-          outerRef={offerRef3}
+          className={`${serviceRef3Inview ? "servicesInView" : ""}`}
+          outerRef={serviceRef3}
           image={desktopDevIn}
+          link={"/desktop-development"}
         />
 
-        <OfferOne
+        <ServiceOne
           title={"UI/UX Developement"}
           information={
             "We understand the pivotal role of design in user satisfaction. Our UI/UX design services focus on creating visually stunning interfaces coupled with an intuitive user experience. From wireframes to polished designs, we ensure that every interaction leaves a lasting impression, enhancing user engagement and satisfaction."
           }
-          className={`${offerRef4Inview ? "offersInView" : ""}`}
-          outerRef={offerRef4}
+          className={`${serviceRef4Inview ? "servicesInView" : ""}`}
+          outerRef={serviceRef4}
           image={uiDesignIn}
+          link={"/ui-ux-development"}
         />
       </div>
     </div>
   );
 };
 
-export default Offers;
+export default Services;
 
-const OfferOne = ({ title, information, image, className, outerRef }) => {
+const ServiceOne = ({
+  title,
+  information,
+  image,
+  className,
+  outerRef,
+  link,
+}) => {
   return (
-    <div className="offer-card " ref={outerRef}>
+    <div className="service-card " ref={outerRef}>
       <div className={`box ${className}`}>
         <div className="image">
           <img src={image} alt="" />
@@ -147,7 +159,7 @@ const OfferOne = ({ title, information, image, className, outerRef }) => {
             <h2 className="title-2">{title}</h2>
             <p>{information}</p>
           </div>
-          <a href="" className="learn-more">
+          <Link to={link} target="_top" className="learn-more">
             Learn More
             <svg
               viewBox="0 0 24 24"
@@ -170,7 +182,7 @@ const OfferOne = ({ title, information, image, className, outerRef }) => {
                 ></path>{" "}
               </g>
             </svg>
-          </a>
+          </Link>
         </div>
       </div>
     </div>

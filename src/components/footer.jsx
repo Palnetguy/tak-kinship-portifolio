@@ -182,8 +182,8 @@ const Footer = ({ setIsLoading }) => {
             </li>
             <li class="" style={{ "--delay": "200ms" }}>
               <img src={chevronRight} alt="" />
-              <Link target="_top" to="/offers">
-                Offers
+              <Link target="_top" to="/services">
+                services
               </Link>
             </li>
             <li class="" style={{ "--delay": "300ms" }}>

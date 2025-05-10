@@ -1,5 +1,5 @@
 import "../css/home.css";
-import Offers from "../components/our-offers";
+import services from "../components/our-services";
 import AboutUs from "../components/about-us";
 import Clients from "../components/clients";
 import Portfolio from "../components/portfolio";
@@ -11,6 +11,7 @@ import Footer from "../components/footer";
 import ContactUs from "../components/contact-us";
 import FAQComponent from "../components/FAQComponent";
 import { useEffect, useState } from "react";
+import Services from "../components/our-services";
 
 const HomePage = ({ setAllDoneLoading }) => {
   // const [isDoneAll, setIsDoneAll] = useState(false);
@@ -96,12 +97,14 @@ const HomePage = ({ setAllDoneLoading }) => {
     loadingTestimonial,
     loadingContactInfo,
     loadingFooter,
+    // allDoneLoading,
+    setAllDoneLoading,
   ]);
 
   return (
     <section>
       <Home />
-      <Offers />
+      <Services />
       <AboutUs setIsLoading={handleLoadingAbout} />
       <Clients setIsLoading={handleLoadingClients} />
       <Portfolio setIsLoading={handleLoadingPortFolio} />
