@@ -145,7 +145,7 @@ const HomePage = ({ setAllDoneLoading }) => {
         setIsLoading={handleLoadingTestimonial}
         teamMembers={teamMembers}
       />
-      <Team setIsLoading={handleLoadingTeam} />
+      {/* <Team setIsLoading={handleLoadingTeam} /> */}
       <FAQComponent setIsLoading={handleLoadingFaQs} />
       <ContactUs setIsLoading={handleLoadingContactInfo} />
       <Footer setIsLoading={handleLoadingFooter} />
