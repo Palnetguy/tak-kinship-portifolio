@@ -142,7 +142,7 @@ const HomePage = ({ setAllDoneLoading }) => {
       <Testimonials setIsLoading={handleLoadingTestimonial} />
       <TeamShowcase
         title="OUR TEAM"
-        setIsLoading={handleLoadingTestimonial}
+        setIsLoading={() =>{ handleLoadingTestimonial(); handleLoadingTeam()}}
         teamMembers={teamMembers}
       />
       {/* <Team setIsLoading={handleLoadingTeam} /> */}

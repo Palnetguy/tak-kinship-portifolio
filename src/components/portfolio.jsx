@@ -47,7 +47,7 @@ const Portfolio = ({ setIsLoading }) => {
     var filtered;
     filtered = portfolioArray;
 
-    filtered = portfolioArray.filter((e) => e.type === searchQuery);
+    filtered = portfolioArray.filter((e) => e.project_category === searchQuery);
     setFilteredPortfolioArray(filtered);
     setActiveFilter(searchQuery);
     console.log(filtered);
@@ -116,7 +116,7 @@ const Portfolio = ({ setIsLoading }) => {
             <li>
               <p
                 className={`nav-link ${activeFilter === "Web" ? "active" : ""}`}
-                onClick={() => handleFilterToEach("Web")}
+                onClick={() => handleFilterToEach("Web Application")}
               >
                 Web
               </p>
@@ -126,7 +126,7 @@ const Portfolio = ({ setIsLoading }) => {
                 className={`nav-link ${
                   activeFilter === "Desktop" ? "active" : ""
                 }`}
-                onClick={() => handleFilterToEach("Desktop")}
+                onClick={() => handleFilterToEach("Desktop Application")}
               >
                 Desktop
               </p>
@@ -158,7 +158,7 @@ const Portfolio = ({ setIsLoading }) => {
                 <div className="veiwProjectOverly">
                   <div className="info">
                     <h3>{e.title}</h3>
-                    <h6>{e.type} Application</h6>
+                    <h6>{e.project_category}</h6>
                     <div className="madeWith">
                       {e.tech_stack.map((stack, index) => (
                         <p key={index}>#{stack.language}</p>
@@ -175,6 +175,7 @@ const Portfolio = ({ setIsLoading }) => {
                       <a>View Project</a>
                     </div>
                   </Link>
+
                 </div>
               </div>
             </div>
