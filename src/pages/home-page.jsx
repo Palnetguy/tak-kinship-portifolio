@@ -12,6 +12,9 @@ import ContactUs from "../components/contact-us";
 import FAQComponent from "../components/FAQComponent";
 import { useEffect, useState } from "react";
 import Services from "../components/our-services";
+import TeamShowcase from "../components/team-showcase";
+
+import testprofile from "../images/testProfilePic.jpg";
 
 const HomePage = ({ setAllDoneLoading }) => {
   // const [isDoneAll, setIsDoneAll] = useState(false);
@@ -101,6 +104,34 @@ const HomePage = ({ setAllDoneLoading }) => {
     setAllDoneLoading,
   ]);
 
+  const teamMembers = [
+    {
+      name: "Ian Rush",
+      role: "Creative Leader",
+      image: testprofile, // Replace with actual image paths
+      bio: "Experienced creative director with expertise in brand development and design strategy.",
+    },
+    {
+      name: "Martine Tuswingwire",
+      role: "Manager",
+      image: testprofile,
+      bio: "Project management professional with a focus on team coordination and client relations.",
+    },
+    {
+      name: "Alex Grinfield",
+      role: "Programming Guru",
+      image: testprofile,
+      bio: "Full-stack developer with extensive knowledge of modern frameworks and technologies.",
+    },
+    {
+      name: "Roxie Swanson",
+      role: "Sales Manager",
+      image: testprofile,
+      bio: "Results-driven sales expert with a strong track record of building client relationships.",
+    },
+    // You can add more team members here
+  ];
+
   return (
     <section>
       <Home />
@@ -109,6 +140,11 @@ const HomePage = ({ setAllDoneLoading }) => {
       <Clients setIsLoading={handleLoadingClients} />
       <Portfolio setIsLoading={handleLoadingPortFolio} />
       <Testimonials setIsLoading={handleLoadingTestimonial} />
+      <TeamShowcase
+        title="OUR TEAM"
+        setIsLoading={handleLoadingTestimonial}
+        teamMembers={teamMembers}
+      />
       <Team setIsLoading={handleLoadingTeam} />
       <FAQComponent setIsLoading={handleLoadingFaQs} />
       <ContactUs setIsLoading={handleLoadingContactInfo} />

@@ -1,0 +1,261 @@
+.each-project-detail-template {
+  margin-top: 5em;
+}
+
+.each-project-detail-template > .top {
+  border-bottom: 1px solid var(--boxColor);
+  padding: 1em 3em;
+}
+.each-project-detail-template > .top > p {
+  font-size: 0.9em;
+}
+
+.each-project-detail-template > .top > p > span {
+  font-size: 0.6em;
+  font-weight: 300;
+  /* color: var(--brand-color); */
+  border: 1px solid var(--primaryColor);
+  padding: 0.2em 0.8em;
+  border-radius: 10px;
+  margin: 0 0.5em;
+}
+
+.each-project-detail-template > div {
+  /* margin: 3em 0; */
+  margin-top: 5em;
+}
+
+.each-project-detail-template > div > .right-left {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0 3em;
+  margin-top: 1em;
+  gap: 3em;
+}
+.each-project-detail-template > div > .right-left > div {
+  /* background: rgba(0, 0, 0, 0.145); */
+}
+.each-project-detail-template > div > .right-left > .info {
+  width: 55%;
+}
+.each-project-detail-template > div > .right-left > .image {
+  width: 45%;
+  /* aspect-ratio: 1/1; */
+  position: relative;
+}
+.each-project-detail-template > div > .right-left > .image img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border-radius: 5px;
+}
+.each-project-detail-template > div > .right-left > .info p {
+  /* font-size: 0.9em; */
+  margin: 0.5em 0;
+  line-height: 1.7;
+}
+.each-project-detail-template > div > .right-left > .info .tech-stack {
+  margin-top: 1em;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5em;
+}
+
+.each-project-detail-template
+  > div
+  > .right-left
+  > .info
+  .tech-stack
+  .tech-stack-item {
+  font-size: 0.8em;
+  font-weight: 300;
+  /* color: var(--brand-color); */
+  border: 1px solid var(--secendaryColor);
+  padding: 0em 0.5em;
+  border-radius: 0px;
+}
+.each-project-detail-template
+  > div
+  > .right-left
+  > .info
+  .tech-stack
+  .tech-stack-item
+  > p {
+  margin: 0;
+}
+.each-project-detail-template > .project-challenges {
+  margin: 5em 0;
+}
+.each-project-detail-template > .project-challenges > .right-left {
+  flex-direction: row-reverse;
+}
+
+.each-project-detail-template > .clients-feedback {
+  width: 50%;
+  text-align: center;
+  margin: 10em auto;
+}
+.each-project-detail-template > .clients-feedback > .clients-feedback-card {
+  padding: 2em 5em;
+}
+.each-project-detail-template
+  > .clients-feedback
+  > .clients-feedback-card
+  > .head {
+  text-align: center;
+}
+.each-project-detail-template
+  > .clients-feedback
+  > .clients-feedback-card
+  > .head
+  > .tt {
+  position: relative;
+  width: max-content;
+  margin: 0 auto;
+}
+.each-project-detail-template
+  > .clients-feedback
+  > .clients-feedback-card
+  > .head
+  > .tt
+  > h1 {
+  font-size: 1.5em !important;
+  /* display: block; */
+  position: relative;
+}
+.each-project-detail-template
+  > .clients-feedback
+  > .clients-feedback-card
+  > .head
+  > .tt::after {
+  content: "";
+  display: block;
+  position: absolute;
+  width: 100%;
+  height: 14px;
+  background-color: var(--brand-color);
+  /* margin: 1em auto; */
+  /* bottom: -top0px; */
+  /* top: ; */
+  bottom: 0;
+  z-index: -1;
+}
+.each-project-detail-template
+  > .clients-feedback
+  > .clients-feedback-card
+  > .head
+  > p {
+  margin: 0.8em 0;
+}
+
+.each-project-detail-template
+  > .clients-feedback
+  > .clients-feedback-card
+  > .image {
+  margin: 1em 0;
+}
+.each-project-detail-template
+  > .clients-feedback
+  > .clients-feedback-card
+  > .image {
+  width: 100px;
+  height: 100px;
+  background: linear-gradient(var(--brand-color), var(--secendaryColor));
+  border-radius: 50%;
+  overflow: hidden;
+  margin: 2em auto;
+  position: relative;
+}
+
+.each-project-detail-template
+  > .clients-feedback
+  > .clients-feedback-card
+  > .image::after {
+  content: "";
+  position: absolute;
+  width: calc(100% - 8px);
+  height: calc(100% - 8px);
+  border-radius: 50%;
+  background: var(--brand-color);
+  /* background: red; */
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+
+  z-index: 1;
+}
+.each-project-detail-template
+  > .clients-feedback
+  > .clients-feedback-card
+  > .image
+  > img {
+  border-radius: 50%;
+  width: calc(100% - 8px);
+  height: calc(100% - 8px);
+  object-fit: cover;
+  z-index: 2;
+  /* display: block; */
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+.each-project-detail-template
+  > .clients-feedback
+  > .clients-feedback-card
+  > .name-loc
+  h2 {
+  font-size: 1.2em !important;
+}
+.each-project-detail-template
+  > .clients-feedback
+  > .clients-feedback-card
+  > .name-loc
+  p {
+  font-size: 0.9em !important;
+  opacity: 0.8;
+  margin: 0;
+}
+
+.each-project-detail-template > .clients-feedback > .clients-feedback-card > p {
+  /* color: red; */
+
+  line-height: 1.4 !important;
+}
+
+.each-project-detail-template .features {
+  padding: 0 3em;
+}
+.each-project-detail-template .features .features-list {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1em;
+  margin-top: 2em;
+}
+.each-project-detail-template .features .feature-item {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.each-project-detail-template .features .head {
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+  margin-bottom: 0.5em;
+}
+.each-project-detail-template .features .title {
+  font-size: 1.2em !important;
+  font-weight: 600 !important;
+}
+.each-project-detail-template .features .description {
+  font-size: 0.9em;
+  line-height: 1.5;
+  color: #666;
+}
+
+@media screen and (max-width: 800px) {
+  .each-project-detail-template .features .features-list {
+    grid-template-columns: repeat(1, 1fr);
+  }
+}

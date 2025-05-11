@@ -6,7 +6,7 @@ import menuBlack from "../images/svgs/menu-svgrepo-com-black.svg";
 import TAKKinshipLogoDark from "../images/TAK Kinship-Logo-Dark.svg";
 import TAKKinshipLogoLight from "../images/TAK Kinship-Logo-light.svg";
 import "../css/navbar.css";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useParams } from "react-router-dom";
 import configImages from "./configImages";
 
 const NavigationBar = ({ className }) => {
@@ -66,6 +66,12 @@ const NavigationBar = ({ className }) => {
     setMobileNavOpen((prev) => !prev);
   }
 
+  const location = useLocation();
+
+  useEffect(() => {
+    console.log(location.pathname);
+  }, [location.pathname]);
+
   return (
     <nav
       className={`nav ${navbarClass} ${className} ${
@@ -91,32 +97,66 @@ const NavigationBar = ({ className }) => {
       <ul>
         <li>
           <Link target="_top" to="/">
-            Home
+            <span
+              className={`${location.pathname === "/" ? "unique-text" : "'"} `}
+            >
+              Home
+            </span>
           </Link>
         </li>
         <li>
           <Link target="_top" to="/about">
-            About
+            <span
+              className={`${
+                location.pathname.includes("/about") ? "unique-text" : "'"
+              } `}
+            >
+              About
+            </span>
           </Link>
         </li>
         <li>
           <Link target="_top" to="/services">
-            services
+            <span
+              className={`${
+                location.pathname.includes("/services") ? "unique-text" : "'"
+              } `}
+            >
+              services
+            </span>
           </Link>
         </li>
         <li>
           <Link target="_top" to="/portfolio">
-            Portfolio
+            <span
+              className={`${
+                location.pathname.includes("/portfolio") ? "unique-text" : "'"
+              } `}
+            >
+              Portfolio
+            </span>
           </Link>
         </li>
         <li>
           <Link target="_top" to="/contact">
-            Contact
+            <span
+              className={`${
+                location.pathname.includes("/contact") ? "unique-text" : "'"
+              } `}
+            >
+              Contact
+            </span>
           </Link>
         </li>
         <li>
           <Link target="_top" to="/gallery">
-            gallery
+            <span
+              className={`${
+                location.pathname.includes("/gallery") ? "unique-text" : "'"
+              } `}
+            >
+              Gallery
+            </span>
           </Link>
         </li>
       </ul>

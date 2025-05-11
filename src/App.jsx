@@ -26,6 +26,7 @@ import WebDevelopmentMore from "./pages/web-development-more";
 import AppDevelopmentMore from "./pages/app-development-more";
 import DesktopDevelopmentMore from "./pages/desktop-development-more";
 import UxUiDevelopmentMore from "./pages/ui-ux-development-more";
+import EachProjectDetailTemplate from "./components/each-project-detail-template";
 
 function App() {
   useEffect(() => {
@@ -75,6 +76,35 @@ function App() {
     setTermsInfo(value);
   }
 
+  const projects = {
+    name: "Telxul",
+    category: "Web Application",
+    techstack: ["js", "html"],
+    quote: "A Decentralized Communication Platform",
+    about_project: "hshshss hsbshs shss   xnx x hxh",
+    challenges_faced: "sjjsjsjs  sjs jss sj sj sj j jsj",
+    features: [
+      {
+        title: "Title",
+        description: "Description",
+      },
+      {
+        title: "Title",
+        description: "Description",
+      },
+      {
+        title: "Title",
+        description: "Description",
+      },
+    ],
+    client: {
+      name: "Client Name",
+      location: "Client Location",
+      rating: 2,
+      messege: "Client Message",
+    },
+  };
+
   return (
     <>
       <PreLoaderFull isDoneLoading={loadingAll} />
@@ -112,10 +142,20 @@ function App() {
               path="/portfolio"
               element={<PortfolioPage setAllDoneLoading={handleLoadingAll} />}
             />
-            <Route
+            {/* <Route
               path="/portfolio/project/:projectId/:type"
               element={
                 <EachProject
+                  setAllDoneLoading={handleLoadingAll}
+                  handlePolicy={handlePolicy}
+                  handleTerms={handleTerms}
+                />
+              }
+            /> */}
+            <Route
+              path="/portfolio/project/:projectId/:type/"
+              element={
+                <EachProjectDetailTemplate
                   setAllDoneLoading={handleLoadingAll}
                   handlePolicy={handlePolicy}
                   handleTerms={handleTerms}
@@ -145,29 +185,31 @@ function App() {
             <Route
               path="/test"
               element={
-                <EachServiceTemplatePage setAllDoneLoading={handleLoadingAll} />
+                <EachProjectDetailTemplate
+                  setAllDoneLoading={handleLoadingAll}
+                />
               }
             />
             <Route
-              path="/web-development"
+              path="/services/web-development"
               element={
                 <WebDevelopmentMore setAllDoneLoading={handleLoadingAll} />
               }
             />
             <Route
-              path="/app-development"
+              path="/services/app-development"
               element={
                 <AppDevelopmentMore setAllDoneLoading={handleLoadingAll} />
               }
             />
             <Route
-              path="/desktop-development"
+              path="/services/desktop-development"
               element={
                 <DesktopDevelopmentMore setAllDoneLoading={handleLoadingAll} />
               }
             />
             <Route
-              path="/ui-ux-development"
+              path="/servicesui-ux-development"
               element={
                 <UxUiDevelopmentMore setAllDoneLoading={handleLoadingAll} />
               }

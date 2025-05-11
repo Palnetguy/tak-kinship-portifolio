@@ -25,6 +25,7 @@ const Portfolio = ({ setIsLoading }) => {
         setIsLoading(false);
         setPortfolioArray(response.data);
         setFilteredPortfolioArray(response.data);
+        console.log(response.data);
       } catch (error) {
         setIsLoading(false);
         console.log(error);
@@ -148,7 +149,7 @@ const Portfolio = ({ setIsLoading }) => {
               >
                 <div className="image">
                   <img
-                    src={`${e.project_background_image}`}
+                    src={`${e.images.background}`}
                     alt="app-img"
                     className="back-Img"
                   />
@@ -166,7 +167,7 @@ const Portfolio = ({ setIsLoading }) => {
                     </div>
                   </div>
                   <Link
-                    to={`/portfolio/project/${e.id}/${e.type}`}
+                    to={`/portfolio/project/${e.id}/${e.project_category}`}
                     target="_top"
                   >
                     <div className="viewButton">

@@ -4,6 +4,7 @@ import "../css/gallery.css";
 
 import GalleryImage from "./gallery-adds/gallery-image";
 import configHeaders from "./config-headers";
+import GallerySlider from "./gallery-slider";
 
 const Gallery = ({ setIsLoading }) => {
   const [images, setImages] = useState([]);
@@ -70,7 +71,8 @@ const Gallery = ({ setIsLoading }) => {
         />
       </div>
       {/* <img onClick={handleOpenFullImage} src={image} alt="" /> */}
-      {images.map((e) => (
+      <GallerySlider images={images} />
+      {/* {images.map((e) => (
         <div className="image" key={e.id}>
           <img
             // key={e.id}
@@ -79,7 +81,7 @@ const Gallery = ({ setIsLoading }) => {
             alt={"Image"}
           />
         </div>
-      ))}
+      ))} */}
     </div>
   );
 };

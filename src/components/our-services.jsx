@@ -87,7 +87,7 @@ const Services = () => {
 
           outerRef={serviceRef1}
           image={webDevIn}
-          link={"/web-development"}
+          link={"/services/web-development"}
         />
 
         <ServiceOne
@@ -98,7 +98,7 @@ const Services = () => {
           className={`${serviceRef2Inview ? "servicesInView" : ""}`}
           outerRef={serviceRef2}
           image={appDevIn}
-          link={"/app-development"}
+          link={"/services/app-development"}
         />
 
         <ServiceOne
@@ -109,7 +109,7 @@ const Services = () => {
           className={`${serviceRef3Inview ? "servicesInView" : ""}`}
           outerRef={serviceRef3}
           image={desktopDevIn}
-          link={"/desktop-development"}
+          link={"/services/desktop-development"}
         />
 
         <ServiceOne
