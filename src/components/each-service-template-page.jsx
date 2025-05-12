@@ -1,10 +1,12 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import "../css/each-service-template-page.css";
 import { Link } from "react-router-dom";
 
-
-
 import test from "../images/web-development_hero_img-600x551.png";
+import FAQComponent from "./FAQComponent";
+import ContactUs from "./contact-us";
+import Footer from "./footer";
+import Drawer from "./ReusableDrawer";
 
 export default function EachServiceTemplatePage({
   setAllDoneLoading,
@@ -14,12 +16,61 @@ export default function EachServiceTemplatePage({
   processTimeline,
   technologiesEachService,
 }) {
-  setAllDoneLoading(true);
+  // setAllDoneLoading(true);
 
+  const [loadingFaQs, setLoadingFaQs] = useState(true);
+
+  const handleLoadingFaQs = (isLoading) => {
+    setLoadingFaQs(isLoading);
+  };
+
+  const [loadingContactInfo, setLoadingContactInfo] = useState(true);
+
+  const handleLoadingContactInfo = (isLoading) => {
+    setLoadingContactInfo(isLoading);
+  };
+
+  const [loadingFooter, setLoadingFooter] = useState(true);
+
+  const handleLoadingFooter = (isLoading) => {
+    setLoadingFooter(isLoading);
+  };
+
+  useEffect(() => {
+    if (!loadingFaQs && !loadingContactInfo && !loadingFooter) {
+      setAllDoneLoading(true);
+    } else {
+      // console.log("all Start xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
+      // console.log(
+      //   loadingAbout,
+      //   loadingClients,
+      //   loadingFaQs,
+      //   loadingPortFolio,
+      //   loadingTeam,
+      //   loadingTestimonial,
+      //   loadingContactInfo
+      // );
+    }
+  }, [
+    loadingFaQs,
+
+    loadingContactInfo,
+    loadingFooter,
+    // allDoneLoading,
+    setAllDoneLoading,
+  ]);
+
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+
+  const openDrawer = () => setIsDrawerOpen(true);
+  const closeDrawer = () => setIsDrawerOpen(false);
   return (
     <div className="each-service-template-page">
       {/* head */}
-      <HeadingEachService headingEachService={headingEachService} />
+      <HeadingEachService
+        headingEachService={headingEachService}
+        openDrawer={openDrawer}
+      />
       {/* Why Choose Us as you */}
       <WhyChooseUsEachService whychooseus={whychooseus} />
       {/*  the services  */}
@@ -29,12 +80,20 @@ export default function EachServiceTemplatePage({
       {/* technologies */}
       <TechnologiesEachService
         technologiesEachService={technologiesEachService}
+        openDrawer={openDrawer}
       />
+
+      <FAQComponent setIsLoading={handleLoadingFaQs} />
+      <ContactUs setIsLoading={handleLoadingContactInfo} />
+      <Footer setIsLoading={handleLoadingFooter} />
+      <Drawer isOpen={isDrawerOpen} onClose={closeDrawer}>
+        <ContactUs isSummary={true} setIsLoading={handleLoadingContactInfo} />
+      </Drawer>
     </div>
   );
 }
 
-function TechnologiesEachService({ technologiesEachService }) {
+function TechnologiesEachService({ technologiesEachService, openDrawer }) {
   const [infoData, setInfoData] = React.useState(
     technologiesEachService.techstack[0]
   );
@@ -121,16 +180,15 @@ function TechnologiesEachService({ technologiesEachService }) {
 
             <p>{infoData.description}</p>
 
-            <Link to="about">
-              <button
-                href="#"
-                className={`btn contact-cta `}
-                // ref={buttonRef}
-                // style={{ "--delay": "700ms" }}
-              >
-                <p>SHARE YOUR IDEA</p>
-              </button>
-            </Link>
+            <button
+              href="#"
+              className={`btn contact-cta `}
+              onClick={openDrawer}
+              // ref={buttonRef}
+              // style={{ "--delay": "700ms" }}
+            >
+              <p>SHARE YOUR IDEA</p>
+            </button>
           </div>
         </div>
       </div>
@@ -198,7 +256,7 @@ function WhyChooseUsEachService({ whychooseus }) {
   );
 }
 
-function HeadingEachService({ headingEachService }) {
+function HeadingEachService({ headingEachService, openDrawer }) {
   return (
     <div className="heading-each-service">
       <div className="left-right">
@@ -225,16 +283,16 @@ function HeadingEachService({ headingEachService }) {
 
             <div className="contact-side">
               <p>Want to know more details and learn how we can help?</p>
-              <Link to="about">
-                <button
-                  href="#"
-                  className={`btn contact-cta `}
-                  // ref={buttonRef}
-                  // style={{ "--delay": "700ms" }}
-                >
-                  <p>LET'S GET IN TOUCH</p>
-                </button>
-              </Link>
+
+              <button
+                href="#"
+                className={`btn contact-cta `}
+                onClick={openDrawer}
+                // ref={buttonRef}
+                // style={{ "--delay": "700ms" }}
+              >
+                <p>LET'S GET IN TOUCH</p>
+              </button>
             </div>
           </div>
         </div>

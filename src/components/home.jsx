@@ -2,6 +2,9 @@ import { Link } from "react-router-dom";
 import homeImg from "../images/home-img.png";
 import { useInView } from "react-intersection-observer";
 import configImages from "./configImages";
+import { useState } from "react";
+import Drawer from "./ReusableDrawer";
+import ContactUs from "./contact-us";
 
 const Home = () => {
   const [h1Ref, h1InView] = useInView({
@@ -26,6 +29,7 @@ const Home = () => {
 
   return (
     <main className="home">
+      {/* <ExampleUsage />/ */}
       <main className="left-right">
         <div className={`ltl-home `}>
           <h1
@@ -80,3 +84,6 @@ const Home = () => {
 };
 
 export default Home;
+
+
+// export default ExampleUsage;

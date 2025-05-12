@@ -1,5 +1,20 @@
 .contactUs {
   margin: 6em var(--main-margin);
+  /* height: 100%; */
+}
+.contactUs.summary {
+  margin: 0 1em;
+  /* overflow: hidden; */
+  overflow: hidden;
+  animation: removeOverflow 2s forwards ease-in-out;
+}
+@keyframes removeOverflow {
+  from {
+    overflow: hidden;
+  }
+  to {
+    overflow: visible;
+  }
 }
 .contactUs .map {
   border: none;

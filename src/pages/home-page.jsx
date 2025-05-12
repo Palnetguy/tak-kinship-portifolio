@@ -15,6 +15,7 @@ import Services from "../components/our-services";
 import TeamShowcase from "../components/team-showcase";
 
 import testprofile from "../images/testProfilePic.jpg";
+import Drawer from "../components/ReusableDrawer";
 
 const HomePage = ({ setAllDoneLoading }) => {
   // const [isDoneAll, setIsDoneAll] = useState(false);
@@ -132,9 +133,14 @@ const HomePage = ({ setAllDoneLoading }) => {
     // You can add more team members here
   ];
 
+
+
   return (
     <section>
       <Home />
+     
+
+      {/* <ExampleUsage handleLoadingContactInfo={handleLoadingContactInfo} /> */}
       <Services />
       <AboutUs setIsLoading={handleLoadingAbout} />
       <Clients setIsLoading={handleLoadingClients} />
@@ -142,15 +148,48 @@ const HomePage = ({ setAllDoneLoading }) => {
       <Testimonials setIsLoading={handleLoadingTestimonial} />
       <TeamShowcase
         title="OUR TEAM"
-        setIsLoading={() =>{ handleLoadingTestimonial(); handleLoadingTeam()}}
+        setIsLoading={() => {
+          handleLoadingTestimonial();
+          handleLoadingTeam();
+        }}
         teamMembers={teamMembers}
       />
       {/* <Team setIsLoading={handleLoadingTeam} /> */}
       <FAQComponent setIsLoading={handleLoadingFaQs} />
       <ContactUs setIsLoading={handleLoadingContactInfo} />
       <Footer setIsLoading={handleLoadingFooter} />
+   
+   
     </section>
   );
 };
+// const ExampleUsage = ({ handleLoadingContactInfo }) => {
+//   return (
+//     <div style={{ padding: "1rem", fontFamily: "Arial, sans-serif" }}>
+//       <h1>Reusable Drawer Demo</h1>
+//       <button
+//         onClick={openDrawer}
+//         style={{
+//           fontSize: "1rem",
+//           padding: "0.5rem 1rem",
+//           cursor: "pointer",
+//           borderRadius: "4px",
+//           border: "1px solid #007BFF",
+//           backgroundColor: "#007BFF",
+//           color: "#fff",
+//           transition: "background-color 0.3s ease",
+//         }}
+//         onMouseEnter={(e) =>
+//           (e.currentTarget.style.backgroundColor = "#0056b3")
+//         }
+//         onMouseLeave={(e) =>
+//           (e.currentTarget.style.backgroundColor = "#007BFF")
+//         }
+//       >
+//         Open Drawer
+//       </button>
+//     </div>
+//   );
+// };
 
 export default HomePage;

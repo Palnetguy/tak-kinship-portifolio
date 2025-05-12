@@ -10,7 +10,7 @@ import configHeaders from "./config-headers";
 import { useInView } from "react-intersection-observer";
 import axios from "axios";
 
-const ContactUs = ({ setIsLoading }) => {
+const ContactUs = ({ setIsLoading, isSummary }) => {
   const [formData, setFormData] = useState({
     name: "",
     subject: "",
@@ -148,7 +148,7 @@ const ContactUs = ({ setIsLoading }) => {
   }, []);
 
   return (
-    <div className="contactUs">
+    <div className={`contactUs ${isSummary ? "summary" : ""}`}>
       {/* Replace the following with your existing code */}
       {/* ... (existing code) */}
       <h4
@@ -356,15 +356,18 @@ const ContactUs = ({ setIsLoading }) => {
         loading="lazy"
         referrerpolicy="no-referrer-when-downgrade"
       ></iframe> */}
-      <iframe
-        ref={mapRef}
-        className={`map mapHidden ${mapInview ? "mapInView" : ""}`}
-        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d31916.785333621287!2d30.679970599999997!3d-0.6019023000000001!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x19d91b12361d180d%3A0xea4f4584d2c4456d!2sKakoba%20Division%2C%20Mbarara!5e0!3m2!1sen!2sug!4v1716414493388!5m2!1sen!2sug"
-        height="450"
-        allowfullscreen=""
-        loading="lazy"
-        referrerpolicy="no-referrer-when-downgrade"
-      ></iframe>
+
+      {!isSummary && (
+        <iframe
+          ref={mapRef}
+          className={`map mapHidden ${mapInview ? "mapInView" : ""}`}
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d31916.785333621287!2d30.679970599999997!3d-0.6019023000000001!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x19d91b12361d180d%3A0xea4f4584d2c4456d!2sKakoba%20Division%2C%20Mbarara!5e0!3m2!1sen!2sug!4v1716414493388!5m2!1sen!2sug"
+          height="450"
+          allowfullscreen=""
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+        ></iframe>
+      )}
     </div>
   );
 };

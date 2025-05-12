@@ -6,6 +6,7 @@
   box-sizing: border-box;
   /* transition: 0.5s ease-in-out; */
   font-family: headFont;
+  /* border: 1px solid red; */
 }
 *::selection {
   background: var(--brand-color);
@@ -109,7 +110,7 @@ a {
   margin: 0;
   color: #eff0ef;
   text-transform: capitalize;
-  transition: color 0.5s 0.7s;
+  transition: color 0.5s 0.3s;
 }
 
 .btn::after {

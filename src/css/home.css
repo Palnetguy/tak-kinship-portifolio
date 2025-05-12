@@ -50,6 +50,7 @@
     width: 100%;
     /* padding: 0 2em; */
     padding-left: 2em;
+    display: none;
   }
   .home main.left-right .ltl-home {
     padding-right: 3em;
