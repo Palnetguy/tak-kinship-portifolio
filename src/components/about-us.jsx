@@ -237,62 +237,67 @@ const AboutUs = ({ setIsLoading, showAllInfo = false }) => {
   return (
     <div className="aboutUs">
       {/*  */}
-      <main className="left-right">
-        <div className="ltl-home">
-          <p
-            // className="pretitle"
-            className={`pretitle titleNotSeen ${
-              pretitle1Inview ? "titleInView" : ""
-            }`}
-            ref={pretitle1Ref}
-          >
-            About Us
-          </p>
-          <h1
-            // className="title"
-            className={`title titleNotSeen ${
-              pretitle2Inview ? "titleInView" : ""
-            }`}
-            ref={pretitle2Ref}
-          >
-            The Best IT Solution <span className="unique-text">Since 2019</span>
-          </h1>
-          <p
-            className={` titleNotSeen ${pretitle3Inview ? "titleInView" : ""}`}
-            ref={pretitle3Ref}
-          >
-            We pride ourselves on being more than just developers; we are
-            architects of change. Our journey began with a vision – to build a
-            conglomerate that pioneers technological solutions for a brighter,
-            connected future. Guided by this vision, we've developed
-            groundbreaking projects like Telxul and Desn, setting the stage for
-            a new era of tech-driven solutions in Africa and beyond.
-          </p>
-
-          {!showAllInfo && (
-            <button
-              href="#"
-              className={`btn titleNotSeen ${
-                pretitle4Inview ? "titleInView" : ""
+      {!showAllInfo && (
+        <main className="left-right">
+          <div className="ltl-home">
+            <p
+              // className="pretitle"
+              className={`pretitle titleNotSeen ${
+                pretitle1Inview ? "titleInView" : ""
               }`}
-              ref={pretitle4Ref}
+              ref={pretitle1Ref}
             >
-              <p>MORE ABOUT US</p>
-            </button>
-          )}
-        </div>
-        <div className="rht-home" ref={Image1Ref}>
-          <img
-            src={
-              configImages +
-              "/TAK%20Kniship/website%20images/" +
-              "v3w8s6w790yp9z7anzos"
-            }
-            alt=""
-            className={`imageToRight ${Image1Inview ? "imageInview" : ""}`}
-          />
-        </div>
-      </main>
+              About Us
+            </p>
+            <h1
+              // className="title"
+              className={`title titleNotSeen ${
+                pretitle2Inview ? "titleInView" : ""
+              }`}
+              ref={pretitle2Ref}
+            >
+              The Best IT Solution{" "}
+              <span className="unique-text">Since 2019</span>
+            </h1>
+            <p
+              className={` titleNotSeen ${
+                pretitle3Inview ? "titleInView" : ""
+              }`}
+              ref={pretitle3Ref}
+            >
+              We pride ourselves on being more than just developers; we are
+              architects of change. Our journey began with a vision – to build a
+              conglomerate that pioneers technological solutions for a brighter,
+              connected future. Guided by this vision, we've developed
+              groundbreaking projects like Telxul and Desn, setting the stage
+              for a new era of tech-driven solutions in Africa and beyond.
+            </p>
+
+            {!showAllInfo && (
+              <button
+                href="#"
+                className={`btn titleNotSeen ${
+                  pretitle4Inview ? "titleInView" : ""
+                }`}
+                ref={pretitle4Ref}
+              >
+                <p>MORE ABOUT US</p>
+              </button>
+            )}
+          </div>
+          <div className="rht-home" ref={Image1Ref}>
+            <img
+              src={
+                configImages +
+                "/TAK%20Kniship/website%20images/" +
+                "v3w8s6w790yp9z7anzos"
+              }
+              alt=""
+              className={`imageToRight ${Image1Inview ? "imageInview" : ""}`}
+            />
+          </div>
+        </main>
+      )}
       {/*  */}
 
       {showAllInfo && (
@@ -345,127 +350,178 @@ const AboutUs = ({ setIsLoading, showAllInfo = false }) => {
             </div>
           </main>
           {/*  */}
-          <main className="left-right">
-            <div className="ltl-home">
-              <h1
-                className={`title titleNotSeen ${
-                  pretitle8Inview ? "titleInView" : ""
-                }`}
-                ref={pretitle8Ref}
-              >
-                We Are Here With {new Date().getFullYear() - 2019}+ Years Of
-                <span className="unique-text"> Experience</span>
-              </h1>
-              <p
-                className={` titleNotSeen ${
-                  pretitle9Inview ? "titleInView" : ""
-                }`}
-                ref={pretitle9Ref}
-              >
-                With {new Date().getFullYear() - 2019}+ years of seasoned
-                experience, we bring proficiency to every project. Yet, we
-                embrace each new challenge with a commitment to continual
-                learning, ensuring our expertise evolves with the ever-changing
-                landscape of technology.
-              </p>
-              <div className="">
-                {experiencePercenatage.map((e) => (
-                  <div className="percentageIncreament">
-                    <div
-                      className={`increamentContainer titleNotSeen ${
-                        pretitle10Inview ? "titleInView" : ""
-                      }`}
-                      ref={pretitle10Ref}
-                      style={{ "--delay": "000ms" }}
-                    >
-                      <div className="info">
-                        <h6>App Development</h6>
-                        <h5>{e.mobile_dev}%</h5>
-                      </div>
-                      <div className="meterContainer">
-                        <div
-                          style={{ width: `${e.mobile_dev}%` }}
-                          className="meter"
-                        ></div>
-                      </div>
-                    </div>
-
-                    <div
-                      className={`increamentContainer titleNotSeen ${
-                        pretitle11Inview ? "titleInView" : ""
-                      }`}
-                      ref={pretitle11Ref}
-                      style={{ "--delay": "200ms" }}
-                    >
-                      <div className="info">
-                        <h6>Web Development</h6>
-                        <h5>{e.web_dev}%</h5>
-                      </div>
-                      <div className="meterContainer">
-                        <div
-                          style={{ width: `${e.web_dev}%` }}
-                          className="meter"
-                        ></div>
-                      </div>
-                    </div>
-
-                    <div
-                      className={`increamentContainer titleNotSeen ${
-                        pretitle12Inview ? "titleInView" : ""
-                      }`}
-                      ref={pretitle12Ref}
-                      style={{ "--delay": "400ms" }}
-                    >
-                      <div className="info">
-                        <h6>Desktop Development</h6>
-                        <h5>{e.desktop_dev}%</h5>
-                      </div>
-                      <div className="meterContainer">
-                        <div
-                          style={{ width: `${e.desktop_dev}%` }}
-                          className="meter"
-                        ></div>
-                      </div>
-                    </div>
-
-                    <div
-                      className={`increamentContainer titleNotSeen ${
-                        pretitle13Inview ? "titleInView" : ""
-                      }`}
-                      ref={pretitle13Ref}
-                      style={{ "--delay": "600ms" }}
-                    >
-                      <div className="info">
-                        <h6>UI/UX Design</h6>
-                        <h5>{e.ui_dev}%</h5>
-                      </div>
-                      <div className="meterContainer">
-                        <div
-                          style={{ width: `${e.ui_dev}%` }}
-                          className="meter"
-                        ></div>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-            {/*  */}
-            <div className="rht-home" ref={Image3Ref}>
-              <img
-                // src={aboutImg3}
-                src={
-                  configImages +
-                  "/TAK%20Kniship/website%20images/" +
-                  "i4j6clkkfvsvopzqzypl"
-                }
-                alt=""
-                className={`imageToRight ${Image3Inview ? "imageInview" : ""}`}
-              />
-            </div>
-          </main>
         </>
       )}
+      {showAllInfo && (
+        <main className="left-right">
+          <div className="ltl-home">
+            <h1
+              className={`title titleNotSeen ${
+                pretitle8Inview ? "titleInView" : ""
+              }`}
+              ref={pretitle8Ref}
+            >
+              We Are Here With {new Date().getFullYear() - 2019}+ Years Of
+              <span className="unique-text"> Experience</span>
+            </h1>
+            <p
+              className={` titleNotSeen ${
+                pretitle9Inview ? "titleInView" : ""
+              }`}
+              ref={pretitle9Ref}
+            >
+              With {new Date().getFullYear() - 2019}+ years of seasoned
+              experience, we bring proficiency to every project. Yet, we embrace
+              each new challenge with a commitment to continual learning,
+              ensuring our expertise evolves with the ever-changing landscape of
+              technology.
+            </p>
+            <div className="">
+              {experiencePercenatage.map((e) => (
+                <div className="percentageIncreament">
+                  <div
+                    className={`increamentContainer titleNotSeen ${
+                      pretitle10Inview ? "titleInView" : ""
+                    }`}
+                    ref={pretitle10Ref}
+                    style={{ "--delay": "000ms" }}
+                  >
+                    <div className="info">
+                      <h6>App Development</h6>
+                      <h5>{e.mobile_dev}%</h5>
+                    </div>
+                    <div className="meterContainer">
+                      <div
+                        style={{ width: `${e.mobile_dev}%` }}
+                        className="meter"
+                      ></div>
+                    </div>
+                  </div>
+
+                  <div
+                    className={`increamentContainer titleNotSeen ${
+                      pretitle11Inview ? "titleInView" : ""
+                    }`}
+                    ref={pretitle11Ref}
+                    style={{ "--delay": "200ms" }}
+                  >
+                    <div className="info">
+                      <h6>Web Development</h6>
+                      <h5>{e.web_dev}%</h5>
+                    </div>
+                    <div className="meterContainer">
+                      <div
+                        style={{ width: `${e.web_dev}%` }}
+                        className="meter"
+                      ></div>
+                    </div>
+                  </div>
+
+                  <div
+                    className={`increamentContainer titleNotSeen ${
+                      pretitle12Inview ? "titleInView" : ""
+                    }`}
+                    ref={pretitle12Ref}
+                    style={{ "--delay": "400ms" }}
+                  >
+                    <div className="info">
+                      <h6>Desktop Development</h6>
+                      <h5>{e.desktop_dev}%</h5>
+                    </div>
+                    <div className="meterContainer">
+                      <div
+                        style={{ width: `${e.desktop_dev}%` }}
+                        className="meter"
+                      ></div>
+                    </div>
+                  </div>
+
+                  <div
+                    className={`increamentContainer titleNotSeen ${
+                      pretitle13Inview ? "titleInView" : ""
+                    }`}
+                    ref={pretitle13Ref}
+                    style={{ "--delay": "600ms" }}
+                  >
+                    <div className="info">
+                      <h6>UI/UX Design</h6>
+                      <h5>{e.ui_dev}%</h5>
+                    </div>
+                    <div className="meterContainer">
+                      <div
+                        style={{ width: `${e.ui_dev}%` }}
+                        className="meter"
+                      ></div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+          {/*  */}
+          <div className="rht-home" ref={Image3Ref}>
+            <img
+              // src={aboutImg3}
+              src={
+                configImages +
+                "/TAK%20Kniship/website%20images/" +
+                "i4j6clkkfvsvopzqzypl"
+              }
+              alt=""
+              className={`imageToRight ${Image3Inview ? "imageInview" : ""}`}
+            />
+          </div>
+        </main>
+      )}
+      <main className="why_we_unique">
+        <div className="top">
+          <h1 className="title">Why are we unique?</h1>
+
+          <p>
+            We are unique because we are a team of passionate developers who
+            have been in the industry for {new Date().getFullYear() - 2019}+
+            years. We have a proven track record of delivering high-quality
+            software solutions on time and on budget. Our team is dedicated to
+            providing exceptional customer service and ensuring that our clients
+            are completely satisfied with our work.
+          </p>
+        </div>
+
+        <div className="why-unique-list">
+          {[
+            {
+              title: "Industry expertise",
+              description:
+                "Benefit from our in-depth knowledge and understanding of your industry to build top-notch custom solutions tailored to your business demands.",
+            },
+            {
+              title: "Customized Solutions",
+              description:
+                "We offer tailored solutions that cater to your specific business needs, ensuring that our work aligns with your goals and requirements.",
+            },
+            {
+              title: "Reliable and Efficient",
+              description:
+                "With our expertise and cutting-edge technology, we ensure that your project is completed on time and with the highest level of quality, allowing you to focus on your core business.",
+            },
+            {
+              title: "Transparency and Communication",
+              description:
+                "Our team is dedicated to providing you with regular updates and open communication throughout the project, ensuring that you are always informed and up-to-date on the progress.",
+            },
+          ].map((item, index) => (
+            <div className="item box" key={index}>
+              <h3 className="title-2">{item.title}</h3>
+              <p>{item.description}</p>
+            </div>
+          ))}
+        </div>
+        <div className="quote">
+          <h1 className="title ">
+            "Innovating the Future, One Solution at a Time."
+          </h1>
+        </div>
+      </main>
     </div>
   );
 };

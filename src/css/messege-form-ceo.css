@@ -1,6 +1,8 @@
 .messege-from-ceo {
-  padding: 0 var(--main-margin);
-  padding-top: 100px;
+  padding: 3em var(--main-margin);
+  margin: 100px 0;
+  background: var(--boxColor);
+  margin-bottom:50px;
 }
 .messege-from-ceo > .title {
   font-size: 30px !important;

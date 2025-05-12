@@ -33,6 +33,7 @@ const ImageSlider = ({ images }) => {
         loop={true}
         slidesPerView="auto"
         spaceBetween={40}
+        centeredSlides={true}
         speed={4000}
         autoplay={{
           delay: 0,
@@ -40,7 +41,7 @@ const ImageSlider = ({ images }) => {
         }}
         className="swiper-container"
       >
-        {images.map(({image}, index) => (
+        {images.map(({ image }, index) => (
           <SwiperSlide key={index} className="slide">
             <img src={image} alt={`Slide ${index}`} />
           </SwiperSlide>

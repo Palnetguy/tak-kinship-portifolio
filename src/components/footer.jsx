@@ -154,13 +154,13 @@ const Footer = ({ setIsLoading }) => {
                 >
                   <img src={twitterIco} alt="" />
                 </a>
-                <a
+                {/* <a
                   href={e.skype}
                   className="icon"
                   style={{ "--delay": "700ms" }}
                 >
                   <img src={skypeIco} alt="" />
-                </a>
+                </a> */}
               </div>
             ))}
           </div>
@@ -204,10 +204,10 @@ const Footer = ({ setIsLoading }) => {
           <h4>Follow Us</h4>
           {contactUsInfo.map((e) => (
             <ul class="">
-              <li class="" style={{ "--delay": "000ms" }}>
+              {/* <li class="" style={{ "--delay": "000ms" }}>
                 <img src={chevronRight} alt="" />
                 <a href={e.skype}>Skype</a>
-              </li>
+              </li> */}
               <li class="" style={{ "--delay": "100ms" }}>
                 <img src={chevronRight} alt="" />
                 <a href={e.instgram}>Instagram</a>
@@ -228,19 +228,25 @@ const Footer = ({ setIsLoading }) => {
           <ul class="">
             <li class="" style={{ "--delay": "000ms" }}>
               <img src={chevronRight} alt="" />
-              <a href="#">app developement</a>
+              <Link to="/services/app-development">app developement</Link>
+              {/* <a href="#"></a> */}
             </li>
             <li class="" style={{ "--delay": "100ms" }}>
               <img src={chevronRight} alt="" />
-              <a href="#">web developement</a>
+              {/* <a href="#">web developement</a> */}
+              <Link to="/services/web-development">web developement</Link>
             </li>
             <li class="" style={{ "--delay": "200ms" }}>
               <img src={chevronRight} alt="" />
-              <a href="#">desktop developement</a>
+              <Link to="/services/desktop-development">
+                desktop developement
+              </Link>
+              {/* <a href="#">desktop developement</a> */}
             </li>
             <li class="" style={{ "--delay": "300ms" }}>
               <img src={chevronRight} alt="" />
-              <a href="#">UI/UX developement</a>
+              {/* <a href="#">UI/UX developement</a> */}
+              <Link to="/services/ui-ux-development">UI/UX developement</Link>
             </li>
           </ul>
         </div>

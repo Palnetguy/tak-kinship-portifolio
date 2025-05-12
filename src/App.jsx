@@ -115,7 +115,7 @@ function App() {
 
       <div className="App ">
         <Router>
-          {/* {init && <Particles options={particlesOptions} />} */}
+          {init && <Particles options={particlesOptions} />}
           <NavigationBar className={"pc"} />
           <NavigationBar className={"mobile"} />
           <ArrowBackUp />

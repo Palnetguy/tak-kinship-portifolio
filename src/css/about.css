@@ -105,6 +105,52 @@
   transform: translate3d(0, 0, 0);
   opacity: 1;
 }
+.aboutUs .why_we_unique {
+  margin-top: 5em;
+}
+.aboutUs .why_we_unique > .top > h1 {
+  text-align: center;
+  /* width: 60%; */
+}
+.aboutUs .why_we_unique > .top > p {
+  text-align: center;
+  /* width: 60%; */
+}
+.aboutUs .why_we_unique > .top {
+  margin: 0 auto;
+  width: 60%;
+  padding: 0 2em;
+}
+
+.why-unique-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+
+  padding: 2em;
+  /* margin-top: 2em; */
+}
+.why-unique-list .item {
+  width: calc(50% - 1em);
+  margin-bottom: 30px;
+}
+.why-unique-list .item h3 {
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+.why-unique-list .item p {
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.why_we_unique .quote {
+  width: 500px;
+  margin: 0 auto;
+  margin-top: 2em;
+  margin-bottom: 2em;
+  text-align: center;
+  color: var(--primaryColor);
+}
 
 @media (max-width: 1050px) {
   .aboutUs main.left-right .rht-home {
@@ -138,7 +184,12 @@
     color: var(--primaryColor);
   }
 }
+
 @media (max-width: 978px) {
+  .why-unique-list .item {
+    width: 100%;
+    margin-bottom: 30px;
+  }
   .aboutUs main.left-right {
     display: flex;
     padding: 0 var(--main-margin);
