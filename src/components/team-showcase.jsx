@@ -6,7 +6,7 @@ import { faLinkedin, faXTwitter } from "@fortawesome/free-brands-svg-icons";
 import { useInView } from "react-intersection-observer";
 import axios from "axios";
 import configHeaders from "./config-headers";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 const TeamMember = ({ name, role, image, bio, linkedin }) => {
   return (
@@ -29,19 +29,17 @@ const TeamMember = ({ name, role, image, bio, linkedin }) => {
   );
 };
 
-const TeamShowcase = ({ title, teamMembers, setIsLoading }) => {
+const TeamShowcase = ({
+  title,
+  teamMembers,
+  setIsLoading,
+  isSummary = true,
+}) => {
   const [teamData, setTeamData] = useState([]);
 
   useEffect(() => {
     setIsLoading(true);
-    /*************  ✨ Windsurf Command ⭐  *************/
-    /**
-     * Fetches team members' data from the backend API and updates the state with the response.
-     * Sets the loading state to false once the data is fetched or an error occurs.
-     * Logs the fetched data or any error that occurs during the fetch process.
-     */
 
-    /*******  273020b0-b0a6-4684-9183-a40b966c4343  *******/
     const handleFetchTestimonials = async () => {
       try {
         const response = await axios.get(
@@ -79,6 +77,18 @@ const TeamShowcase = ({ title, teamMembers, setIsLoading }) => {
     threshold: 0.5,
   });
 
+  // import { useLocation } from "react-router-dom";
+
+  const location = useLocation();
+
+  useEffect(() => {
+    console.log("Current route:", location);
+
+    if (location.hash === "#team") {
+      titleRef.current?.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [location, titleRef]);
+
   return (
     <div className="team-showcase-container">
       <h2
@@ -90,16 +100,39 @@ const TeamShowcase = ({ title, teamMembers, setIsLoading }) => {
         {title}
       </h2>
       <div className="team-grid">
-        {teamData.map((member, index) => (
-          <TeamMember
-            key={index}
-            name={member.name}
-            role={member.role}
-            image={member.profile_picture}
-            bio={member.biography}
-            linkedin={member.linkedin}
-          />
-        ))}
+        {isSummary
+          ? teamData
+              .slice(0, 2)
+              .map((member, index) => (
+                <TeamMember
+                  key={index}
+                  name={member.name}
+                  role={member.role}
+                  image={member.profile_picture}
+                  bio={member.biography}
+                  linkedin={member.linkedin}
+                />
+              ))
+          : teamData.map((member, index) => (
+              <TeamMember
+                key={index}
+                name={member.name}
+                role={member.role}
+                image={member.profile_picture}
+                bio={member.biography}
+                linkedin={member.linkedin}
+              />
+            ))}
+        {/* {teamData.map((member, index) => (
+            <TeamMember
+              key={index}
+              name={member.name}
+              role={member.role}
+              image={member.profile_picture}
+              bio={member.biography}
+              linkedin={member.linkedin}
+            />
+          ))} */}
       </div>
       {/* <div className="attribution">
         <p>
@@ -113,11 +146,13 @@ const TeamShowcase = ({ title, teamMembers, setIsLoading }) => {
           </a>
         </p>
       </div> */}
-      <Link to="/about" target="_top" >
-        <div className="learn-more">
-          <button>LEARN MORE</button>
-        </div>
-      </Link>
+      {isSummary && (
+        <Link to="/about/" target="_top">
+          <div className="learn-more">
+            <button>SEE MORE</button>
+          </div>
+        </Link>
+      )}
     </div>
   );
 };

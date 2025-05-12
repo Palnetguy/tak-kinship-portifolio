@@ -148,7 +148,7 @@ const NavigationBar = ({ className }) => {
             </span>
           </Link>
         </li>
-        <li>
+        {/* <li>
           <Link target="_top" to="/gallery">
             <span
               className={`${
@@ -158,7 +158,7 @@ const NavigationBar = ({ className }) => {
               Gallery
             </span>
           </Link>
-        </li>
+        </li> */}
       </ul>
       <label htmlFor="themeChange">
         <input

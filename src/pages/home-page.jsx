@@ -16,6 +16,9 @@ import TeamShowcase from "../components/team-showcase";
 
 import testprofile from "../images/testProfilePic.jpg";
 import Drawer from "../components/ReusableDrawer";
+import ArrowBackUp from "../components/arrowBackUp";
+import Slider from "../components/Slider";
+import ImageSlider from "../components/Slider";
 
 const HomePage = ({ setAllDoneLoading }) => {
   // const [isDoneAll, setIsDoneAll] = useState(false);
@@ -133,12 +136,11 @@ const HomePage = ({ setAllDoneLoading }) => {
     // You can add more team members here
   ];
 
-
-
   return (
     <section>
       <Home />
-     
+      
+      {/* <ArrowBackUp /> */}
 
       {/* <ExampleUsage handleLoadingContactInfo={handleLoadingContactInfo} /> */}
       <Services />
@@ -154,12 +156,10 @@ const HomePage = ({ setAllDoneLoading }) => {
         }}
         teamMembers={teamMembers}
       />
-      {/* <Team setIsLoading={handleLoadingTeam} /> */}
+      <Team setIsLoading={handleLoadingTeam} />
       <FAQComponent setIsLoading={handleLoadingFaQs} />
       <ContactUs setIsLoading={handleLoadingContactInfo} />
       <Footer setIsLoading={handleLoadingFooter} />
-   
-   
     </section>
   );
 };

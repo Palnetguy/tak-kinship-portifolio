@@ -120,7 +120,7 @@ const Services = () => {
           className={`${serviceRef4Inview ? "servicesInView" : ""}`}
           outerRef={serviceRef4}
           image={uiDesignIn}
-          link={"/ui-ux-development"}
+          link={"/services/ui-ux-development"}
         />
       </div>
     </div>

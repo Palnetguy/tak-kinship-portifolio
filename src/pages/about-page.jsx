@@ -5,12 +5,18 @@ import ContactUs from "../components/contact-us";
 import Footer from "../components/footer";
 import OtherPageBanner from "../components/other-page-banner";
 import MessegeFromCeo from "../components/messege-from-ceo";
+import Gallery from "../components/gallery";
+import TeamShowcase from "../components/team-showcase";
 
 const AboutPage = ({ setAllDoneLoading }) => {
   const [loadingAbout, setLoadingAbout] = useState(true);
 
   const handleLoadingAbout = (isLoading) => {
     setLoadingAbout(isLoading);
+  };
+  const [loadingGallery, setLoadingGallery] = useState(true);
+  const handleLoadingGallery = (isLoading) => {
+    setLoadingGallery(isLoading);
   };
 
   const [loadingFaQs, setLoadingFaQs] = useState(true);
@@ -30,12 +36,19 @@ const AboutPage = ({ setAllDoneLoading }) => {
   const handleLoadingFooter = (isLoading) => {
     setLoadingFooter(isLoading);
   };
+  const [loadingTeam, setLoadingTeam] = useState(true);
+
+  const handleLoadingTeam = (isLoading) => {
+    setLoadingTeam(isLoading);
+  };
 
   useEffect(() => {
     if (
       !loadingAbout &&
       !loadingFaQs &&
       !loadingContactInfo &&
+      !loadingGallery &&
+      !loadingTeam &&
       !loadingFooter
     ) {
       console.log("all Done ------------------------------------");
@@ -45,7 +58,14 @@ const AboutPage = ({ setAllDoneLoading }) => {
       console.log("all Start xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
       console.log(loadingAbout, loadingFaQs, loadingContactInfo, loadingFooter);
     }
-  }, [loadingAbout, loadingFaQs, loadingContactInfo, loadingFooter]);
+  }, [
+    loadingGallery,
+    loadingAbout,
+    loadingFaQs,
+    loadingContactInfo,
+    loadingFooter,
+    loadingTeam,
+  ]);
 
   return (
     <section>
@@ -56,6 +76,14 @@ const AboutPage = ({ setAllDoneLoading }) => {
       />
       <AboutUs setIsLoading={handleLoadingAbout} showAllInfo={true} />
       <MessegeFromCeo />
+      <section id="team">
+        <TeamShowcase
+          isSummary={false}
+          title="OUR TEAM"
+          setIsLoading={handleLoadingTeam}
+        />
+      </section>
+      <Gallery setIsLoading={handleLoadingGallery} />
       <FAQComponent setIsLoading={handleLoadingFaQs} />
       <ContactUs setIsLoading={handleLoadingContactInfo} />
       <Footer setIsLoading={handleLoadingFooter} />

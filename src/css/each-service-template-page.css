@@ -5,8 +5,8 @@
 .each-service-template-page .heading-each-service .left-right {
   display: flex;
   height: 100vh;
-  /* padding-top: 5em; */
-  align-items: end;
+  padding-top: 2em;
+  align-items: center;
 }
 
 .each-service-template-page .heading-each-service > .left-right > div {

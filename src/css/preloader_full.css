@@ -23,6 +23,7 @@
   background: transparent;
   visibility: hidden;
   transition: background 1000ms, visibility 00ms 2500ms;
+  /* display: none; */
 }
 .App {
   /* visibility: hidden; */

@@ -1,6 +1,6 @@
-.messege-from-ceo{
-    padding: 0 var(--main-margin);
-    padding-top: 100px;
+.messege-from-ceo {
+  padding: 0 var(--main-margin);
+  padding-top: 100px;
 }
 .messege-from-ceo > .title {
   font-size: 30px !important;
@@ -31,13 +31,11 @@
   position: relative;
   /* background: var(--bodyColor); */
   transition: 0.5s ease-in-out;
-
-
 }
-.messege-from-ceo .img-info > .image img{
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+.messege-from-ceo .img-info > .image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .messege-from-ceo .img-info > .image > .ovl {
@@ -86,16 +84,35 @@
   right: -4px;
   bottom: -4px;
   z-index: -1;
-
 }
 
-.messege-from-ceo .img-info > .info::before{
-    content: ",,";
-    /* position: absolute; */
-    position: relative;
-    font-size: 5em;
-    color: var(--brand-color);
-    font-weight: 900;
-    transform: rotate(90deg);
+.messege-from-ceo .img-info > .info::before {
+  content: ",,";
+  /* position: absolute; */
+  position: relative;
+  font-size: 5em;
+  color: var(--brand-color);
+  font-weight: 900;
+  transform: rotate(90deg);
+}
 
+@media (max-width: 1000px) {
+  .messege-from-ceo .img-info {
+    flex-direction: column;
+  }
+  .messege-from-ceo .img-info > div {
+    width: 100%;
+  }
+  .messege-from-ceo .img-info > div:nth-child(1) {
+    width: 400px;
+  }
+  .messege-from-ceo .img-info {
+    display: flex;
+    gap: 1.5em;
+    /* background: rgb(220, 188, 188); */
+    /* margin-top: 1em;
+    position: relative;
+    margin-left: 5px; */
+    align-items: start;
+  }
 }

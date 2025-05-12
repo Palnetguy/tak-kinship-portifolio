@@ -5,6 +5,7 @@ import configImages from "./configImages";
 import { useState } from "react";
 import Drawer from "./ReusableDrawer";
 import ContactUs from "./contact-us";
+import GallaryCarousel from "./gallary-carousel";
 
 const Home = () => {
   const [h1Ref, h1InView] = useInView({
@@ -30,6 +31,7 @@ const Home = () => {
   return (
     <main className="home">
       {/* <ExampleUsage />/ */}
+
       <main className="left-right">
         <div className={`ltl-home `}>
           <h1
@@ -84,6 +86,5 @@ const Home = () => {
 };
 
 export default Home;
-
 
 // export default ExampleUsage;

@@ -105,13 +105,17 @@ function App() {
     },
   };
 
+// setInterval(() => {
+//   console.log(window.scrollY);
+// }, 1000);
+
   return (
     <>
       <PreLoaderFull isDoneLoading={loadingAll} />
 
       <div className="App ">
         <Router>
-          {init && <Particles options={particlesOptions} />}
+          {/* {init && <Particles options={particlesOptions} />} */}
           <NavigationBar className={"pc"} />
           <NavigationBar className={"mobile"} />
           <ArrowBackUp />
@@ -205,11 +209,11 @@ function App() {
             <Route
               path="/services/desktop-development"
               element={
-                <DesktopDevelopmentMore setAllDoneLoading={handleLoadingAll} />
+                <DesktopDevelopmentMore setbAllDoneLoading={handleLoadingAll} />
               }
             />
             <Route
-              path="/servicesui-ux-development"
+              path="/services/ui-ux-development"
               element={
                 <UxUiDevelopmentMore setAllDoneLoading={handleLoadingAll} />
               }

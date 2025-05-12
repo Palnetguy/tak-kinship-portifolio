@@ -10,6 +10,7 @@
   width: 100%;
   z-index: 900;
   height: 70px;
+
   /* padding-top: 2em; */
 }
 .nav.pc {
@@ -88,8 +89,9 @@
   .nav .logo > img {
     height: 45px;
   }
-  .nav.pc {
-    display: none;
+  .nav.pc,
+  #progress {
+    display: none !important;
   }
   .nav.mobile {
     display: flex;
@@ -149,4 +151,7 @@
     cursor: pointer;
     margin-top: 1em;
   }
+}
+.nav {
+  /* display: none !important; */
 }

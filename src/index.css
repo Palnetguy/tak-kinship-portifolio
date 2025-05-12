@@ -46,6 +46,7 @@ ul {
 }
 .home-color-Dark {
   background: var(--dark-brand-color);
+  /* background: red ; */
 }
 body {
   background: var(--bodyColor);
@@ -53,11 +54,28 @@ body {
   height: 100vh;
   overflow-x: hidden;
 }
-body {
-  overflow-x: hidden;
-  width: 100%;
+html{
+  scroll-behavior: smooth;
 }
 
+body {
+  /* overflow-x: hidden; */
+  width: 100%;
+  /* background: blue; */
+  width: 100vw;
+}
+@media (max-width: 750px) {
+  html,
+  body {
+    overflow-x: hidden;
+    width: 100%;
+    /* background: blue; */
+    width: 100vw;
+  }
+}
+.App {
+  position: relative;
+}
 @font-face {
   font-family: mainFont;
   src: url("./fonts/MPLUSRounded1c-Regular.ttf");
@@ -382,7 +400,7 @@ main.left-right .ltl-home {
   right: 10px;
   height: 70px;
   width: 70px;
-  display: none;
+  /* display: none; */
   place-items: center;
   border-radius: 50%;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
