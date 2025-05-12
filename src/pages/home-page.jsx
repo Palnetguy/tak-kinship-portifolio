@@ -139,7 +139,7 @@ const HomePage = ({ setAllDoneLoading }) => {
   return (
     <section>
       <Home />
-      
+
       {/* <ArrowBackUp /> */}
 
       {/* <ExampleUsage handleLoadingContactInfo={handleLoadingContactInfo} /> */}
@@ -156,7 +156,7 @@ const HomePage = ({ setAllDoneLoading }) => {
         }}
         teamMembers={teamMembers}
       />
-      <Team setIsLoading={handleLoadingTeam} />
+      {/* <Team setIsLoading={handleLoadingTeam} /> */}
       <FAQComponent setIsLoading={handleLoadingFaQs} />
       <ContactUs setIsLoading={handleLoadingContactInfo} />
       <Footer setIsLoading={handleLoadingFooter} />
