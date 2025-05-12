@@ -1,6 +1,6 @@
 import React from "react";
 import "../css/messege-form-ceo.css";
-import ceoImage from "../images/testProfilePic.jpg";
+import ceoImage from "../images/CEO image.jpg";
 
 export default function MessegeFromCeo() {
   return (
@@ -19,15 +19,15 @@ export default function MessegeFromCeo() {
 
         <div className="info">
           <p>
-            Masaba Ian Samuel is the Founder and CEO of Takkinship, a platform
-            that connects people with the people they care about. With
-            Takkinship, you can easily find the people you care about and
-            connect with them.
+            Ultimately, TAK Kinship is about building a community. A community
+            where technology serves humanity, where innovation has a heart, and
+            where every step we take brings us closer to a future we can all
+            believe in.
             <br />
             <br />
-            Masaba Ian Samuel is a visionary leader who is passionate about
-            technology and its potential to change the world. He has a deep
-            understanding of how technology can be used to solve complex problems.
+            I'm genuinely excited about the journey ahead, and I invite you to
+            join us in making this vision a reality. Let's build something truly
+            meaningful, together.
           </p>
         </div>
       </div>

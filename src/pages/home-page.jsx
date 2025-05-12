@@ -150,6 +150,7 @@ const HomePage = ({ setAllDoneLoading }) => {
       <Testimonials setIsLoading={handleLoadingTestimonial} />
       <TeamShowcase
         title="OUR TEAM"
+        isSummary={false}
         setIsLoading={() => {
           handleLoadingTestimonial();
           handleLoadingTeam();

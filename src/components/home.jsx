@@ -46,10 +46,10 @@ const Home = () => {
             ref={pRef}
             style={{ "--delay": "200ms" }}
           >
-            Welcome At TAK Kinship, we don't just build projects; we engineer
-            solutions that redefine possibilities. As a growing tech startup,
-            our passion is to harness cutting-edge technology to address
-            real-world challenges and shape the future.
+            We're a team that thrives on turning bold ideas into impactful
+            digital solutions, from apps that empower communities to custom
+            software that transforms businesses. We're not just shaping the
+            future of technology; we're shaping a better future for all.
           </p>
           <Link to="about">
             <button

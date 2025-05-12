@@ -2,7 +2,7 @@
   padding: 3em var(--main-margin);
   margin: 100px 0;
   background: var(--boxColor);
-  margin-bottom:50px;
+  margin-bottom: 50px;
 }
 .messege-from-ceo > .title {
   font-size: 30px !important;
@@ -45,6 +45,8 @@
   height: 100%;
   width: 100%;
   /* background: rgba(0, 0, 0, 0.5); */
+  position: relative;
+  z-index: 2;
 }
 
 .messege-from-ceo .img-info > .image::after {
@@ -55,7 +57,7 @@
   background: var(--brand-color);
   top: -4px;
   left: -4px;
-  z-index: -1;
+  z-index: 1;
 }
 .messege-from-ceo .img-info > .image::before {
   content: "";
@@ -65,7 +67,7 @@
   background: var(--brand-color);
   right: -4px;
   top: -4px;
-  z-index: -1;
+  z-index: 1;
 }
 .messege-from-ceo .img-info > .image .ovl::after {
   content: "";

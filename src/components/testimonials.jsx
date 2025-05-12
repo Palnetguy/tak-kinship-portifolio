@@ -158,7 +158,7 @@ const Testimonials = ({ setIsLoading }) => {
         className={`title titleNotSeen ${titleInview ? "titleInView" : ""}`}
         ref={titleRef}
       >
-        Customers Testmonials
+        What People Say About Us
       </h1>
       <p
         // className=""
