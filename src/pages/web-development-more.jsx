@@ -10,8 +10,8 @@ export default function WebDevelopmentMore({ setAllDoneLoading }) {
   const headingEachService = {
     title: "Web Development Services",
     subtitle: "Company",
-    experience: 7,
-    projects: 50,
+    experience: 6,
+    projects: 10,
     description:
       "Establish a solid digital presence with our web development company. We specialize in building unique web-based solutions with advanced technologies to help you fulfill your business needs on the spot.",
   };

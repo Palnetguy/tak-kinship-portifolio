@@ -8,11 +8,12 @@ import pythonIcon from "../images/svgs/python-icon.svg";
 import flutter from "../images/svgs/flutter-icon.svg";
 
 export default function DesktopDevelopmentMore({ setAllDoneLoading }) {
+  // setAllDoneLoading(false)
   const headingEachService = {
     title: "Desktop Development Services",
     subtitle: "Company",
-    experience: 10,
-    projects: 75,
+    experience: 6,
+    projects: 5,
     description:
       "Build robust desktop applications with our expert team. We provide comprehensive services to help you design, develop, and maintain your desktop software.",
   };

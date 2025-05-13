@@ -1,17 +1,18 @@
 import React from "react";
 import EachServiceTemplatePage from "../components/each-service-template-page";
 
-import jsIcon from "../images/svgs/js-icon.svg";
-import tsIcon from "../images/svgs/ts-icon.svg";
-import reactIcon from "../images/svgs/react-icon.svg";
-import nextIcon from "../images/svgs/nextjs-icon.svg";
+import flutterIcon from "../images/svgs/flutter-icon.svg";
+import dartIcon from "../images/svgs/dart-icon.svg";
+import firebaseIcon from "../images/svgs/firebase-icon.svg";
+import djangoIcon from "../images/svgs/django-icon.svg";
 
 export default function AppDevelopmentMore({ setAllDoneLoading }) {
+
   const headingEachService = {
     title: "App Development Services",
     subtitle: "Company",
-    experience: 7,
-    projects: 50,
+    experience: 6,
+    projects: 10,
     description:
       "Develop custom mobile apps with our expert team. We provide a wide range of services to help you build, deploy, and maintain your app.",
   };
@@ -111,28 +112,28 @@ export default function AppDevelopmentMore({ setAllDoneLoading }) {
       "Our mobile app developers leverage the latest frameworks, libraries, and cloud solutions to craft fast, scalable, and future-ready mobile solutions.",
     techstack: [
       {
-        name: "JAVASCRIPT",
+        name: "FLUTTER",
         description:
-          "The backbone of modern web development, JavaScript enables us to build interactive, real-time web apps with dynamic content, smooth animations, and seamless user experiences. Its speed, flexibility, and broad compatibility make it a go-to for high-performance platforms.",
-        icon: jsIcon,
+          "An open-source mobile app development framework created by Google. Flutter allows developers to build native mobile apps for Android and iOS using a single codebase. It's fast, efficient, and provides a great user experience.",
+        icon: flutterIcon,
       },
       {
-        name: "TYPESCRIPT",
+        name: "DART",
         description:
-          "A superset of JavaScript, TypeScript adds static typing to the language, enhancing code quality and maintainability. It helps catch errors early in the development process, making it ideal for large-scale applications and complex projects.",
-        icon: tsIcon,
+          "A programming language developed by Google for building web applications. Dart is fast, efficient, and provides a great development experience for our team. It's the primary language used in Flutter for building mobile apps.",
+        icon: dartIcon,
       },
       {
-        name: "REACT",
+        name: "FIREBASE",
         description:
-          "A powerful JavaScript library for building user interfaces, React allows developers to create reusable UI components. Its virtual DOM and efficient rendering make it perfect for high-performance applications, ensuring a smooth user experience.",
-        icon: reactIcon,
+          "A cloud-based platform for building web and mobile applications. Firebase provides a suite of tools and services for building scalable and secure applications. It's a great choice for our clients who want to build applications quickly and easily.",
+        icon: firebaseIcon,
       },
       {
-        name: "NEXT.JS",
+        name: "DJANGO",
         description:
-          "A React framework that enables server-side rendering and static site generation, Next.js enhances performance and SEO. It simplifies routing, data fetching, and API integration, making it a top choice for modern web applications.",
-        icon: nextIcon,
+          "A high-level Python web framework that encourages rapid development and clean, pragmatic design. Django is a great choice for building scalable and secure web applications. Our team of experts uses Django to build web applications that are fast, efficient, and provide a great user experience.",
+        icon: djangoIcon,
       },
     ],
   };
@@ -150,4 +151,3 @@ export default function AppDevelopmentMore({ setAllDoneLoading }) {
     </>
   );
 }
-
