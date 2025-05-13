@@ -240,6 +240,24 @@
     width: 100%;
   }
 }
+
+@media (max-width: 750px) {
+  .why_we_unique .quote {
+    width: auto;
+  }
+  .why_we_unique .quote h1 {
+    font-size: 30px !important;
+    padding: 0 1em;
+  }
+  .aboutUs .why_we_unique > .top {
+    /* margin: 0 auto; */
+    width: 100%;
+    /* padding: 0 2em; */
+  }
+  .messege-from-ceo .img-info > div:nth-child(1) {
+    width: 100%;
+  }
+}
 .aboutUs .titleNotSeen {
   transform: translate3d(0%, 100%, 0);
   opacity: 0;
