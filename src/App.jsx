@@ -105,9 +105,9 @@ function App() {
     },
   };
 
-// setInterval(() => {
-//   console.log(window.scrollY);
-// }, 1000);
+  // setInterval(() => {
+  //   console.log(window.scrollY);
+  // }, 1000);
 
   return (
     <>
@@ -209,7 +209,7 @@ function App() {
             <Route
               path="/services/desktop-development"
               element={
-                <DesktopDevelopmentMore setbAllDoneLoading={handleLoadingAll} />
+                <DesktopDevelopmentMore setAllDoneLoading={handleLoadingAll} />
               }
             />
             <Route

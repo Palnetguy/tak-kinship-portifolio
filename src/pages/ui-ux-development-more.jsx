@@ -10,7 +10,7 @@ export default function UxUiDevelopmentMore({ setAllDoneLoading }) {
   const headingEachService = {
     title: "UI/UX Development Services",
     subtitle: "Company",
-    experience: 6,
+    experience:  new Date().getFullYear() - 2019,
     projects: 10,
     description:
       "We design user-friendly interfaces that enhance user engagement and productivity. Our team of experts is dedicated to delivering high quality solutions that are tailored to your specific requirements.",

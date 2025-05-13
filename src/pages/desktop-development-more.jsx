@@ -12,7 +12,7 @@ export default function DesktopDevelopmentMore({ setAllDoneLoading }) {
   const headingEachService = {
     title: "Desktop Development Services",
     subtitle: "Company",
-    experience: 6,
+    experience: new Date().getFullYear() - 2019,
     projects: 5,
     description:
       "Build robust desktop applications with our expert team. We provide comprehensive services to help you design, develop, and maintain your desktop software.",

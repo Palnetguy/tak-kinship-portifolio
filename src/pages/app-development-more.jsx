@@ -11,7 +11,7 @@ export default function AppDevelopmentMore({ setAllDoneLoading }) {
   const headingEachService = {
     title: "App Development Services",
     subtitle: "Company",
-    experience: 6,
+    experience:  new Date().getFullYear() - 2019,
     projects: 10,
     description:
       "Develop custom mobile apps with our expert team. We provide a wide range of services to help you build, deploy, and maintain your app.",
