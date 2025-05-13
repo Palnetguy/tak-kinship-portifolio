@@ -6,7 +6,7 @@ export default function MessegeFromCeo() {
   return (
     <div className="messege-from-ceo">
       <p className="pretitle">A word from our CEO</p>
-      <h1 className="title">Masaba Ian Samuel</h1>
+      <h1 className="title">Tusingwire Martin</h1>
       <h6 className="title-2">Founder & CEO</h6>
 
       {/* content */}

@@ -179,6 +179,31 @@ const Testimonials = ({ setIsLoading }) => {
         ref={corocelRef}
       >
         <Slider {...settings} className="testimonial-slider">
+          {testimonials.length === 1 &&
+            testimonials.map((testimonial) => (
+              <div
+                // className=""
+                className={` containSlider titleNotSeen ${
+                  corocelInview ? "titleInView" : ""
+                }`}
+              >
+                <div key={testimonial.id} className="singleTestimonial box">
+                  <div className="heading">
+                    <div className="profileImg">
+                      {/* Assuming you have the image URL for the profile */}
+                      <img src={`${testimonial.user_photo}`} alt="" />
+                    </div>
+                    <div className="nameProf">
+                      <h1 className="title-2">{testimonial.name}</h1>
+                      <p>{testimonial.job_title}</p>
+                    </div>
+                  </div>
+                  <div className="info">
+                    <p>{testimonial.comment}</p>
+                  </div>
+                </div>
+              </div>
+            ))}
           {testimonials.map((testimonial) => (
             <div
               // className=""

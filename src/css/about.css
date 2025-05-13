@@ -255,7 +255,7 @@
     /* padding: 0 2em; */
   }
   .messege-from-ceo .img-info > div:nth-child(1) {
-    width: 100%;
+    width: 100% !important;
   }
 }
 .aboutUs .titleNotSeen {
