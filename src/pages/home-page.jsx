@@ -13,6 +13,7 @@ import FAQComponent from "../components/FAQComponent";
 import { useEffect, useState } from "react";
 import Services from "../components/our-services";
 import TeamShowcase from "../components/team-showcase";
+import { Helmet } from "react-helmet-async";
 
 import testprofile from "../images/testProfilePic.jpg";
 import Drawer from "../components/ReusableDrawer";
@@ -137,31 +138,40 @@ const HomePage = ({ setAllDoneLoading }) => {
   ];
 
   return (
-    <section>
-      <Home />
+    <>
+      <Helmet>
+        <title>TAK Kinship | Home</title>
+        <meta
+          name="description"
+          content="Where Innovation Meets Impact. Explore cutting-edge tech solutions and transformative projects crafted to redefine possibilities. Your digital future starts here."
+        />
+      </Helmet>
+      <section>
+        <Home />
 
-      {/* <ArrowBackUp /> */}
+        {/* <ArrowBackUp /> */}
 
-      {/* <ExampleUsage handleLoadingContactInfo={handleLoadingContactInfo} /> */}
-      <Services />
-      <AboutUs setIsLoading={handleLoadingAbout} />
-      <Clients setIsLoading={handleLoadingClients} />
-      <Portfolio setIsLoading={handleLoadingPortFolio} />
-      <Testimonials setIsLoading={handleLoadingTestimonial} />
-      <TeamShowcase
-        title="OUR TEAM"
-        isSummary={false}
-        setIsLoading={() => {
-          handleLoadingTestimonial();
-          handleLoadingTeam();
-        }}
-        teamMembers={teamMembers}
-      />
-      {/* <Team setIsLoading={handleLoadingTeam} /> */}
-      <FAQComponent setIsLoading={handleLoadingFaQs} />
-      <ContactUs setIsLoading={handleLoadingContactInfo} />
-      <Footer setIsLoading={handleLoadingFooter} />
-    </section>
+        {/* <ExampleUsage handleLoadingContactInfo={handleLoadingContactInfo} /> */}
+        <Services />
+        <AboutUs setIsLoading={handleLoadingAbout} />
+        <Clients setIsLoading={handleLoadingClients} />
+        <Portfolio setIsLoading={handleLoadingPortFolio} />
+        <Testimonials setIsLoading={handleLoadingTestimonial} />
+        <TeamShowcase
+          title="OUR TEAM"
+          isSummary={false}
+          setIsLoading={() => {
+            handleLoadingTestimonial();
+            handleLoadingTeam();
+          }}
+          teamMembers={teamMembers}
+        />
+        {/* <Team setIsLoading={handleLoadingTeam} /> */}
+        <FAQComponent setIsLoading={handleLoadingFaQs} />
+        <ContactUs setIsLoading={handleLoadingContactInfo} />
+        <Footer setIsLoading={handleLoadingFooter} />
+      </section>
+    </>
   );
 };
 // const ExampleUsage = ({ handleLoadingContactInfo }) => {

@@ -3,6 +3,7 @@ import FAQComponent from "../components/FAQComponent";
 import ContactUs from "../components/contact-us";
 import Footer from "../components/footer";
 import OtherPageBanner from "../components/other-page-banner";
+import { Helmet } from "react-helmet-async";
 
 const ContactPage = ({ setAllDoneLoading }) => {
   const [loadingFaQs, setLoadingFaQs] = useState(true);
@@ -34,16 +35,25 @@ const ContactPage = ({ setAllDoneLoading }) => {
     }
   }, [loadingFaQs, loadingContactInfo, loadingFooter]);
   return (
-    <section>
-      <OtherPageBanner
-        pageName="CONTACT"
-        title="Contact Us"
-        infomation="Lost in the digital wilderness? Fear not! Our Contact Us page is the Sherpa of support. Drop us a line, and we'll guide you through the tech-terrain with the finesse of a GPS for laughter."
-      />
-      <ContactUs setIsLoading={handleLoadingContactInfo} />
-      <FAQComponent setIsLoading={handleLoadingFaQs} />
-      <Footer setIsLoading={handleLoadingFooter} />
-    </section>
+    <>
+      <Helmet>
+        <title>Contact Us | TAK Kinship</title>
+        <meta
+          name="description"
+          content="Get in touch with TAK Kinship for inquiries, support, or to start your next innovative project with us."
+        />
+      </Helmet>
+      <section>
+        <OtherPageBanner
+          pageName="CONTACT"
+          title="Contact Us"
+          infomation="Lost in the digital wilderness? Fear not! Our Contact Us page is the Sherpa of support. Drop us a line, and we'll guide you through the tech-terrain with the finesse of a GPS for laughter."
+        />
+        <ContactUs setIsLoading={handleLoadingContactInfo} />
+        <FAQComponent setIsLoading={handleLoadingFaQs} />
+        <Footer setIsLoading={handleLoadingFooter} />
+      </section>
+    </>
   );
 };
 

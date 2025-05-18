@@ -1,5 +1,6 @@
 import React from "react";
 import EachServiceTemplatePage from "../components/each-service-template-page";
+import { Helmet } from "react-helmet-async";
 
 import jsIcon from "../images/svgs/js-icon.svg";
 import tsIcon from "../images/svgs/ts-icon.svg";
@@ -154,6 +155,13 @@ export default function WebDevelopmentMore({ setAllDoneLoading }) {
 
   return (
     <>
+      <Helmet>
+        <title>Web Development | TAK Kinship</title>
+        <meta
+          name="description"
+          content="Discover our web development services, building robust, scalable, and modern web applications tailored to your business needs."
+        />
+      </Helmet>
       <EachServiceTemplatePage
         technologiesEachService={technologiesEachService}
         processTimeline={processTimeline}

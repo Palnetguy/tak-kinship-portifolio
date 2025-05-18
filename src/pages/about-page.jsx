@@ -7,6 +7,7 @@ import OtherPageBanner from "../components/other-page-banner";
 import MessegeFromCeo from "../components/messege-from-ceo";
 import Gallery from "../components/gallery";
 import TeamShowcase from "../components/team-showcase";
+import { Helmet } from "react-helmet-async";
 
 const AboutPage = ({ setAllDoneLoading }) => {
   const [loadingAbout, setLoadingAbout] = useState(true);
@@ -68,26 +69,35 @@ const AboutPage = ({ setAllDoneLoading }) => {
   ]);
 
   return (
-    <section>
-      <OtherPageBanner
-        pageName="ABOUT"
-        title="About Us"
-        infomation="In the vast tapestry of the web, we don't just create technology; we compose symphonies of connection."
-      />
-      <AboutUs setIsLoading={handleLoadingAbout} showAllInfo={true} />
-      <MessegeFromCeo />
-      <section id="team">
-        <TeamShowcase
-          isSummary={false}
-          title="OUR TEAM"
-          setIsLoading={handleLoadingTeam}
+    <>
+      <Helmet>
+        <title>About Us | TAK Kinship</title>
+        <meta
+          name="description"
+          content="Learn about TAK Kinship's journey, vision, and commitment to building a brighter, connected future through innovative technology solutions."
         />
+      </Helmet>
+      <section>
+        <OtherPageBanner
+          pageName="ABOUT"
+          title="About Us"
+          infomation="In the vast tapestry of the web, we don't just create technology; we compose symphonies of connection."
+        />
+        <AboutUs setIsLoading={handleLoadingAbout} showAllInfo={true} />
+        <MessegeFromCeo />
+        <section id="team">
+          <TeamShowcase
+            isSummary={false}
+            title="OUR TEAM"
+            setIsLoading={handleLoadingTeam}
+          />
+        </section>
+        <Gallery setIsLoading={handleLoadingGallery} />
+        <FAQComponent setIsLoading={handleLoadingFaQs} />
+        <ContactUs setIsLoading={handleLoadingContactInfo} />
+        <Footer setIsLoading={handleLoadingFooter} />
       </section>
-      <Gallery setIsLoading={handleLoadingGallery} />
-      <FAQComponent setIsLoading={handleLoadingFaQs} />
-      <ContactUs setIsLoading={handleLoadingContactInfo} />
-      <Footer setIsLoading={handleLoadingFooter} />
-    </section>
+    </>
   );
 };
 

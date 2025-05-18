@@ -4,6 +4,7 @@ import ContactUs from "../components/contact-us";
 import Footer from "../components/footer";
 import Gallery from "../components/gallery";
 import OtherPageBanner from "../components/other-page-banner";
+import { Helmet } from "react-helmet-async";
 
 const GalleryPage = ({ setAllDoneLoading }) => {
   const [loadingFaQs, setLoadingFaQs] = useState(true);
@@ -46,17 +47,26 @@ const GalleryPage = ({ setAllDoneLoading }) => {
     }
   }, [loadingFaQs, loadingGallery, loadingContactInfo, loadingFooter]);
   return (
-    <section>
-      <OtherPageBanner
-        pageName="GALLERY"
-        title="Gallery Us"
-        infomation="Step into our digital museum – where pixels become masterpieces, and each click is a brushstroke in the canvas of coolness. Warning: prolonged exposure may cause an uncontrollable urge to double-click for joy!✌️"
-      />
-      <Gallery setIsLoading={handleLoadingGallery} />
-      <FAQComponent setIsLoading={handleLoadingFaQs} />
-      <ContactUs setIsLoading={handleLoadingContactInfo} />
-      <Footer setIsLoading={handleLoadingFooter} />
-    </section>
+    <>
+      <Helmet>
+        <title>Gallery | TAK Kinship</title>
+        <meta
+          name="description"
+          content="Browse our gallery to see highlights of our work, team, and company culture at TAK Kinship."
+        />
+      </Helmet>
+      <section>
+        <OtherPageBanner
+          pageName="GALLERY"
+          title="Gallery Us"
+          infomation="Step into our digital museum – where pixels become masterpieces, and each click is a brushstroke in the canvas of coolness. Warning: prolonged exposure may cause an uncontrollable urge to double-click for joy!✌️"
+        />
+        <Gallery setIsLoading={handleLoadingGallery} />
+        <FAQComponent setIsLoading={handleLoadingFaQs} />
+        <ContactUs setIsLoading={handleLoadingContactInfo} />
+        <Footer setIsLoading={handleLoadingFooter} />
+      </section>
+    </>
   );
 };
 

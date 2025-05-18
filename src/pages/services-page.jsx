@@ -5,6 +5,7 @@ import Footer from "../components/footer";
 import OtherPageBanner from "../components/other-page-banner";
 import services from "../components/our-services";
 import Services from "../components/our-services";
+import { Helmet } from "react-helmet-async";
 
 const ServicesPage = ({ setAllDoneLoading }) => {
   const [loadingFaQs, setLoadingFaQs] = useState(true);
@@ -37,17 +38,26 @@ const ServicesPage = ({ setAllDoneLoading }) => {
   }, [loadingFaQs, loadingContactInfo, loadingFooter]);
 
   return (
-    <section>
-      <OtherPageBanner
-        pageName="services"
-        title="Our services"
-        infomation=" Let every service be the spark that fuels your vision and propels your goals. Your success, our mission – together, we code the path to achievement."
-      />
-      <Services />
-      <FAQComponent setIsLoading={handleLoadingFaQs} />
-      <ContactUs setIsLoading={handleLoadingContactInfo} />
-      <Footer setIsLoading={handleLoadingFooter} />
-    </section>
+    <>
+      <Helmet>
+        <title>Services | TAK Kinship</title>
+        <meta
+          name="description"
+          content="Discover our comprehensive range of software development services, including web, mobile, and desktop solutions tailored to your business needs."
+        />
+      </Helmet>
+      <section>
+        <OtherPageBanner
+          pageName="services"
+          title="Our services"
+          infomation=" Let every service be the spark that fuels your vision and propels your goals. Your success, our mission – together, we code the path to achievement."
+        />
+        <Services />
+        <FAQComponent setIsLoading={handleLoadingFaQs} />
+        <ContactUs setIsLoading={handleLoadingContactInfo} />
+        <Footer setIsLoading={handleLoadingFooter} />
+      </section>
+    </>
   );
 };
 

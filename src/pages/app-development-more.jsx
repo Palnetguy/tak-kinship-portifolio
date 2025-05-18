@@ -1,5 +1,6 @@
 import React from "react";
 import EachServiceTemplatePage from "../components/each-service-template-page";
+import { Helmet } from "react-helmet-async";
 
 import flutterIcon from "../images/svgs/flutter-icon.svg";
 import dartIcon from "../images/svgs/dart-icon.svg";
@@ -7,11 +8,10 @@ import firebaseIcon from "../images/svgs/firebase-icon.svg";
 import djangoIcon from "../images/svgs/django-icon.svg";
 
 export default function AppDevelopmentMore({ setAllDoneLoading }) {
-
   const headingEachService = {
     title: "App Development Services",
     subtitle: "Company",
-    experience:  new Date().getFullYear() - 2019,
+    experience: new Date().getFullYear() - 2019,
     projects: 10,
     description:
       "Develop custom mobile apps with our expert team. We provide a wide range of services to help you build, deploy, and maintain your app.",
@@ -140,6 +140,13 @@ export default function AppDevelopmentMore({ setAllDoneLoading }) {
 
   return (
     <>
+      <Helmet>
+        <title>App Development | TAK Kinship</title>
+        <meta
+          name="description"
+          content="Explore our expertise in mobile app development, delivering user-centric and innovative solutions for iOS and Android platforms."
+        />
+      </Helmet>
       <EachServiceTemplatePage
         technologiesEachService={technologiesEachService}
         processTimeline={processTimeline}

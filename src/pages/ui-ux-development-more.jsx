@@ -1,5 +1,6 @@
 import React from "react";
 import EachServiceTemplatePage from "../components/each-service-template-page";
+import { Helmet } from "react-helmet-async";
 
 import figmaIcon from "../images/svgs/figma-icon.svg";
 import invisionIcon from "../images/svgs/invision-icon.svg";
@@ -10,7 +11,7 @@ export default function UxUiDevelopmentMore({ setAllDoneLoading }) {
   const headingEachService = {
     title: "UI/UX Development Services",
     subtitle: "Company",
-    experience:  new Date().getFullYear() - 2019,
+    experience: new Date().getFullYear() - 2019,
     projects: 10,
     description:
       "We design user-friendly interfaces that enhance user engagement and productivity. Our team of experts is dedicated to delivering high quality solutions that are tailored to your specific requirements.",
@@ -160,6 +161,13 @@ export default function UxUiDevelopmentMore({ setAllDoneLoading }) {
 
   return (
     <>
+      <Helmet>
+        <title>UI/UX Development | TAK Kinship</title>
+        <meta
+          name="description"
+          content="Explore our UI/UX design and development services, focused on delivering intuitive and engaging user experiences."
+        />
+      </Helmet>
       <EachServiceTemplatePage
         technologiesEachService={technologiesEachService}
         processTimeline={processTimeline}

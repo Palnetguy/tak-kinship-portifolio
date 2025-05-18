@@ -1,5 +1,6 @@
 import React from "react";
 import EachServiceTemplatePage from "../components/each-service-template-page";
+import { Helmet } from "react-helmet-async";
 
 import electronIcon from "../images/svgs/electron-icon.svg";
 import nwjsIcon from "../images/svgs/node-icon.svg";
@@ -148,6 +149,13 @@ export default function DesktopDevelopmentMore({ setAllDoneLoading }) {
 
   return (
     <>
+      <Helmet>
+        <title>Desktop Development | TAK Kinship</title>
+        <meta
+          name="description"
+          content="Learn about our desktop application development services, creating powerful and efficient solutions for businesses."
+        />
+      </Helmet>
       <EachServiceTemplatePage
         technologiesEachService={technologiesEachService}
         processTimeline={processTimeline}
