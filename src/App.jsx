@@ -27,6 +27,7 @@ import AppDevelopmentMore from "./pages/app-development-more";
 import DesktopDevelopmentMore from "./pages/desktop-development-more";
 import UxUiDevelopmentMore from "./pages/ui-ux-development-more";
 import EachProjectDetailTemplate from "./components/each-project-detail-template";
+import { Analytics } from "@vercel/analytics/react";
 
 function App() {
   useEffect(() => {
@@ -221,6 +222,7 @@ function App() {
           </Routes>
         </Router>
       </div>
+      <Analytics />
     </>
   );
 }
