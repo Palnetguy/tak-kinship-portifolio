@@ -11,6 +11,12 @@ import configHeaders from "./config-headers";
 import FAQComponent from "./FAQComponent";
 import ContactUs from "./contact-us";
 import Footer from "./footer";
+import {
+  getProjectEndpoint,
+  getProjectWebAppsEndpoint,
+  getProjectPolicyEndpoint,
+  getProjectTermsEndpoint,
+} from "../constants/api";
 
 export default function EachProjectDetailTemplate({
   setAllDoneLoading,
@@ -30,7 +36,7 @@ export default function EachProjectDetailTemplate({
       setLoadingMain(true);
       try {
         const response = await axios.get(
-          `https://takkinship-backend.up.railway.app/api/project/${paramsObj.projectId}`,
+          getProjectEndpoint(paramsObj.projectId),
           {
             headers: configHeaders,
           }
@@ -42,7 +48,7 @@ export default function EachProjectDetailTemplate({
         if (response.data.project_category == "Web Application") {
           try {
             const response = await axios.get(
-              `https://takkinship-backend.up.railway.app/api/project/${paramsObj.projectId}/web-applications/`,
+              getProjectWebAppsEndpoint(paramsObj.projectId),
               {
                 headers: configHeaders,
               }
@@ -65,8 +71,7 @@ export default function EachProjectDetailTemplate({
       setLoadingPolicy(true);
       try {
         const response = await axios.get(
-          // `https://takkinship-backend.up.railway.app/api/project/${paramsObj.projectId}`,
-          `https://takkinship-backend.up.railway.app/api/projects/${paramsObj.projectId}/policy/`,
+          getProjectPolicyEndpoint(paramsObj.projectId),
           {
             headers: configHeaders,
           }
@@ -88,8 +93,7 @@ export default function EachProjectDetailTemplate({
       setLoadingTerms(true);
       try {
         const response = await axios.get(
-          // `https://takkinship-backend.up.railway.app/api/project/${paramsObj.projectId}`,
-          `https://takkinship-backend.up.railway.app/api/projects/${paramsObj.projectId}/terms/`,
+          getProjectTermsEndpoint(paramsObj.projectId),
           {
             headers: configHeaders,
           }

@@ -9,6 +9,7 @@ import igIcon from "../images/svgs/instagram-svgrepo-com.svg";
 import configHeaders from "./config-headers";
 import { useInView } from "react-intersection-observer";
 import axios from "axios";
+import { API_ENDPOINTS } from "../constants/api";
 
 const ContactUs = ({ setIsLoading, isSummary }) => {
   const [formData, setFormData] = useState({
@@ -38,16 +39,13 @@ const ContactUs = ({ setIsLoading, isSummary }) => {
     setIsSubmitting(true);
 
     try {
-      const response = await fetch(
-        "https://takkinship-backend.up.railway.app/api/contact-us/",
-        {
-          method: "POST",
+      const response = await fetch(API_ENDPOINTS.CONTACT_US, {
+        method: "POST",
 
-          headers: configHeaders,
+        headers: configHeaders,
 
-          body: JSON.stringify(contactData),
-        }
-      );
+        body: JSON.stringify(contactData),
+      });
 
       if (response.ok) {
         console.log("Form submitted successfully!");
@@ -128,12 +126,9 @@ const ContactUs = ({ setIsLoading, isSummary }) => {
     setIsLoading(true);
     const handleFetchContactUsInfo = async () => {
       try {
-        const response = await axios.get(
-          "https://takkinship-backend.up.railway.app/api/contact-company-info/",
-          {
-            headers: configHeaders,
-          }
-        );
+        const response = await axios.get(API_ENDPOINTS.CONTACT_COMPANY_INFO, {
+          headers: configHeaders,
+        });
         console.log("Contact-us");
         console.log(response);
 
@@ -352,9 +347,9 @@ const ContactUs = ({ setIsLoading, isSummary }) => {
         className={`map mapHidden ${mapInview ? "mapInView" : ""}`}
         src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d498.6981109405955!2d30.6877306!3d-0.6197894!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x19d91b1b930db6e1%3A0xe0f6eaaefba85d63!2sKarugangama!5e0!3m2!1sen!2sug!4v1710153721348!5m2!1sen!2sug"
         height="450"
-        allowfullscreen=""
+        allowFullScreen=""
         loading="lazy"
-        referrerpolicy="no-referrer-when-downgrade"
+        referrerPolicy="no-referrer-when-downgrade"
       ></iframe> */}
 
       {!isSummary && (
@@ -363,9 +358,10 @@ const ContactUs = ({ setIsLoading, isSummary }) => {
           className={`map mapHidden ${mapInview ? "mapInView" : ""}`}
           src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d31916.785333621287!2d30.679970599999997!3d-0.6019023000000001!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x19d91b12361d180d%3A0xea4f4584d2c4456d!2sKakoba%20Division%2C%20Mbarara!5e0!3m2!1sen!2sug!4v1716414493388!5m2!1sen!2sug"
           height="450"
-          allowfullscreen=""
+          title="Google Maps - Kakoba Division, Mbarara"
+          allowFullScreen=""
           loading="lazy"
-          referrerpolicy="no-referrer-when-downgrade"
+          referrerPolicy="no-referrer-when-downgrade"
         ></iframe>
       )}
     </div>

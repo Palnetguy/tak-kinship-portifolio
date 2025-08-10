@@ -6,6 +6,7 @@ import axios from "axios";
 import configHeaders from "./config-headers";
 import { useInView } from "react-intersection-observer";
 import configImages from "./configImages";
+import { API_ENDPOINTS } from "../constants/api";
 
 const FAQComponent = ({ setIsLoading }) => {
   // const faqData = [
@@ -37,12 +38,9 @@ const FAQComponent = ({ setIsLoading }) => {
     setIsLoading(true);
     const handleFetchFaqs = async () => {
       try {
-        const response = await axios.get(
-          `https://takkinship-backend.up.railway.app/api/faqs/`,
-          {
-            headers: configHeaders,
-          }
-        );
+        const response = await axios.get(API_ENDPOINTS.FAQ, {
+          headers: configHeaders,
+        });
         setIsLoading(false);
         setFaqData(response.data);
         console.log(response.data);
@@ -203,9 +201,8 @@ const FAQComponentCards = ({ faqData }) => {
   return (
     <div className="faq-container">
       {faqData.map((item, index) => (
-        <div className="faq-itemContainer">
+        <div className="faq-itemContainer" key={index}>
           <div
-            key={index}
             className={`faq-item box ${
               index === expandedIndex ? "expanded" : ""
             }`}

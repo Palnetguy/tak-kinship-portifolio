@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import configImages from "./configImages";
 import configHeaders from "./config-headers";
 import { useInView } from "react-intersection-observer";
+import { API_ENDPOINTS } from "../constants/api";
 
 const Portfolio = ({ setIsLoading }) => {
   const [portfolioArray, setPortfolioArray] = useState([]);
@@ -16,12 +17,9 @@ const Portfolio = ({ setIsLoading }) => {
     setIsLoading(true);
     const handleFetchProjects = async () => {
       try {
-        const response = await axios.get(
-          "https://takkinship-backend.up.railway.app/api/projects/",
-          {
-            headers: configHeaders,
-          }
-        );
+        const response = await axios.get(API_ENDPOINTS.PROJECTS, {
+          headers: configHeaders,
+        });
         setIsLoading(false);
         setPortfolioArray(response.data);
         setFilteredPortfolioArray(response.data);
@@ -141,10 +139,9 @@ const Portfolio = ({ setIsLoading }) => {
             </div>
           )}
           {filteredportfolioArray.map((e) => (
-            <div>
+            <div key={e.id}>
               <div
                 // className="singleProject"
-                key={e.id}
                 className={`singleProject box`}
               >
                 <div className="image">
@@ -172,10 +169,9 @@ const Portfolio = ({ setIsLoading }) => {
                   >
                     <div className="viewButton">
                       <img src={eyeIcon} alt="" />
-                      <a>View Project</a>
+                      <span>View Project</span>
                     </div>
                   </Link>
-
                 </div>
               </div>
             </div>

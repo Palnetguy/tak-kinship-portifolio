@@ -51,7 +51,7 @@ const PreLoaderFull = ({ isDoneLoading = false }) => {
         <svg
           role="img"
           aria-label="Mouth and eyes come from 9:00 and rotate clockwise into position, right eye blinks, then all parts rotate and merge into 3:00"
-          class="smiley"
+          className="smiley"
           viewBox="0 0 128 128"
           width="128px"
           height="128px"
@@ -59,7 +59,7 @@ const PreLoaderFull = ({ isDoneLoading = false }) => {
           <defs>
             <clipPath id="smiley-eyes">
               <circle
-                class="smiley__eye1"
+                className="smiley__eye1"
                 cx="64"
                 cy="64"
                 r="8"
@@ -67,7 +67,7 @@ const PreLoaderFull = ({ isDoneLoading = false }) => {
               />
 
               <circle
-                class="smiley__eye2"
+                className="smiley__eye2"
                 cx="64"
                 cy="64"
                 r="8"
@@ -75,8 +75,8 @@ const PreLoaderFull = ({ isDoneLoading = false }) => {
               />
             </clipPath>
             <linearGradient id="smiley-grad" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stop-color="#000" />
-              <stop offset="100%" stop-color="#fff" />
+              <stop offset="0%" stopColor="#000" />
+              <stop offset="100%" stopColor="#fff" />
             </linearGradient>
             <mask id="smiley-mask">
               <rect
@@ -89,27 +89,27 @@ const PreLoaderFull = ({ isDoneLoading = false }) => {
             </mask>
           </defs>
           <g
-            stroke-linecap="round"
-            stroke-width="12"
-            stroke-dasharray="175.93 351.86"
+            strokeLinecap="round"
+            strokeWidth="12"
+            strokeDasharray="175.93 351.86"
           >
             <g>
               <rect
                 fill="#1fa84f"
                 width="128"
                 height="64"
-                clip-path="url(#smiley-eyes)"
+                clipPath="url(#smiley-eyes)"
               />
               <g fill="none" stroke="hsl(151, 90%, 50%)">
                 <circle
-                  class="smiley__mouth1"
+                  className="smiley__mouth1"
                   cx="64"
                   cy="64"
                   r="56"
                   transform="rotate(180,64,64)"
                 />
                 <circle
-                  class="smiley__mouth2"
+                  className="smiley__mouth2"
                   cx="64"
                   cy="64"
                   r="56"
@@ -122,18 +122,18 @@ const PreLoaderFull = ({ isDoneLoading = false }) => {
                 fill="#1fa84fde"
                 width="128"
                 height="64"
-                clip-path="url(#smiley-eyes)"
+                clipPath="url(#smiley-eyes)"
               />
               <g fill="none" stroke="hsl(151, 90%, 50%)">
                 <circle
-                  class="smiley__mouth1"
+                  className="smiley__mouth1"
                   cx="64"
                   cy="64"
                   r="56"
                   transform="rotate(180,64,64)"
                 />
                 <circle
-                  class="smiley__mouth2"
+                  className="smiley__mouth2"
                   cx="64"
                   cy="64"
                   r="56"

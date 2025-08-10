@@ -11,6 +11,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import configHeaders from "./config-headers";
 import configImages from "./configImages";
+import { API_ENDPOINTS } from "../constants/api";
 
 import TAKKinshipLogoDark from "../images/TAK Kinship-Logo-Dark.svg";
 import TAKKinshipLogoLight from "../images/TAK Kinship-Logo-light.svg";
@@ -59,12 +60,9 @@ const Footer = ({ setIsLoading }) => {
     setIsLoading(true);
     const handleFetchContactUsInfo = async () => {
       try {
-        const response = await axios.get(
-          "https://takkinship-backend.up.railway.app/api/contact-company-info/",
-          {
-            headers: configHeaders,
-          }
-        );
+        const response = await axios.get(API_ENDPOINTS.CONTACT_COMPANY_INFO, {
+          headers: configHeaders,
+        });
         console.log("Contact-us");
         console.log(response);
 
@@ -124,7 +122,7 @@ const Footer = ({ setIsLoading }) => {
               heartfelt melody, harmonizing dreams and reality in the grand
               opera of possibility.
             </p>
-            <h4 class="" style={{ "--delay": "200ms" }}>
+            <h4 className="" style={{ "--delay": "200ms" }}>
               Connect With Us
             </h4>
             {contactUsInfo.map((e) => (
@@ -203,7 +201,7 @@ const Footer = ({ setIsLoading }) => {
         <div class="ref-links footer_element_animated">
           <h4>Follow Us</h4>
           {contactUsInfo.map((e) => (
-            <ul class="">
+            <ul className="" key={e.id}>
               {/* <li class="" style={{ "--delay": "000ms" }}>
                 <img src={chevronRight} alt="" />
                 <a href={e.skype}>Skype</a>

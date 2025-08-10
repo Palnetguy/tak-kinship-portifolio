@@ -166,6 +166,8 @@ const NavigationBar = ({ className }) => {
           name=""
           id="themeChange"
           checked={themeColor === "dark" ? true : false}
+          onChange={() => {}} // Add empty onChange to suppress warning
+          readOnly
         />
         <div className="themeChange" onClick={handleChangeTheme}>
           {themeColor === "light" ? (

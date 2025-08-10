@@ -3,6 +3,7 @@ import "../css/clients.css";
 import configHeaders from "./config-headers";
 import { useEffect, useState } from "react";
 import { useInView } from "react-intersection-observer";
+import { API_ENDPOINTS } from "../constants/api";
 
 const Clients = ({ setIsLoading }) => {
   // const clientInfoHead = [
@@ -45,12 +46,9 @@ const Clients = ({ setIsLoading }) => {
     setIsLoading(true);
     const handleFetchWorkExperience = async () => {
       try {
-        const response = await axios.get(
-          "https://takkinship-backend.up.railway.app/api/work-experience/",
-          {
-            headers: configHeaders,
-          }
-        );
+        const response = await axios.get(API_ENDPOINTS.WORK_EXPERIENCE, {
+          headers: configHeaders,
+        });
         setIsLoading(false);
         console.log(response);
         setClientInfoHead(response.data);
@@ -169,11 +167,10 @@ const Clients = ({ setIsLoading }) => {
   return (
     <div className="clients">
       {clientInfoHead.map((e) => (
-        <div className="clientsHeader">
+        <div className="clientsHeader" key={e.id}>
           <div className="" ref={clientHead1Ref}>
             <div
               // className="info"
-              key={e.id}
               className={`info clientHeadNotSeen ${
                 clientHead1Inview ? "clientHeadInView" : ""
               }`}
