@@ -10,7 +10,7 @@ type CardProps = {
 export default function Card({ image, title, body, footer }: CardProps) {
   return (
     <div
-      className="bg-bg-input border border-border-subtle overflow-hidden"
+      className="bg-bg-input border border-border-subtle overflow-hidden transition-transform duration-300 hover:-translate-y-1 motion-reduce:transform-none"
       style={{
         borderRadius: "12px",
         padding: "var(--space-5)",

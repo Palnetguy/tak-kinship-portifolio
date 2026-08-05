@@ -52,9 +52,22 @@
   --color-action-primary: var(--action-primary);
   --color-action-secondary-hover: var(--action-secondary-hover);
   --radius-full: var(--radius-full);
+
+  --font-sans: var(--font-body);
+  --font-display: var(--font-display);
+  --font-mono: var(--font-mono);
 }
 
 body {
   background: var(--bg-canvas);
   color: var(--text-primary);
+  font-family: var(--font-body), sans-serif;
+}
+
+.font-display {
+  font-family: var(--font-display), sans-serif;
+}
+
+.font-mono-eyebrow {
+  font-family: var(--font-mono), monospace;
 }
