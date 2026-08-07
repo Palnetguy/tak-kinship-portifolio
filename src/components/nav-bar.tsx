@@ -9,7 +9,7 @@ export default function NavBar() {
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 border-b border-border-subtle bg-bg-canvas">
-      <div className="mx-auto flex max-w-[1200px] items-center justify-between px-5 h-16">
+      <div className="mx-auto flex max-w-[1344px] items-center justify-between px-5 h-16">
         <Link
           href="/"
           className="text-text-primary font-semibold text-lg no-underline"

@@ -8,7 +8,7 @@ type SectionProps = {
 
 export default function Section({ eyebrow, heading, children }: SectionProps) {
   return (
-    <section className="mx-auto max-w-[1200px] px-5 py-[var(--space-8)] md:py-[var(--space-16)]">
+    <section className="mx-auto max-w-[1344px] px-5 py-[var(--space-8)] md:py-[var(--space-16)]">
       {(eyebrow || heading) && (
         <div className="mb-8">
           {eyebrow && (
