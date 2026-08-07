@@ -17,28 +17,34 @@ export const problems = [
 
 export const services = [
   {
+    icon: "code" as const,
     title: "Custom Software",
     body: "End-to-end systems built around your exact processes, not the other way round.",
   },
   {
+    icon: "phone" as const,
     title: "Mobile Apps",
     body: "Native-feeling apps that empower communities and scale with your users.",
   },
   {
+    icon: "globe" as const,
     title: "Web Development",
     body: "Responsive, performant websites and web apps built for real business goals.",
   },
   {
+    icon: "cloud" as const,
     title: "Cloud",
     body: "Architecture, deployment, and migration for reliability at scale.",
   },
   {
-    title: "UI/UX Design",
-    body: "From wireframes to polished designs, we make interactions leave a lasting impression.",
-  },
-  {
+    icon: "bulb" as const,
     title: "IT Consulting",
     body: "Strategy-to-execution guidance for teams modernizing their tech stack and operations.",
+  },
+  {
+    icon: "palette" as const,
+    title: "UI/UX Design",
+    body: "From wireframes to polished designs, we make interactions leave a lasting impression.",
   },
 ];
 
@@ -169,18 +175,22 @@ export const portfolioProjects: PortfolioProject[] = [
 
 export const whyTrustValues = [
   {
+    icon: "sparkle" as const,
     title: "Innovation",
     body: "Pushing the boundaries of technology to deliver future-proof, scalable solutions.",
   },
   {
+    icon: "shield" as const,
     title: "Integrity",
     body: "Transparent communication and honest pricing from kickoff to deployment.",
   },
   {
+    icon: "pulse" as const,
     title: "Impact",
     body: "Building digital tools that drive measurable growth and empower local communities.",
   },
   {
+    icon: "users" as const,
     title: "Collaboration",
     body: "Working closely with your team as a dedicated technical partner.",
   },

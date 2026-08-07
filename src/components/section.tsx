@@ -8,7 +8,10 @@ type SectionProps = {
 
 export default function Section({ eyebrow, heading, children }: SectionProps) {
   return (
-    <section className="mx-auto max-w-[1344px] px-5 py-[var(--space-8)] md:py-[var(--space-16)]">
+    // `relative` so decorative layers (components/decor.tsx) can be absolutely
+    // positioned against the section they belong to. `isolate` keeps their
+    // stacking contained, so a glow can never paint over the next section.
+    <section className="relative isolate mx-auto max-w-[1344px] px-5 py-[var(--space-8)] md:py-[var(--space-16)]">
       {(eyebrow || heading) && (
         <div className="mb-8">
           {eyebrow && (

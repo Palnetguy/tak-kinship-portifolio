@@ -6,6 +6,10 @@ import Section from "@/components/section";
 import PortfolioCard from "@/components/portfolio-card";
 import ConnectCta from "@/components/connect-cta";
 import Reveal from "@/components/reveal";
+import BentoCard from "@/components/bento-card";
+import SectionHeading from "@/components/section-heading";
+import TrustPanel from "@/components/trust-panel";
+import { PlusField, DotField, TriangleMark, Glow, CodeBlockDecor } from "@/components/decor";
 import {
   problems,
   services,
@@ -15,22 +19,24 @@ import {
   sectors,
 } from "@/lib/content";
 
-function Eyebrow({ children }: { children: React.ReactNode }) {
-  return (
-    <p className="font-mono-eyebrow m-0 mb-3 text-sm font-medium uppercase tracking-wide text-action-primary">
-      {children}
-    </p>
-  );
-}
-
 export default function Page() {
   return (
     <>
       <NavBar />
-      <main className="flex-1 pt-16">
-        {/* Hero */}
+      {/* overflow-x-clip, not overflow-hidden: the atmospheric glows are
+          deliberately wider than the 1344 column and bleed past the viewport
+          edge, which is what makes them read as light rather than as shapes.
+          `clip` contains that horizontally without creating a scroll container,
+          so position: sticky anywhere inside still works. */}
+      <main className="flex-1 overflow-x-clip pt-16">
+        {/* Hero. Two `Decorative Code Block` 384x384 layers sit behind and to
+            the right of the copy in the design; the copy column is capped so
+            they never sit under running text. */}
         <Section>
-          <div className="flex flex-col items-start gap-6 py-12 md:py-24">
+          <CodeBlockDecor className="right-4 top-6 hidden lg:block" opacity={0.55} />
+          <CodeBlockDecor className="right-52 top-72 hidden lg:block" size={300} opacity={0.3} />
+          <Glow className="right-10 top-20" size={520} strength={0.12} />
+          <div className="relative flex flex-col items-start gap-6 py-12 md:py-24">
             <h1 className="font-display m-0 max-w-3xl text-4xl font-bold leading-tight md:text-6xl md:leading-[1.05]">
               Where innovation meets impact.
             </h1>
@@ -54,10 +60,9 @@ export default function Page() {
         {/* Problem */}
         <Section>
           <Reveal>
-            <Eyebrow>The Problem</Eyebrow>
-            <h2 className="font-display m-0 mb-10 max-w-2xl text-3xl font-bold md:text-4xl">
+            <SectionHeading eyebrow="The Problem" highlight="slows">
               Most software slows businesses down.
-            </h2>
+            </SectionHeading>
             <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
               {problems.map((p) => (
                 <Card key={p.title} title={p.title} body={p.body} />
@@ -66,16 +71,25 @@ export default function Page() {
           </Reveal>
         </Section>
 
-        {/* Services */}
+        {/* Services. `Bento Grid Layout`, 1344x658 in the design: 3 x 2 at a
+            34px gap, every card the same height whatever the copy length. */}
         <Section>
+          <PlusField className="left-5 top-8" />
+          <TriangleMark className="right-6 top-10" size={150} rotate={-90} opacity={0.45} />
+          <TriangleMark className="bottom-16 left-1/2 -translate-x-1/2" size={90} opacity={0.3} />
+          <Glow className="-right-24 top-24" size={480} strength={0.16} />
           <Reveal>
-            <Eyebrow>What We Offer</Eyebrow>
-            <h2 className="font-display m-0 mb-10 max-w-2xl text-3xl font-bold md:text-4xl">
+            <SectionHeading eyebrow="What We Offer" highlight="Ideas">
               Transforming Ideas into Extraordinary Solutions.
-            </h2>
-            <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+            </SectionHeading>
+            <div className="grid grid-cols-1 gap-[34px] md:grid-cols-2 lg:grid-cols-3">
               {services.map((s) => (
-                <Card key={s.title} title={s.title} body={s.body} />
+                <BentoCard
+                  key={s.title}
+                  icon={s.icon}
+                  title={s.title}
+                  body={s.body}
+                />
               ))}
             </div>
           </Reveal>
@@ -84,10 +98,9 @@ export default function Page() {
         {/* Process */}
         <Section>
           <Reveal>
-            <Eyebrow>How We Work</Eyebrow>
-            <h2 className="font-display m-0 mb-10 max-w-2xl text-3xl font-bold md:text-4xl">
+            <SectionHeading eyebrow="How We Work" highlight="Proven">
               A Proven Process for Reliable Results
-            </h2>
+            </SectionHeading>
             <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-5">
               {processSteps.map((step) => (
                 <div key={step.number} className="flex flex-col gap-3">
@@ -107,11 +120,9 @@ export default function Page() {
         {/* Portfolio preview */}
         <Section>
           <Reveal>
-            <Eyebrow>Our Work</Eyebrow>
-            <h2 className="font-display m-0 mb-10 max-w-2xl text-3xl font-bold md:text-4xl">
-              Every project is a testament to innovation, a journey into
-              excellence.
-            </h2>
+            <SectionHeading eyebrow="Our Work" highlight="innovation">
+              Every project is a testament to innovation, a journey into excellence.
+            </SectionHeading>
             <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
               {portfolioProjects.map((project) => (
                 <PortfolioCard key={project.slug} project={project} />
@@ -125,42 +136,41 @@ export default function Page() {
           </Reveal>
         </Section>
 
-        {/* Why Trust Us */}
+        {/* Why Trust Us. Two blocks in the design, not one: `Bento Grid
+            Layout` (four value cards, 4 x 1) sitting above `Bento Grid /
+            Cards` (the wide experience + quote + clients panel). */}
         <Section>
+          <DotField className="-left-2 top-2" />
+          <Glow className="-left-32 top-40" size={420} strength={0.1} />
           <Reveal>
-            <h2 className="font-display m-0 mb-4 max-w-2xl text-3xl font-bold md:text-4xl">
+            <SectionHeading
+              eyebrow="Why Trust Us"
+              sub="Excellence from strategy to execution, as architects of IT solutions, we propel businesses into the future."
+            >
               We deal with the aspects of professional IT services.
-            </h2>
-            <p className="mb-10 max-w-2xl text-text-secondary">
-              Excellence from strategy to execution, as architects of IT
-              solutions, we propel businesses into the future.
-            </p>
-            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            </SectionHeading>
+            <div className="grid grid-cols-1 gap-[26px] sm:grid-cols-2 lg:grid-cols-4">
               {whyTrustValues.map((value) => (
-                <Card key={value.title} title={value.title} body={value.body} />
+                <BentoCard
+                  key={value.title}
+                  icon={value.icon}
+                  title={value.title}
+                  body={value.body}
+                  accentTitle
+                  minHeight={272}
+                />
               ))}
             </div>
-            <div className="mt-10 flex flex-col gap-2 border-t border-border-subtle pt-8 md:flex-row md:items-center md:justify-between">
-              <p className="font-display m-0 text-2xl font-bold text-text-accent">
-                7+ Years
-                <span className="font-mono-eyebrow ml-3 text-xs font-medium uppercase tracking-wide text-text-muted">
-                  Industry Experience
-                </span>
-              </p>
-              <p className="m-0 text-text-secondary italic">
-                &ldquo;Innovating the Future, One Solution at a Time.&rdquo;
-              </p>
-            </div>
+            <TrustPanel />
           </Reveal>
         </Section>
 
         {/* We Build For (sectors) */}
         <Section>
           <Reveal>
-            <Eyebrow>We Build For</Eyebrow>
-            <h2 className="font-display m-0 mb-10 max-w-2xl text-3xl font-bold md:text-4xl">
+            <SectionHeading eyebrow="We Build For" highlight="East Africa">
               Built for the sectors moving East Africa.
-            </h2>
+            </SectionHeading>
             <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
               {sectors.map((sector) => (
                 <div
