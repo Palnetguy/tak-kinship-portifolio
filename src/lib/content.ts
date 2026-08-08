@@ -76,6 +76,10 @@ export type PortfolioProject = {
    * the bridge later is a refinement, not a correction.
    */
   image: string;
+  /** Shown as "Timeline" in the detail overlay. Only set where known. */
+  year?: string;
+  /** Shown as "Visit the app". Only set where a real live URL exists. */
+  url?: string;
   overview: string;
   problem: string;
   solution: string;
@@ -90,6 +94,9 @@ export const portfolioProjects: PortfolioProject[] = [
     blurb: "A shopping app that grew repeat orders for local vendors.",
     stack: ["Flutter", "Firebase"],
     image: "/portfolio/desn.jpg",
+    // The Project Details overlay states 2024 for Desn. No other project has
+    // a stated timeline, so none is invented for the other five.
+    year: "2024",
     overview:
       "Desn is a hyper-local commerce platform designed to bridge the gap between street vendors and digital-first customers in Mbarara.",
     problem:

@@ -4,9 +4,15 @@ import { useEffect, type ReactNode } from "react";
 
 export default function Modal({
   onClose,
+  padded = true,
+  maxWidth = 972,
   children,
 }: {
   onClose: () => void;
+  /** Project Details bleeds its hero image to the modal edge, so it opts out. */
+  padded?: boolean;
+  /** Service Detail Overlay measures 972x843 in the reference (a clean 4x). */
+  maxWidth?: number;
   children: ReactNode;
 }) {
   useEffect(() => {
@@ -28,7 +34,8 @@ export default function Modal({
       role="presentation"
     >
       <div
-        className="relative max-h-[85vh] w-full max-w-3xl overflow-y-auto rounded-2xl border border-border-subtle bg-bg-canvas"
+        className="relative max-h-[85vh] w-full overflow-y-auto rounded-2xl border border-border-subtle bg-[#0f0f10]"
+        style={{ maxWidth }}
         onClick={(event) => event.stopPropagation()}
         role="dialog"
         aria-modal="true"
@@ -36,7 +43,7 @@ export default function Modal({
         <button
           onClick={onClose}
           aria-label="Close"
-          className="sticky top-4 float-right mr-4 flex h-10 w-10 cursor-pointer items-center justify-center rounded-full border border-border-subtle bg-bg-input text-text-primary"
+          className="absolute top-4 right-4 z-10 flex h-9 w-9 cursor-pointer items-center justify-center rounded-full border border-border-subtle bg-[#0f0f10]/80 text-text-accent backdrop-blur"
         >
           <svg
             width="14"
@@ -51,7 +58,7 @@ export default function Modal({
             <line x1="6" y1="6" x2="18" y2="18" />
           </svg>
         </button>
-        <div className="clear-both p-8 md:p-12">{children}</div>
+        <div className={padded ? "p-8 md:p-10" : ""}>{children}</div>
       </div>
     </div>
   );

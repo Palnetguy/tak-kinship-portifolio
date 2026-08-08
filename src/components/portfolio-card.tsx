@@ -66,7 +66,7 @@ export default function PortfolioCard({ project }: { project: PortfolioProject }
         </div>
       </button>
       {open && (
-        <Modal onClose={() => setOpen(false)}>
+        <Modal onClose={() => setOpen(false)} padded={false} maxWidth={865}>
           <ProjectDetailContent project={project} />
         </Modal>
       )}

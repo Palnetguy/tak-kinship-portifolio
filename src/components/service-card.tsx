@@ -68,7 +68,7 @@ export default function ServiceCard({
 
       {open && detail && (
         <Modal onClose={() => setOpen(false)}>
-          <ServiceDetailContent service={detail} />
+          <ServiceDetailContent service={detail} icon={icon} />
         </Modal>
       )}
     </>
