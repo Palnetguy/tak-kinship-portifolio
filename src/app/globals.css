@@ -5,6 +5,18 @@
   --bg-input: #2e2e2e;
   --bg-scrim: rgba(12, 12, 13, 0.8);
   --border-subtle: #2e2e2e;
+
+  /* Surfaces.
+     Measured off the reference: cards in the design are DARKER than the
+     canvas (#0a0b0a against #191919), and the wide panels sit a step above
+     them (#0f0f10). These were hardcoded as hex literals across eleven
+     components, which is what broke the light theme: the fill stayed
+     near-black while --text-primary flipped to #111, so every card title
+     went dark-on-dark and vanished. They are tokens now so the two themes
+     move together. */
+  --bg-surface: #0a0b0a;
+  --bg-elevated: #0f0f10;
+  --bg-code: rgba(10, 11, 10, 0.72);
   --text-primary: #ffffff;
   --text-secondary: #9e9e9e;
   --text-muted: #8a8a8a;
@@ -30,6 +42,14 @@
   --bg-input: #ffffff;
   --bg-scrim: rgba(247, 247, 248, 0.6);
   --border-subtle: #c4c4c4;
+
+  /* The design is dark-only, so these are the light-theme counterparts
+     rather than measured values: surfaces sit ABOVE the canvas here, which
+     is the inverse of the dark theme and the reason a single hardcoded
+     value could never serve both. */
+  --bg-surface: #ffffff;
+  --bg-elevated: #ffffff;
+  --bg-code: rgba(255, 255, 255, 0.92);
   --text-primary: #111111;
   --text-secondary: #2e2e2e;
   --text-muted: #6b6b6b;
@@ -70,6 +90,28 @@ body {
 
 .font-mono-eyebrow {
   font-family: var(--font-mono), monospace;
+}
+
+/* Surface utilities.
+   These are written by hand rather than registered in `@theme` because
+   Tailwind v4 resolves a `--color-*` that points at another custom property
+   ONCE, at build time: `--color-bg-surface: var(--bg-surface)` compiled down
+   to a literal #fff, so cards came out white in BOTH themes and the dark
+   theme's titles went white-on-white. Declaring the utility directly keeps
+   the var() live in the cascade, so it re-resolves per theme. */
+@layer utilities {
+  .bg-surface {
+    background-color: var(--bg-surface);
+  }
+  .bg-elevated {
+    background-color: var(--bg-elevated);
+  }
+  .bg-elevated-80 {
+    background-color: color-mix(in srgb, var(--bg-elevated) 80%, transparent);
+  }
+  .bg-code {
+    background-color: var(--bg-code);
+  }
 }
 
 /* The logo raster is cut from a dark-only reference, so its "KINSHIP" half is

@@ -2,12 +2,33 @@
 
 import { useEffect, useState } from "react";
 
+/**
+ * Sized h-10 w-10 to match Button's `sm` height exactly. It was `p-3` around a
+ * 16px icon, which came out 42px against the button's 38 and left the nav
+ * visibly uneven.
+ *
+ * Also fixes a persistence bug: the stored theme was read into React state on
+ * mount but never written back to `data-theme`, so a reload always rendered
+ * dark with a moon icon claiming otherwise. The attribute is applied in the
+ * same effect now.
+ */
 export default function ThemeToggle() {
   const [theme, setTheme] = useState<"dark" | "light">("dark");
 
   useEffect(() => {
+    // Read back what the blocking script in <head> already decided. Deriving
+    // it again here defaulted to "dark" whenever nothing was stored, which
+    // clobbered the attribute that script had just set and made the theme
+    // unsettable from anywhere but this button.
+    const applied = document.documentElement.getAttribute("data-theme");
+    if (applied === "light" || applied === "dark") {
+      setTheme(applied);
+      return;
+    }
     const stored = localStorage.getItem("tak:theme") as "dark" | "light" | null;
-    setTheme(stored || "dark");
+    const next = stored || "dark";
+    setTheme(next);
+    document.documentElement.setAttribute("data-theme", next);
   }, []);
 
   function toggle() {
@@ -21,7 +42,7 @@ export default function ThemeToggle() {
     <button
       onClick={toggle}
       aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} theme`}
-      className="p-3 rounded-full border border-border-subtle bg-transparent text-text-primary cursor-pointer"
+      className="flex h-10 w-10 shrink-0 cursor-pointer items-center justify-center rounded-full border border-border-subtle bg-transparent text-text-primary transition-colors hover:border-text-accent hover:text-text-accent"
     >
       {theme === "dark" ? <SunIcon /> : <MoonIcon />}
     </button>
@@ -39,6 +60,7 @@ function SunIcon() {
       strokeWidth="2"
       strokeLinecap="round"
       strokeLinejoin="round"
+      aria-hidden
     >
       <circle cx="12" cy="12" r="5" />
       <line x1="12" y1="1" x2="12" y2="3" />
@@ -64,6 +86,7 @@ function MoonIcon() {
       strokeWidth="2"
       strokeLinecap="round"
       strokeLinejoin="round"
+      aria-hidden
     >
       <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
     </svg>

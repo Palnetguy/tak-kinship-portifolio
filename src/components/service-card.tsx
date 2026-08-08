@@ -33,7 +33,7 @@ export default function ServiceCard({
       <button
         onClick={() => detail && setOpen(true)}
         aria-label={`${title}, learn more`}
-        className="group relative flex min-h-[310px] cursor-pointer flex-col overflow-hidden rounded-2xl border border-border-subtle bg-[#0a0b0a] p-7 text-left transition-colors duration-300 hover:border-[color-mix(in_srgb,var(--text-accent)_45%,transparent)]"
+        className="group relative flex min-h-[310px] cursor-pointer flex-col overflow-hidden rounded-2xl border border-border-subtle bg-surface p-7 text-left transition-colors duration-300 hover:border-[color-mix(in_srgb,var(--text-accent)_45%,transparent)]"
       >
         <div
           aria-hidden

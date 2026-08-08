@@ -4,6 +4,7 @@ import Footer from "@/components/footer";
 import Section from "@/components/section";
 import PageHero from "@/components/page-hero";
 import ContactForm from "@/components/contact-form";
+import OfficeMap from "@/components/office-map";
 import FaqAccordion from "@/components/faq-accordion";
 import SectionHeading from "@/components/section-heading";
 import { MailIcon } from "@/components/icons";
@@ -24,7 +25,8 @@ export const metadata: Metadata = {
  *      y 449-1044, so 642 x 595). That artwork is a real image asset and was
  *      missing entirely.
  *   3. the map and the "To Get us" card are a row BELOW that panel, not a
- *      sidebar beside the form. The map was a grey placeholder box.
+ *      sidebar beside the form. The map is a live Google Maps embed (see
+ *      components/office-map.tsx), not the raster cut from the comp.
  *
  * Both images were cut from the 4x reference at those measured bounds.
  */
@@ -84,7 +86,7 @@ export default function ContactPage() {
 
         {/* The form panel. One card, form left, artwork right. */}
         <Section pt={0} pb={40}>
-          <div className="overflow-hidden rounded-2xl border border-border-subtle bg-[#0d100e]">
+          <div className="overflow-hidden rounded-2xl border border-border-subtle bg-elevated">
             <div className="grid grid-cols-1 lg:grid-cols-2">
               <div className="p-10">
                 <h2 className="font-display m-0 text-2xl font-bold">
@@ -115,17 +117,10 @@ export default function ContactPage() {
         <Section pt={0} pb={40}>
           <div className="grid grid-cols-1 gap-6 lg:grid-cols-[minmax(0,884fr)_minmax(0,426fr)]">
             <div className="overflow-hidden rounded-2xl border border-border-subtle">
-              <img
-                src="/contact/map-mbarara.jpg"
-                alt="Map showing TAK Kinship in Kakoba Division, Mbarara, Uganda"
-                width={1769}
-                height={709}
-                loading="lazy"
-                className="block h-full w-full object-cover"
-              />
+              <OfficeMap />
             </div>
 
-            <div className="rounded-2xl border border-border-subtle bg-[#0d100e] p-8">
+            <div className="rounded-2xl border border-border-subtle bg-elevated p-8">
               <h2 className="font-display m-0 mb-7 text-xl font-bold">
                 To Get us
               </h2>

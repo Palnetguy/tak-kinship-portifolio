@@ -67,7 +67,7 @@ export default function ProjectDetailContent({
             ))}
           </div>
 
-          <div className="flex h-fit flex-col gap-4 rounded-2xl border border-border-subtle bg-[#0a0b0a] p-6">
+          <div className="flex h-fit flex-col gap-4 rounded-2xl border border-border-subtle bg-surface p-6">
             <p className="font-display m-0 text-base font-bold text-text-primary">
               Tech Stack
             </p>

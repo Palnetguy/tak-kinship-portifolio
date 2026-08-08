@@ -217,7 +217,7 @@ export default function Page() {
                 return (
                   <div
                     key={sector.label}
-                    className="flex min-h-[158px] flex-col items-center justify-center gap-3 rounded-xl border border-border-subtle bg-[#0a0b0a] px-4 text-center transition-colors duration-300 hover:border-[color-mix(in_srgb,var(--text-accent)_35%,transparent)]"
+                    className="flex min-h-[158px] flex-col items-center justify-center gap-3 rounded-xl border border-border-subtle bg-surface px-4 text-center transition-colors duration-300 hover:border-[color-mix(in_srgb,var(--text-accent)_35%,transparent)]"
                   >
                     <Icon className="h-6 w-6 text-text-accent" />
                     <span className="font-display text-[15px] font-medium">

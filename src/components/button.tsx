@@ -26,8 +26,9 @@ export default function Button({
       ? "bg-action-primary text-text-on-accent border-action-primary"
       : "bg-transparent text-text-primary border-border-subtle hover:text-action-secondary-hover hover:border-action-secondary-hover";
 
+  // Explicit heights so the nav's toggle (h-10) and CTA line up exactly.
   const sizeClass =
-    size === "sm" ? "px-4 py-2 text-sm" : "px-6 py-3 text-sm";
+    size === "sm" ? "h-10 px-5 text-sm" : "h-12 px-6 text-sm";
 
   if ("href" in props && props.href) {
     const { href, ...anchorProps } = props;

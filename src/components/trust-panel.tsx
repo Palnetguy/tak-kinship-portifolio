@@ -5,20 +5,25 @@
  * The build had this as a bare `border-t` with two paragraphs, which is 268px
  * of the section's 548px shortfall on its own.
  *
- * ON THE LOGOS: David's design fills this row with Google, Pinterest, Stripe,
- * reddit and Spotify. Those are almost certainly comp filler, and shipping
- * them on tak-site would state in public that TAK has those five companies as
- * clients. So the row is built to the design's structure and rhythm but with
- * TAK's own sector labels until KingFizzy supplies the real client list; the
- * moment he does, replace `CLIENT_MARKS` and nothing else changes.
+ * ON THE LOGOS: KingFizzy confirmed on 2026-08-08 that the reference export is
+ * the source of truth for this row and that nothing in it is to be removed, so
+ * the five wordmarks are the design's own. They were cut from
+ * ~/Downloads/David/Home/Home.png at the measured band (y 5670-5733, runs at
+ * x 167.8, 417.0, 685.8, 930.8 and 1164.8) and alpha-keyed off the panel fill
+ * so the same asset works on both themes: white ink in dark, inverted in
+ * light.
+ *
+ * These are third-party trademarks presented in a "why trust us" row, so they
+ * read to a visitor as TAK's clients. That is his call and he has made it;
+ * flagged once, not re-litigated here.
  */
 
-const CLIENT_MARKS = [
-  "Fintech",
-  "Logistics",
-  "Healthcare",
-  "Agritech",
-  "Education",
+const CLIENT_MARKS: { name: string; src: string; w: number; h: number }[] = [
+  { name: "Google", src: "/clients/google.png", w: 180, h: 69 },
+  { name: "Pinterest", src: "/clients/pinterest.png", w: 180, h: 69 },
+  { name: "Stripe", src: "/clients/stripe.png", w: 140, h: 69 },
+  { name: "reddit", src: "/clients/reddit.png", w: 148, h: 69 },
+  { name: "Spotify", src: "/clients/spotify.png", w: 178, h: 69 },
 ];
 
 export default function TrustPanel({
@@ -31,7 +36,7 @@ export default function TrustPanel({
   quote?: string;
 }) {
   return (
-    <div className="relative mt-[34px] flex min-h-[365px] flex-col justify-center overflow-hidden rounded-2xl border border-border-subtle bg-[#0f0f10] px-10 py-12">
+    <div className="relative mt-[34px] flex min-h-[365px] flex-col justify-center overflow-hidden rounded-2xl border border-border-subtle bg-elevated px-10 py-12">
       <div
         aria-hidden
         className="pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full"
@@ -64,11 +69,16 @@ export default function TrustPanel({
 
       <ul className="relative mt-[76px] flex list-none flex-wrap items-center justify-between gap-8 p-0">
         {CLIENT_MARKS.map((mark) => (
-          <li
-            key={mark}
-            className="font-display text-2xl font-medium text-text-secondary opacity-70 transition-opacity duration-300 hover:opacity-100"
-          >
-            {mark}
+          <li key={mark.name} className="flex items-center">
+            <img
+              src={mark.src}
+              alt={mark.name}
+              width={mark.w}
+              height={mark.h}
+              loading="lazy"
+              decoding="async"
+              className="dark-logo h-[42px] w-auto opacity-80 transition-opacity duration-300 hover:opacity-100"
+            />
           </li>
         ))}
       </ul>

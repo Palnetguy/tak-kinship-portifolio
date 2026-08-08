@@ -93,7 +93,7 @@ export function CodeBlockDecor({
     >
       <div
         className="flex h-full w-full flex-col overflow-hidden rounded-2xl border border-border-subtle"
-        style={{ background: "rgba(10, 11, 10, 0.72)" }}
+        style={{ background: "var(--bg-code)" }}
       >
         <div className="flex items-center gap-2 px-5 pt-5 pb-3">
           {["#3f4442", "#3f4442", "#3f4442"].map((c, i) => (

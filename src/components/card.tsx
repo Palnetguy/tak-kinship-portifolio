@@ -26,7 +26,7 @@ export default function Card({
   const Icon = icon ? ICONS[icon] : null;
 
   return (
-    <div className="flex min-h-[311px] flex-col items-center justify-center gap-4 rounded-xl border border-border-subtle bg-[#0a0b0a] px-8 py-10 text-center transition-colors duration-300 hover:border-[color-mix(in_srgb,var(--text-accent)_35%,transparent)]">
+    <div className="flex min-h-[311px] flex-col items-center justify-center gap-4 rounded-xl border border-border-subtle bg-surface px-8 py-10 text-center transition-colors duration-300 hover:border-[color-mix(in_srgb,var(--text-accent)_35%,transparent)]">
       {Icon && (
         <span aria-hidden className="mb-2 text-text-accent">
           <Icon className="h-8 w-8" />

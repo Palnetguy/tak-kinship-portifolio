@@ -43,7 +43,7 @@ export default function ServiceDetailContent({
       <div className="flex flex-col gap-6 sm:flex-row sm:items-start sm:gap-8">
         <span
           aria-hidden
-          className="flex h-[128px] w-[128px] shrink-0 items-center justify-center rounded-full border border-[color-mix(in_srgb,var(--text-accent)_28%,transparent)] bg-[#0a0b0a] text-text-accent"
+          className="flex h-[128px] w-[128px] shrink-0 items-center justify-center rounded-full border border-[color-mix(in_srgb,var(--text-accent)_28%,transparent)] bg-surface text-text-accent"
         >
           <Icon className="h-12 w-12" />
         </span>
@@ -111,7 +111,7 @@ export default function ServiceDetailContent({
             />
             {STEPS.map((step) => (
               <li key={step.n} className="relative flex items-start gap-4">
-                <span className="font-display z-10 flex h-[27px] w-[27px] shrink-0 items-center justify-center rounded-full border border-[color-mix(in_srgb,var(--text-accent)_45%,transparent)] bg-[#0a0b0a] text-[11px] font-bold text-text-primary">
+                <span className="font-display z-10 flex h-[27px] w-[27px] shrink-0 items-center justify-center rounded-full border border-[color-mix(in_srgb,var(--text-accent)_45%,transparent)] bg-surface text-[11px] font-bold text-text-primary">
                   {step.n}
                 </span>
                 <span className="min-w-0">

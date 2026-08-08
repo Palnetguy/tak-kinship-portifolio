@@ -34,7 +34,7 @@ export default function Modal({
       role="presentation"
     >
       <div
-        className="relative max-h-[85vh] w-full overflow-y-auto rounded-2xl border border-border-subtle bg-[#0f0f10]"
+        className="relative max-h-[85vh] w-full overflow-y-auto rounded-2xl border border-border-subtle bg-elevated"
         style={{ maxWidth }}
         onClick={(event) => event.stopPropagation()}
         role="dialog"
@@ -43,7 +43,7 @@ export default function Modal({
         <button
           onClick={onClose}
           aria-label="Close"
-          className="absolute top-4 right-4 z-10 flex h-9 w-9 cursor-pointer items-center justify-center rounded-full border border-border-subtle bg-[#0f0f10]/80 text-text-accent backdrop-blur"
+          className="absolute top-4 right-4 z-10 flex h-9 w-9 cursor-pointer items-center justify-center rounded-full border border-border-subtle bg-elevated-80 text-text-accent backdrop-blur"
         >
           <svg
             width="14"
