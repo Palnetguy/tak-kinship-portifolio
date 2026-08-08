@@ -13,11 +13,14 @@ import { type ReactNode } from "react";
  */
 export default function Section({
   className = "",
+  id,
   pt = 60,
   pb = 200,
+  minHeight,
   children,
 }: {
   className?: string;
+  id?: string;
   /**
    * Vertical padding, in design px, measured per section off Home.png rather
    * than set to one house value. The reference is NOT uniform: top padding is
@@ -28,12 +31,15 @@ export default function Section({
    */
   pt?: number;
   pb?: number;
+  /** Design-px floor for the section, used where the reference sets one. */
+  minHeight?: number;
   children?: ReactNode;
 }) {
   return (
     <section
+      id={id}
       className={`relative isolate mx-auto max-w-[1344px] px-12 ${className}`}
-      style={{ paddingTop: pt, paddingBottom: pb }}
+      style={{ paddingTop: pt, paddingBottom: pb, minHeight }}
     >
       {children}
     </section>

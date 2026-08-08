@@ -22,25 +22,25 @@ export default function PortfolioGrid() {
 
   return (
     <div>
-      <div className="mb-8 flex flex-wrap items-center gap-3">
+      <div className="mb-[34px] flex flex-wrap items-center gap-3">
         {filters.map((filter) => (
           <button
             key={filter}
             onClick={() => setActive(filter)}
-            className={`rounded-full border px-4 py-2 text-sm transition-colors cursor-pointer ${
+            className={`cursor-pointer rounded-full border px-5 py-2 text-sm transition-colors ${
               active === filter
-                ? "border-action-primary bg-action-primary text-text-on-accent"
-                : "border-border-subtle bg-transparent text-text-secondary"
+                ? "border-action-primary bg-action-primary font-medium text-text-on-accent"
+                : "border-border-subtle bg-transparent text-text-primary hover:border-text-accent"
             }`}
           >
             {filter}
           </button>
         ))}
-        <span className="ml-auto text-sm text-text-muted">
+        <span className="ml-auto text-sm text-text-accent">
           {visible.length} project{visible.length === 1 ? "" : "s"}
         </span>
       </div>
-      <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+      <div className="grid grid-cols-1 gap-[33px] md:grid-cols-2 lg:grid-cols-3">
         {visible.map((project) => (
           <PortfolioCard key={project.slug} project={project} />
         ))}

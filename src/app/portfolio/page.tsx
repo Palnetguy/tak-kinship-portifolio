@@ -2,31 +2,38 @@ import type { Metadata } from "next";
 import NavBar from "@/components/nav-bar";
 import Footer from "@/components/footer";
 import Section from "@/components/section";
+import PageHero from "@/components/page-hero";
 import ConnectCta from "@/components/connect-cta";
 import PortfolioGrid from "@/components/portfolio-grid";
-import { portfolioHero } from "@/lib/content";
+import { DotField, Glow } from "@/components/decor";
 
 export const metadata: Metadata = {
   title: "Portfolio | TAK Kinship",
 };
 
+/**
+ * Portfolio, traced from Portfolio.png (1440 x 3047).
+ *
+ * The hero is CENTRED here and greens "innovation.". It was built
+ * left-aligned with no green run: the same error as the Services hero, but
+ * with the opposite correct answer, which is why the two are one component
+ * taking an `align` rather than one shared alignment.
+ */
 export default function PortfolioPage() {
   return (
     <>
       <NavBar />
-      <main className="flex-1 pt-16">
-        <Section>
-          <div className="flex flex-col items-start gap-6 py-12 md:py-20">
-            <h1 className="font-display m-0 max-w-3xl text-4xl font-bold leading-tight md:text-6xl md:leading-[1.05]">
-              {portfolioHero.heading}
-            </h1>
-            <p className="m-0 max-w-xl text-lg text-text-secondary">
-              {portfolioHero.body}
-            </p>
-          </div>
-        </Section>
+      <main className="flex-1 overflow-x-clip pt-[72px]">
+        <PageHero
+          height={517}
+          heading="Every project is a testament to innovation."
+          highlight="innovation."
+          body="A journey into excellence, and a canvas painted with the strokes of transformative technology."
+        />
 
-        <Section>
+        <Section pt={60} pb={197}>
+          <DotField className="right-4 bottom-24" width={150} height={130} />
+          <Glow className="-right-20 top-10" size={520} strength={0.12} />
           <PortfolioGrid />
         </Section>
 
