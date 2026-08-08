@@ -31,7 +31,7 @@ export default function TrustPanel({
   quote?: string;
 }) {
   return (
-    <div className="relative mt-9 overflow-hidden rounded-2xl border border-border-subtle bg-bg-canvas px-10 py-10">
+    <div className="relative mt-[34px] flex min-h-[365px] flex-col justify-center overflow-hidden rounded-2xl border border-border-subtle bg-[#0f0f10] px-10 py-12">
       <div
         aria-hidden
         className="pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full"
@@ -62,7 +62,7 @@ export default function TrustPanel({
         </blockquote>
       </div>
 
-      <ul className="relative mt-16 flex list-none flex-wrap items-center justify-between gap-8 p-0">
+      <ul className="relative mt-[76px] flex list-none flex-wrap items-center justify-between gap-8 p-0">
         {CLIENT_MARKS.map((mark) => (
           <li
             key={mark}

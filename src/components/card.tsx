@@ -1,47 +1,47 @@
-import { type ReactNode } from "react";
+import { ICONS, type IconKey } from "./icons";
 
-type CardProps = {
-  image?: string;
+/**
+ * The Problem card, traced from Home.png y 851-1556.
+ *
+ * Measured off the 4x reference:
+ *   card   432 x 311, 24px gap, three across a 1344 container
+ *          (columns 47.8-479, 503.8-935, 959.8-1391)
+ *   icon   lined, green, ~28px, centred above the title
+ *
+ * The first build had this as a left-aligned title/body block roughly 100px
+ * tall with no icon at all, which is most of the Problem section's 123px
+ * shortfall. Everything here is centred: the design centres the icon, the
+ * title and the body, and left-aligned text is the browser default that the
+ * absence check is blind to.
+ */
+export default function Card({
+  icon,
+  title,
+  body,
+}: {
+  icon?: IconKey;
   title?: string;
   body?: string;
-  footer?: ReactNode;
-};
+}) {
+  const Icon = icon ? ICONS[icon] : null;
 
-export default function Card({ image, title, body, footer }: CardProps) {
   return (
-    <div
-      className="bg-bg-input border border-border-subtle overflow-hidden transition-transform duration-300 hover:-translate-y-1 motion-reduce:transform-none"
-      style={{
-        borderRadius: "12px",
-        padding: "var(--space-5)",
-      }}
-    >
-      {image && (
-        <div
-          className="w-full bg-bg-canvas"
-          style={{
-            height: "200px",
-            margin: "calc(var(--space-5) * -1)",
-            marginBottom: "var(--space-5)",
-          }}
-        >
-          <img
-            src={image}
-            alt=""
-            className="w-full h-full object-cover"
-          />
-        </div>
+    <div className="flex min-h-[311px] flex-col items-center justify-center gap-4 rounded-xl border border-border-subtle bg-[#0a0b0a] px-8 py-10 text-center transition-colors duration-300 hover:border-[color-mix(in_srgb,var(--text-accent)_35%,transparent)]">
+      {Icon && (
+        <span aria-hidden className="mb-2 text-text-accent">
+          <Icon className="h-8 w-8" />
+        </span>
       )}
-
       {title && (
-        <h3 className="text-text-primary font-semibold text-base mt-0 mb-2">
+        <h3 className="font-display m-0 text-lg font-medium text-text-primary">
           {title}
         </h3>
       )}
-
-      {body && <p className="text-text-secondary text-sm m-0">{body}</p>}
-
-      {footer && <div className="mt-4">{footer}</div>}
+      {body && (
+        <p className="m-0 max-w-[34ch] text-sm leading-relaxed text-text-secondary">
+          {body}
+        </p>
+      )}
     </div>
   );
 }

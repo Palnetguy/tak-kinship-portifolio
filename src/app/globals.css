@@ -71,3 +71,10 @@ body {
 .font-mono-eyebrow {
   font-family: var(--font-mono), monospace;
 }
+
+/* The logo raster is cut from a dark-only reference, so its "KINSHIP" half is
+   white. In the light theme that half would vanish into the page; invert only
+   the lightness so it reads as dark ink and the green "TAK" half survives. */
+[data-theme="light"] .dark-logo {
+  filter: invert(1) hue-rotate(180deg);
+}

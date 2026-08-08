@@ -2,14 +2,17 @@
 
 export const problems = [
   {
+    icon: "plugOff" as const,
     title: "Off-the-shelf mismatch",
     body: "Generic solutions force you to adapt your workflows to their limitations.",
   },
   {
+    icon: "hourglass" as const,
     title: "Slow, unreliable systems",
     body: "Legacy code and poor architecture lead to downtime and lost revenue.",
   },
   {
+    icon: "map" as const,
     title: "No clear path to launch",
     body: "Without strategic guidance, projects stall and budgets inflate.",
   },
@@ -62,11 +65,17 @@ export type PortfolioProject = {
   category: "MOBILE APP" | "Desktop App" | "Web App";
   blurb: string;
   stack: string[];
-  // Real screenshots live in the Figma file but could not be exported through
-  // the DesignAgent bridge this session (asset export timed out). Every card
-  // renders a neutral device mockup (see PortfolioThumbnail) until real
-  // screenshots are wired in. Desn additionally needed a mockup on purpose:
-  // gap G4, it shared Telxul's screenshot in the Figma file.
+  /**
+   * Card screenshot, 426x225 in the design (exported at 2x).
+   *
+   * The DesignAgent bridge was down, so these were cut straight out of the 4x
+   * reference export `~/Downloads/David/Home.png` at the measured card bounds
+   * (photo band y 243-468 and 750-975.5, columns 48/506.2/965 each 425.2
+   * wide, 1.5px inset to clear the card border). That is the same pixel data
+   * Figma would have handed back for an image fill, so re-exporting through
+   * the bridge later is a refinement, not a correction.
+   */
+  image: string;
   overview: string;
   problem: string;
   solution: string;
@@ -80,6 +89,7 @@ export const portfolioProjects: PortfolioProject[] = [
     category: "MOBILE APP",
     blurb: "A shopping app that grew repeat orders for local vendors.",
     stack: ["Flutter", "Firebase"],
+    image: "/portfolio/desn.jpg",
     overview:
       "Desn is a hyper-local commerce platform designed to bridge the gap between street vendors and digital-first customers in Mbarara.",
     problem:
@@ -94,6 +104,7 @@ export const portfolioProjects: PortfolioProject[] = [
     category: "Desktop App",
     blurb: "School management that cut admin time for staff.",
     stack: ["Python", "Django", "PostgreSQL", "Flutter"],
+    image: "/portfolio/stec-sms.jpg",
     // PLACEHOLDER: gap G8. Figma's Project Details overlay only has full
     // Overview/Problem/Solution copy for Desn. Written from the same known
     // facts as the portfolio blurb, capability only, no invented metrics.
@@ -111,6 +122,7 @@ export const portfolioProjects: PortfolioProject[] = [
     category: "Web App",
     blurb: "Connecting different class cohorts from different schools in the country.",
     stack: ["JavaScript", "HTML", "Python", "Django", "React", "PostgreSQL"],
+    image: "/portfolio/telxul.jpg",
     // PLACEHOLDER: gap G8.
     overview:
       "Telxul is a web platform connecting class cohorts across different schools in the country.",
@@ -130,6 +142,7 @@ export const portfolioProjects: PortfolioProject[] = [
     // PLACEHOLDER: gap G3. Figma listed this project as four near-identical
     // Flutter cards. Collapsed to one card with the build count as a stack line.
     stack: ["Flutter x4"],
+    image: "/portfolio/projector23.jpg",
     // PLACEHOLDER: gap G8.
     overview:
       "Projector23 is a suite of four Flutter apps built for one client on a shared design system and backend.",
@@ -146,6 +159,7 @@ export const portfolioProjects: PortfolioProject[] = [
     // PLACEHOLDER: gap G2. Figma marked this "Need Info".
     blurb: "A mobile app for a poultry operation, built for real-time flock and stock record keeping.",
     stack: ["Flutter", "Firebase"],
+    image: "/portfolio/tak-poultry-farm.jpg",
     // PLACEHOLDER: gap G8.
     overview:
       "A mobile app for a poultry operation, built for real-time flock and stock record keeping.",
@@ -162,6 +176,7 @@ export const portfolioProjects: PortfolioProject[] = [
     // PLACEHOLDER: gap G2. Figma marked this "Need Info".
     blurb: "A media app for a radio station, pairing a Flutter client with a Django and PostgreSQL backend.",
     stack: ["Flutter", "Firebase", "Python", "Django", "PostgreSQL"],
+    image: "/portfolio/tasse-fm.jpg",
     // PLACEHOLDER: gap G8.
     overview:
       "A media app for a radio station, pairing a Flutter client with a Django and PostgreSQL backend.",
@@ -346,13 +361,15 @@ export const faqs: Faq[] = [
   },
 ];
 
+// Order and icons traced from the "We Build For" grid, Home.png y 6008-6713:
+// 4 x 2, each tile leading with a lined icon above the label.
 export const sectors = [
-  "Fintech",
-  "Agriculture",
-  "Education",
-  "Healthcare",
-  "Retail",
-  "Logistics",
-  "Media",
-  "Government",
+  { icon: "card" as const, label: "Fintech" },
+  { icon: "leaf" as const, label: "Agriculture" },
+  { icon: "graduation" as const, label: "Education" },
+  { icon: "stethoscope" as const, label: "Healthcare" },
+  { icon: "bag" as const, label: "Retail" },
+  { icon: "truck" as const, label: "Logistics" },
+  { icon: "play" as const, label: "Media" },
+  { icon: "bank" as const, label: "Government" },
 ];

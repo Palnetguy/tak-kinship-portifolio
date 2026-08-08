@@ -19,26 +19,72 @@
 /**
  * `Decorative Code Block`, 384x384, twice in the Hero.
  *
- * Ghosted code, not real code: it is atmosphere behind the headline, so the
- * lines are rendered as bars at varying widths and indents rather than as
- * text. Real text at that opacity would invite reading, and a screen reader
- * would announce it.
+ * Measured off the 4x reference (Home.png y 72-851):
+ *   right panel  x 998.8-1381.8, y ~115-499   (383 wide, so 384)
+ *   left panel   x  68.8-452,    y ~333-717
+ *
+ * The first build rendered these as abstract grey bars. The reference's are
+ * real terminal panels: a title bar with three dots, a rule under it, then
+ * syntax-coloured source. That is the difference between reading as a code
+ * block and reading as a loading skeleton, and it is invisible to a property
+ * check, so it survived the first pass.
+ *
+ * The code is `aria-hidden` and rendered as spans rather than a <pre>: it is
+ * atmosphere, and a screen reader announcing a fake deploy log helps nobody.
  */
+
+type Tok = [text: string, tone?: "kw" | "str" | "num" | "cmt" | "fn"];
+
+const TONE: Record<string, string> = {
+  kw: "color-mix(in srgb, var(--text-accent) 85%, white)",
+  str: "var(--text-accent)",
+  num: "color-mix(in srgb, var(--text-accent) 70%, white)",
+  cmt: "color-mix(in srgb, var(--text-secondary) 60%, transparent)",
+  fn: "color-mix(in srgb, var(--text-primary) 70%, transparent)",
+};
+
+/** The two panels' source, transcribed from the reference. */
+export const HERO_CODE: Record<"left" | "right", Tok[][]> = {
+  left: [
+    [["const ", "kw"], ["system"], [" = {"]],
+    [["  status: "], ['"Active"', "str"], [","]],
+    [["  integrity: "], ["95", "num"], [","]],
+    [["  latency: "], ['"8ms"', "str"], [","]],
+    [["  deploy: "], ["function", "kw"], ["() {"]],
+    [["    return ", "kw"], ['"Deployment Successful"', "str"], [";"]],
+    [["  }"]],
+    [["};"]],
+    [[""]],
+    [["// Booting up the main system...", "cmt"]],
+    [["system"], [".deploy", "fn"], ["();"]],
+  ],
+  right: [
+    [["const ", "kw"], ["system"], [" = {"]],
+    [["  status: "], ['"Operational"', "str"], [","]],
+    [["  integrity: "], ["100", "num"], [","]],
+    [["  latency: "], ['"12ms"', "str"], [","]],
+    [["  deploy: "], ["function", "kw"], ["() {"]],
+    [["    return ", "kw"], ['"Stable Release"', "str"], [";"]],
+    [["  }"]],
+    [["};"]],
+    [[""]],
+    [["// Initializing core infrastructure...", "cmt"]],
+    [["system"], [".deploy", "fn"], ["();"]],
+  ],
+};
+
 export function CodeBlockDecor({
   className,
   size = 384,
-  opacity = 0.5,
+  opacity = 1,
+  variant = "right",
 }: {
   className?: string;
   size?: number;
   opacity?: number;
+  variant?: "left" | "right";
 }) {
-  // width, indent level. Deterministic, so server and client render the same
-  // thing (a random layout would hydrate-mismatch).
-  const lines: [number, number][] = [
-    [58, 0], [78, 1], [44, 2], [66, 2], [38, 1],
-    [72, 0], [50, 1], [82, 1], [34, 2], [60, 1], [46, 0],
-  ];
+  const lines = HERO_CODE[variant];
   return (
     <div
       aria-hidden
@@ -46,26 +92,28 @@ export function CodeBlockDecor({
       style={{ width: size, height: size, opacity }}
     >
       <div
-        className="h-full w-full rounded-2xl border border-[color-mix(in_srgb,var(--text-accent)_18%,transparent)] p-7"
-        style={{
-          background:
-            "linear-gradient(160deg, color-mix(in srgb, var(--text-accent) 7%, transparent) 0%, transparent 60%)",
-        }}
+        className="flex h-full w-full flex-col overflow-hidden rounded-2xl border border-border-subtle"
+        style={{ background: "rgba(10, 11, 10, 0.72)" }}
       >
-        <div className="flex h-full flex-col justify-center gap-[13px]">
-          {lines.map(([w, indent], i) => (
-            <div
+        <div className="flex items-center gap-2 px-5 pt-5 pb-3">
+          {["#3f4442", "#3f4442", "#3f4442"].map((c, i) => (
+            <span
               key={i}
-              className="h-[7px] rounded-full"
-              style={{
-                width: `${w}%`,
-                marginLeft: `${indent * 9}%`,
-                background:
-                  i % 3 === 0
-                    ? "color-mix(in srgb, var(--text-accent) 45%, transparent)"
-                    : "color-mix(in srgb, var(--text-secondary) 22%, transparent)",
-              }}
+              className="block h-[9px] w-[9px] rounded-full"
+              style={{ background: c }}
             />
+          ))}
+        </div>
+        <div className="mx-5 border-t border-border-subtle" />
+        <div className="font-mono-eyebrow flex flex-col gap-[5px] px-5 py-4 text-[10.5px] leading-[1.5] text-text-secondary">
+          {lines.map((line, i) => (
+            <div key={i} className="whitespace-pre">
+              {line.map(([text, tone], j) => (
+                <span key={j} style={tone ? { color: TONE[tone] } : undefined}>
+                  {text}
+                </span>
+              ))}
+            </div>
           ))}
         </div>
       </div>
