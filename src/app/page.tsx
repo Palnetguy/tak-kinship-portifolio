@@ -11,6 +11,7 @@ import SectionHeading from "@/components/section-heading";
 import TrustPanel from "@/components/trust-panel";
 import ServiceOrbit from "@/components/service-orbit";
 import TeamPanel from "@/components/team-panel";
+import Testimonials from "@/components/testimonials";
 import { ICONS } from "@/components/icons";
 import { PlusField, DotField, TriangleMark, Glow } from "@/components/decor";
 import FloatObject from "@/components/float-object";
@@ -267,6 +268,9 @@ export default function Page() {
             <TeamPanel />
           </Reveal>
         </Section>
+
+        {/* Renders only when the backend returns real quotes. See the file. */}
+        <Testimonials />
 
         <ConnectCta />
       </main>

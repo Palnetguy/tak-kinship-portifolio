@@ -17,6 +17,7 @@ import {
   experience,
   teamMembers,
 } from "@/lib/about";
+import { getLiveTeam } from "@/lib/tak-api";
 
 export const metadata: Metadata = {
   title: "About | TAK Kinship",
@@ -32,7 +33,14 @@ export const metadata: Metadata = {
  * data (one shared `testProfilePic` image, a famous footballer among the
  * names) and is deliberately not used. See wiki synergy-plan.md section 1B.
  */
-export default function Page() {
+export default async function Page() {
+  /* Live first, hand-verified static second. `getLiveTeam` returns null on a
+     missing key, a 403, a timeout, or a shape it does not recognise, so with
+     no credential configured this renders exactly what it rendered before and
+     starts serving Martin's edits the moment the rotated key is set in Vercel.
+     No code change sits between those two states. */
+  const roster = (await getLiveTeam()) ?? teamMembers;
+
   return (
     <>
       <NavBar />
@@ -146,11 +154,14 @@ export default function Page() {
               The people behind the work.
             </SectionHeading>
             <p className="mx-auto mb-14 max-w-[620px] text-center text-[15px] leading-relaxed text-text-secondary">
-              Six people in Uganda building software for the region. In their
-              own words.
+              {/* Counted, not typed. Once the roster can come from the API a
+                  hardcoded "Six" is a sentence that goes wrong the first time
+                  Martin hires someone. */}
+              {roster.length} people in Uganda building software for the region.
+              In their own words.
             </p>
             <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-              {teamMembers.map((m) => (
+              {roster.map((m) => (
                 <article
                   key={m.name}
                   className="flex flex-col rounded-xl border border-border-subtle bg-surface p-6 tak-hover-glow"

@@ -20,8 +20,14 @@ export default function ConnectCta() {
     <Section pt={100} pb={242}>
       <DotField className="bottom-24 left-0" width={110} height={160} />
       <DotField className="right-0 top-0" width={170} height={150} />
+      {/* Off the dot field. The reference frames this block with a dot cluster
+          AND a triangle at the upper right, but drawn at these sizes the 130px
+          triangle landed dead centre inside the 170x150 cluster, so the dots
+          read as fill inside the triangle rather than as a separate mark.
+          Moved to the upper LEFT, where the only other dot field is low
+          (bottom-24) and cannot collide with it. */}
       <TriangleMark
-        className="right-8 top-2"
+        className="top-16 left-6"
         size={130}
         rotate={180}
         opacity={0.35}

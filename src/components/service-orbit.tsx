@@ -93,11 +93,15 @@ function Pill({
 
   return (
     <div
-      // px-2 spelled out rather than left to the p-2 shorthand: the anchor's
-      // horizontal padding is a thing KingFizzy asked for by number (8px each
-      // side), so it should be visible at the call site and not something a
-      // later change to the shorthand can quietly alter.
-      className="flex items-center gap-3 rounded-full border px-2 py-2 transition-colors duration-500"
+      // Padding is 8px on the ICON side and 20px on the TEXT side, and the
+      // asymmetry is the point. On a `rounded-full` pill the end cap is a 28px
+      // radius arc, so a 40px circular chip follows that curve and needs only
+      // its 8px, while a flat run of text set 8px in sits INSIDE the curve and
+      // reads as cramped against the border. Equal 8/8 padding measures
+      // symmetric and looks wrong, which is why it kept coming back.
+      className={`flex items-center gap-3 rounded-full border py-2 transition-colors duration-500 ${
+        iconSide === "right" ? "pr-2 pl-5" : "pr-5 pl-2"
+      }`}
       style={{
         width,
         // Glass, built from the theme tokens so the pill inverts with the
@@ -216,7 +220,7 @@ export default function ServiceOrbit() {
 
   return (
     <div
-      className="relative hidden h-[440px] w-[648px] shrink-0 xl:block"
+      className="relative hidden h-[440px] w-[684px] shrink-0 xl:block"
       aria-hidden
     >
       {/* The static counterpart, vertically locked to the arc's focus. It
@@ -238,19 +242,26 @@ export default function ServiceOrbit() {
           The falloff does most of the work; the mask stops the buffer slot's
           arrival from clipping hard against the box edge.
 
-          WIDTH IS NOT COSMETIC. mask-image clips to the element box on every
-          side, and the gradient here only fades top and bottom, so the left
-          and right edges are a hard cut. At 360 the outermost pill reached
-          325 and the focused pill's 40px glow reached 332, both close enough
-          to the edge to be visibly sliced. 400 wide, shifted left to keep the
-          same total box, puts 75px of clear air past the widest pill. */}
+          THE BOX IS NOT THE CONTENT, and conflating the two is what kept the
+          glow clipped. mask-image clips to the element box on EVERY side, and
+          this gradient only fades top and bottom, so left and right stay a
+          hard cut no matter how the gradient is written. Widening the box
+          alone did not fix it, because the pills were still pinned to left: 0
+          of that box, and the focused pill's box-shadow reaches ~40px past its
+          own left edge, straight into the cut.
+
+          So the box and the content are now separate: the masked box is 484
+          wide, and an inner wrapper insets the pills 48px from its left. That
+          48 is clear air the shadow can spill into on the left, and the box's
+          own width leaves the same on the right (48 + 388 widest pill + 48). */}
       <div
-        className="absolute top-0 left-[248px] h-full w-[400px]"
+        className="absolute top-0 left-[200px] h-full w-[484px]"
         style={{
           maskImage:
             "linear-gradient(to bottom, transparent 0%, #000 18%, #000 82%, transparent 100%)",
         }}
       >
+        <div className="absolute inset-y-0 left-[48px] w-[400px]">
         {/* The dashed arc, drawn through the same x offsets the slots use so
             the pills sit on the line rather than near it. */}
         <svg
@@ -306,6 +317,7 @@ export default function ServiceOrbit() {
             </div>
           );
         })}
+        </div>
       </div>
     </div>
   );

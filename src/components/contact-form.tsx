@@ -24,8 +24,27 @@ import { useState, type FormEvent } from "react";
  * "Organisation" under the standing rule not to reproduce a typo verbatim.
  * Flagged for David so the Figma file gets fixed at source too.
  */
+/**
+ * UI upgrade pass, 2026-08-09. Reference: designspells.com, `Interaction` tag.
+ *
+ * Taken from it: a field should confirm focus with more than a one-pixel
+ * border change, and should say what is wrong WHERE it is wrong rather than
+ * only at submit. Three changes, all inside TAK's existing tokens:
+ *
+ *   1. focus adds a soft accent ring on top of the border, so the active field
+ *      is findable at a glance instead of by hunting for a colour shift
+ *   2. `user-invalid`, not `invalid`. Plain `:invalid` marks every required
+ *      field red before the user has typed a character, which is the single
+ *      most common way this pattern is shipped wrong. `:user-invalid` waits
+ *      until the field has actually been interacted with.
+ *   3. the ring is `box-shadow`, not `outline`, so it follows the 8px radius
+ */
 const FIELD =
-  "w-full rounded-lg border border-border-subtle bg-transparent px-4 py-3 text-[15px] text-text-primary outline-none placeholder:text-text-muted focus:border-action-primary";
+  "w-full rounded-lg border border-border-subtle bg-transparent px-4 py-3 text-[15px] text-text-primary outline-none " +
+  "placeholder:text-text-muted " +
+  "transition-[border-color,box-shadow] duration-200 " +
+  "focus:border-action-primary focus:shadow-[0_0_0_3px_color-mix(in_srgb,var(--text-accent)_22%,transparent)] " +
+  "user-invalid:border-[#c0564f] user-invalid:shadow-[0_0_0_3px_color-mix(in_srgb,#c0564f_20%,transparent)]";
 
 export default function ContactForm() {
   const [sent, setSent] = useState(false);
@@ -77,9 +96,16 @@ export default function ContactForm() {
           className={`${FIELD} resize-none`}
         />
       </label>
+      {/* Same press/focus contract as `components/button.tsx`, so the one
+          button that is not a <Button> does not behave differently. */}
       <button
         type="submit"
-        className="mt-1 w-full cursor-pointer rounded-lg border border-action-primary bg-action-primary px-6 py-3 text-[15px] font-medium text-text-on-accent transition-colors hover:bg-[color-mix(in_srgb,var(--action-primary)_85%,white)]"
+        className="mt-1 w-full cursor-pointer rounded-lg border border-action-primary bg-action-primary px-6 py-3 text-[15px] font-medium text-text-on-accent
+          transition-[background-color,box-shadow,transform] duration-200 ease-out
+          hover:bg-[color-mix(in_srgb,var(--action-primary)_88%,white)]
+          hover:shadow-[0_8px_28px_color-mix(in_srgb,var(--text-accent)_28%,transparent)]
+          active:scale-[0.985] motion-reduce:active:scale-100
+          focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--text-accent)]"
       >
         Send
       </button>
