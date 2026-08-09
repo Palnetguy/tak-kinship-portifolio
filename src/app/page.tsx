@@ -95,7 +95,10 @@ export default function Page() {
             34px gap, every card the same height whatever the copy length. */}
         <Section id="services" pt={60} pb={200}>
           <PlusField className="left-0 top-2" />
-          <TriangleMark className="right-6 top-6" size={150} rotate={-90} opacity={0.45} />
+          {/* Moved off the top right: the geodesic web object sits there
+              (-right-28 top-2, 360px) and the triangle was landing dead centre
+              on it. Bottom right is clear, since the orb is bottom LEFT. */}
+          <TriangleMark className="right-10 bottom-40" size={150} rotate={-90} opacity={0.45} />
           <TriangleMark className="bottom-10 left-1/2 -translate-x-1/2" size={90} opacity={0.3} />
           <Glow className="-right-24 top-24" size={480} strength={0.16} />
           {/* The two generated objects. Both sit behind the bento grid and
@@ -243,7 +246,7 @@ export default function Page() {
                 return (
                   <div
                     key={sector.label}
-                    className="flex min-h-[158px] flex-col items-center justify-center gap-3 rounded-xl border border-border-subtle bg-surface px-4 text-center transition-colors duration-300 hover:border-[color-mix(in_srgb,var(--text-accent)_35%,transparent)]"
+                    className="flex min-h-[158px] flex-col items-center justify-center gap-3 rounded-xl border border-border-subtle bg-surface px-4 text-center tak-hover-glow"
                   >
                     <Icon className="h-6 w-6 text-text-accent" />
                     <span className="font-display text-[15px] font-medium">

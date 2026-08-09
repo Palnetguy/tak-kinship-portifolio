@@ -210,6 +210,78 @@ body {
   }
 }
 
+/* The one hover state, shared by every card.
+   Values are lifted from the hero arc's focused pill (service-orbit.tsx) so
+   the site has a single idea of "this thing is lit": a 40% accent border plus
+   a wide, soft accent cast. The previous per-card hover was only a 35% border
+   with no shadow at all, which was invisible against a near-black surface. */
+.tak-hover-glow {
+  transition:
+    border-color 300ms ease,
+    box-shadow 300ms ease,
+    transform 300ms ease;
+}
+
+.tak-hover-glow:hover {
+  border-color: color-mix(in srgb, var(--text-accent) 40%, transparent);
+  box-shadow: 0 8px 40px color-mix(in srgb, var(--text-accent) 20%, transparent);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tak-hover-glow {
+    transition: none;
+  }
+}
+
+/* Quarter-turn ticks for the plus marks and triangles.
+   Stepped rather than continuous: a decoration spinning nonstop reads as a
+   loading spinner and pulls the eye off the copy. Holding still, snapping a
+   quarter turn, then holding again reads as a mechanism idling, which is the
+   intent. Each element gets its own delay so the field never ticks in unison.
+   `transform-box: fill-box` is required to rotate an SVG <path> about its own
+   centre rather than the viewBox origin. */
+@keyframes tak-tick {
+  0%,
+  20% {
+    transform: rotate(0deg);
+  }
+  27%,
+  47% {
+    transform: rotate(90deg);
+  }
+  54%,
+  74% {
+    transform: rotate(180deg);
+  }
+  81%,
+  100% {
+    transform: rotate(270deg);
+  }
+}
+
+.tak-tick {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: tak-tick 12s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+  will-change: transform;
+}
+
+/* The triangles carry a base rotation from their call site, so they animate on
+   an inner wrapper and inherit the base from the outer one. Slower and out of
+   phase with the plus field. */
+.tak-tick-slow {
+  transform-origin: center;
+  animation: tak-tick 19s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+  will-change: transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tak-tick,
+  .tak-tick-slow {
+    animation: none;
+  }
+}
+
 /* Slow bob for the rendered 3D decorations (components/decor.tsx
    FloatObject). Transform only, so it stays on the compositor and never
    triggers layout. Duration and delay are set per element inline. */

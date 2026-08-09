@@ -29,7 +29,7 @@ export default function BentoCard({
   const Icon = ICONS[icon];
   return (
     <div
-      className="group relative flex flex-col overflow-hidden rounded-2xl border border-border-subtle bg-surface p-7 transition-colors duration-300 hover:border-[color-mix(in_srgb,var(--text-accent)_40%,transparent)]"
+      className="group relative flex flex-col overflow-hidden rounded-2xl border border-border-subtle bg-surface p-7 tak-hover-glow"
       style={{ minHeight }}
     >
       {/* Interior glow, top-right. Fades up on hover so the grid has a state

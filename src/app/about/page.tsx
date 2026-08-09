@@ -153,7 +153,7 @@ export default function Page() {
               {teamMembers.map((m) => (
                 <article
                   key={m.name}
-                  className="flex flex-col rounded-xl border border-border-subtle bg-surface p-6 transition-colors duration-300 hover:border-[color-mix(in_srgb,var(--text-accent)_35%,transparent)]"
+                  className="flex flex-col rounded-xl border border-border-subtle bg-surface p-6 tak-hover-glow"
                 >
                   <div className="mb-5 flex items-center gap-4">
                     <Image

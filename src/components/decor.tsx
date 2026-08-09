@@ -152,6 +152,9 @@ export function PlusField({
       {marks.map((m, i) => (
         <path
           key={i}
+          className="tak-tick"
+          // Staggered so the field ripples rather than snapping as one block.
+          style={{ animationDelay: `${(i % 7) * 0.45}s` }}
           d={`M${m.x + 4} ${m.y + 10}h12M${m.x + 10} ${m.y + 4}v12`}
           stroke="var(--text-accent)"
           strokeOpacity={0.34}
@@ -228,24 +231,32 @@ export function TriangleMark({
   rotate?: number;
   opacity?: number;
 }) {
+  // Two elements, not one: the call site's base rotation lives on the outer
+  // span and the tick animation on the inner svg. On a single element the
+  // animation's transform would replace the base rotation outright, and every
+  // triangle would snap to 0deg the moment it started.
   return (
-    <svg
+    <span
       aria-hidden
-      className={`pointer-events-none absolute ${className ?? ""}`}
-      width={size}
-      height={size}
-      viewBox="0 0 100 100"
-      fill="none"
-      style={{ transform: `rotate(${rotate}deg)` }}
+      className={`pointer-events-none absolute block ${className ?? ""}`}
+      style={{ width: size, height: size, transform: `rotate(${rotate}deg)` }}
     >
-      <path
-        d="M50 12 88 82H12L50 12Z"
-        stroke="var(--text-accent)"
-        strokeOpacity={opacity}
-        strokeWidth={5}
-        strokeLinejoin="round"
-      />
-    </svg>
+      <svg
+        className="tak-tick-slow block"
+        width={size}
+        height={size}
+        viewBox="0 0 100 100"
+        fill="none"
+      >
+        <path
+          d="M50 12 88 82H12L50 12Z"
+          stroke="var(--text-accent)"
+          strokeOpacity={opacity}
+          strokeWidth={5}
+          strokeLinejoin="round"
+        />
+      </svg>
+    </span>
   );
 }
 
