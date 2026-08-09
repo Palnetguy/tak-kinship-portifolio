@@ -282,6 +282,40 @@ body {
   }
 }
 
+/* Radial ripple through the dot fields (components/decor.tsx DotField).
+   The delay is a function of each dot's distance from the cluster centre, set
+   inline, so brightness travels outward along the same axis the density
+   already falls away on: the cluster breathes instead of flickering.
+
+   DELIBERATELY NO `will-change` HERE, unlike every other animation in this
+   file. A page carries several fields of roughly a hundred dots each, and
+   promoting six hundred SVG circles to their own compositor layers would cost
+   far more memory than it could ever save on an opacity-only animation. This
+   is the one case where the usual hint is the wrong call.
+
+   Slow on purpose. At 5.5s a dot spends most of its cycle near a resting
+   value, so the field reads as alive in peripheral vision and never competes
+   with the copy it sits behind. */
+@keyframes tak-dot-pulse {
+  0%,
+  100% {
+    opacity: 0.4;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+.tak-dot {
+  animation: tak-dot-pulse 5.5s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tak-dot {
+    animation: none;
+  }
+}
+
 /* Slow bob for the rendered 3D decorations (components/decor.tsx
    FloatObject). Transform only, so it stays on the compositor and never
    triggers layout. Duration and delay are set per element inline. */

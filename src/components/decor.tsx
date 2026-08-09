@@ -184,12 +184,16 @@ export function DotField({
   const cx = width * 0.62;
   const cy = height * 0.5;
   const maxD = Math.hypot(width, height) * 0.55;
-  const dots: { x: number; y: number; o: number }[] = [];
+  // `d` is kept, not just consumed: it sets the dot's resting opacity AND its
+  // animation delay, so the ripple travels along the same axis the density
+  // already falls away on. A pulse with random delays would read as noise
+  // over a structure, rather than as the structure itself breathing.
+  const dots: { x: number; y: number; o: number; d: number }[] = [];
   for (let y = 6; y < height; y += step) {
     for (let x = 6; x < width; x += step) {
       const d = Math.hypot(x - cx, y - cy) / maxD;
       if (d > 1) continue;
-      dots.push({ x, y, o: Math.max(0, 0.55 * (1 - d * d)) });
+      dots.push({ x, y, o: Math.max(0, 0.55 * (1 - d * d)), d });
     }
   }
   return (
@@ -201,14 +205,25 @@ export function DotField({
       viewBox={`0 0 ${width} ${height}`}
       fill="none"
     >
-      {dots.map((d, i) => (
+      {dots.map((dot, i) => (
         <circle
           key={i}
-          cx={d.x}
-          cy={d.y}
+          className="tak-dot"
+          // NEGATIVE delay, so every field is already mid-ripple on first
+          // paint. A positive delay would open with the whole cluster sitting
+          // at its dim keyframe, waiting, which is the one state that looks
+          // broken rather than slow.
+          //
+          // `fillOpacity` holds the radial falloff and the animation drives
+          // `opacity`. They are separate properties and multiply, so the
+          // cluster keeps its shape through the whole cycle instead of
+          // flattening to one brightness at the peak.
+          style={{ animationDelay: `-${(dot.d * 2.2).toFixed(2)}s` }}
+          cx={dot.x}
+          cy={dot.y}
           r={2.4}
           fill="var(--text-accent)"
-          fillOpacity={d.o}
+          fillOpacity={dot.o}
         />
       ))}
     </svg>
