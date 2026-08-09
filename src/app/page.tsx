@@ -145,9 +145,23 @@ export default function Page() {
             the discs but not the rule, which is what made the row read as five
             unrelated columns rather than as one timeline. */}
         <Section pt={60} pb={206}>
-          <TriangleMark className="left-6 top-0" size={130} rotate={90} opacity={0.4} />
-          <TriangleMark className="bottom-8 left-56" size={110} opacity={0.35} />
-          <PlusField className="right-0 top-2" rows={3} cols={5} />
+          {/* Decorations mirrored to a rule, not moved one at a time:
+              TRIANGLES RIGHT, PLUS FIELDS LEFT. KingFizzy asked for the big
+              triangle to cross over for symmetry (2026-08-09), and a single
+              move would not have delivered it. Moving only that one would have
+              put it straight on top of the plus field that was at right-0, the
+              exact collision he flagged on the Connect block, and would have
+              left the small triangle behind on the left so the section read as
+              a half-finished swap rather than a mirror.
+
+              The big triangle's rotation flips with it, -90 rather than 90, so
+              its apex still points INTO the copy instead of off the page.
+              Deliberate departure from the reference, which has both on the
+              left; it is his call and it is recorded here so nobody
+              "corrects" it back during a later trace pass. */}
+          <TriangleMark className="top-0 right-6" size={130} rotate={-90} opacity={0.4} />
+          <TriangleMark className="right-56 bottom-8" size={110} opacity={0.35} />
+          <PlusField className="top-2 left-0" rows={3} cols={5} />
           <PlusField className="bottom-14 left-0" rows={3} cols={5} />
           <Reveal>
             <SectionHeading eyebrow="How We Work" highlight="Results" maxWidth={700} mb={90}>
