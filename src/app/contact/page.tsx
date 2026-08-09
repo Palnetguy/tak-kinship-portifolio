@@ -111,7 +111,13 @@ export default function ContactPage() {
                   decodes, if the file 404s, and whenever the browser refuses
                   to autoplay. `muted` + `playsInline` are what make autoplay
                   legal on iOS at all. */}
-              <div className="relative min-h-[300px]">
+              {/* Nudged 12px right per KingFizzy (2026-08-09). The card's two
+                  halves are an even split, but the circuit artwork's own
+                  content sits left of centre inside its frame, so the panel
+                  read as sitting slightly too far left against the form. This
+                  offsets the artwork, not the grid, so the card's outer edges
+                  stay flush with every other section. */}
+              <div className="relative min-h-[300px] translate-x-[12px]">
                 <video
                   className="h-full w-full rounded-xl object-cover motion-reduce:hidden"
                   poster="/contact/circuit-panel.jpg"

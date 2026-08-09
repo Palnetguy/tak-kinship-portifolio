@@ -250,59 +250,6 @@ export function TriangleMark({
 }
 
 /**
- * A rendered 3D object floating behind a section.
- *
- * The two sources were generated for this (Recraft V4.1, flat-white
- * background, TAK's palette locked to #5fa968/#4a9252/#0a0b0a) and cut to
- * alpha, each with a different matte because they are different problems:
- * the orb is a solid body whose white specular highlights and glowing core
- * would be punched through by a whiteness key, so it uses a filled-disc
- * matte; the web is meant to read as see-through, so its interior white is
- * keyed out along with the background.
- *
- * `drift` is a slow vertical float. It is decorative and gated on
- * prefers-reduced-motion in globals.css, where the keyframes live.
- */
-export function FloatObject({
-  src,
-  className,
-  size = 320,
-  opacity = 0.5,
-  delay = 0,
-  duration = 14,
-}: {
-  src: string;
-  className?: string;
-  size?: number;
-  opacity?: number;
-  /** Offsets the cycle so two objects on one section never bob in lockstep. */
-  delay?: number;
-  duration?: number;
-}) {
-  return (
-    // Plain <img>: this is a fixed-size decoration that must never be
-    // layout-affecting, and next/image would add a wrapper and a fetch
-    // priority fight with the real content images.
-    // eslint-disable-next-line @next/next/no-img-element
-    <img
-      src={src}
-      alt=""
-      aria-hidden
-      width={size}
-      height={size}
-      className={`tak-drift pointer-events-none absolute select-none ${className ?? ""}`}
-      style={{
-        width: size,
-        height: size,
-        opacity,
-        animationDelay: `${delay}s`,
-        animationDuration: `${duration}s`,
-      }}
-    />
-  );
-}
-
-/**
  * Soft green glow. The reference's `Ellipse 2` / `Ellipse 3` layers: pure
  * atmosphere, the only decorations the delta note says are safe to
  * approximate. A radial-gradient div beats an SVG here because it blurs for

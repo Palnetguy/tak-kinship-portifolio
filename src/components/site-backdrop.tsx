@@ -35,6 +35,16 @@ export default function SiteBackdrop() {
         className="tak-plate tak-plate-b absolute inset-0 bg-cover bg-center"
         style={{ backgroundImage: "url(/decor/faceted-plate.jpg)" }}
       />
+      {/* The sweep. Sits ABOVE the plates and below the scrim, so it lights
+          the facets rather than washing out the text. */}
+      <div
+        className="tak-sweep absolute -inset-1/4"
+        style={{
+          background:
+            "radial-gradient(ellipse 45% 55% at 50% 50%, color-mix(in srgb, var(--text-accent) 16%, transparent) 0%, transparent 70%)",
+        }}
+      />
+
       {/* Sinks the centre of the screen back down toward the canvas colour so
           the plate stays atmosphere and never competes with body copy. */}
       <div

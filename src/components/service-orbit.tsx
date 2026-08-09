@@ -93,7 +93,11 @@ function Pill({
 
   return (
     <div
-      className="flex items-center gap-3 rounded-full border p-2 transition-colors duration-500"
+      // px-2 spelled out rather than left to the p-2 shorthand: the anchor's
+      // horizontal padding is a thing KingFizzy asked for by number (8px each
+      // side), so it should be visible at the call site and not something a
+      // later change to the shorthand can quietly alter.
+      className="flex items-center gap-3 rounded-full border px-2 py-2 transition-colors duration-500"
       style={{
         width,
         // Glass, built from the theme tokens so the pill inverts with the
@@ -172,7 +176,15 @@ export default function ServiceOrbit() {
      *  quarter viewport, which is far enough that a normal read down the page
      *  does not spin the column, and close enough that a deliberate scroll
      *  back and forth visibly drives it. */
-    const SCROLL_PER_STEP = Math.max(180, window.innerHeight * 0.25);
+    /** Distance that advances one service.
+     *
+     *  This was a quarter viewport (225px at 900), which made the feature
+     *  invisible: the hero is only about 850px tall, so the arc had scrolled
+     *  out of sight after two or three steps and the user never saw it
+     *  respond. 110px gives a full six-service cycle inside the hero's own
+     *  height, which is the only window where the effect can actually be
+     *  watched. */
+    const SCROLL_PER_STEP = 110;
     let base = window.scrollY;
     let queued = false;
 
@@ -222,10 +234,18 @@ export default function ServiceOrbit() {
         />
       </div>
 
-      {/* The cycling column. The falloff does most of the work; the mask stops
-          the buffer slot's arrival from clipping hard against the box edge. */}
+      {/* The cycling column.
+          The falloff does most of the work; the mask stops the buffer slot's
+          arrival from clipping hard against the box edge.
+
+          WIDTH IS NOT COSMETIC. mask-image clips to the element box on every
+          side, and the gradient here only fades top and bottom, so the left
+          and right edges are a hard cut. At 360 the outermost pill reached
+          325 and the focused pill's 40px glow reached 332, both close enough
+          to the edge to be visibly sliced. 400 wide, shifted left to keep the
+          same total box, puts 75px of clear air past the widest pill. */}
       <div
-        className="absolute top-0 left-[288px] h-full w-[360px]"
+        className="absolute top-0 left-[248px] h-full w-[400px]"
         style={{
           maskImage:
             "linear-gradient(to bottom, transparent 0%, #000 18%, #000 82%, transparent 100%)",
@@ -235,9 +255,9 @@ export default function ServiceOrbit() {
             the pills sit on the line rather than near it. */}
         <svg
           className="pointer-events-none absolute inset-0"
-          width={360}
+          width={400}
           height={440}
-          viewBox="0 0 360 440"
+          viewBox="0 0 400 440"
           fill="none"
         >
           <path
@@ -255,12 +275,17 @@ export default function ServiceOrbit() {
             ? Math.min(3, Math.max(-2, i - 2))
             : slotOf(i, active);
           const style = SLOT[slot];
-          // A wrap is a five-slot leap. Snap it instead of sliding it across
-          // the whole column; it happens on the invisible buffer slot, so
-          // none of the jump is ever on screen.
+          // Only a WRAP may skip its transition. The slot range is [-2, 3], so
+          // a wrap is a leap of more than 3; anything up to 3 is a genuine
+          // multi-step move and must still animate.
+          //
+          // This used to trigger on any leap greater than 1, which meant a
+          // scroll of two or more services snapped every pill into place
+          // instead of sliding them. That looked exactly like the carousel
+          // ignoring the scroll, which is what it was reported as.
           const jumped =
             prev.current[i] !== undefined &&
-            Math.abs(slot - prev.current[i]) > 1;
+            Math.abs(slot - prev.current[i]) > 3;
           prev.current[i] = slot;
 
           return (

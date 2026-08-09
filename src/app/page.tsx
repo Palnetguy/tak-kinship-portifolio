@@ -12,7 +12,8 @@ import TrustPanel from "@/components/trust-panel";
 import ServiceOrbit from "@/components/service-orbit";
 import TeamPanel from "@/components/team-panel";
 import { ICONS } from "@/components/icons";
-import { PlusField, DotField, TriangleMark, Glow, FloatObject } from "@/components/decor";
+import { PlusField, DotField, TriangleMark, Glow } from "@/components/decor";
+import FloatObject from "@/components/float-object";
 import {
   problems,
   services,
@@ -107,6 +108,7 @@ export default function Page() {
             size={360}
             opacity={0.4}
             duration={17}
+            depth={18}
           />
           <FloatObject
             src="/decor/tak-orb.png"
@@ -115,6 +117,7 @@ export default function Page() {
             opacity={0.55}
             delay={2.5}
             duration={12}
+            depth={40}
           />
           <Reveal>
             <SectionHeading eyebrow="What We Offer" highlight="Ideas" maxWidth={900} mb={86}>
