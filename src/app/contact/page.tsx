@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import NavBar from "@/components/nav-bar";
 import Footer from "@/components/footer";
 import Section from "@/components/section";
@@ -195,8 +196,31 @@ export default function ContactPage() {
           >
             Frequently Asked Questions
           </SectionHeading>
-          <div className="mx-auto max-w-[900px]">
-            <FaqAccordion faqs={faqs} />
+          {/* Illustration left, questions right, which is how the live
+              takkinship.com places it and what KingFizzy asked for
+              (2026-08-09). The asset is TAK's own, pulled from the Cloudinary
+              path their site serves it from, and its background is genuinely
+              transparent (alpha 0 at the corners, checked) so it sits on the
+              canvas in both themes with no plate behind it.
+
+              No container around either half. The two columns already group
+              themselves by proximity, and wrapping the illustration in a card
+              purely to balance the accordion would be a surface added for
+              layout rather than for emphasis. */}
+          <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-[minmax(0,5fr)_minmax(0,6fr)] lg:gap-16">
+            <div className="order-2 hidden lg:order-1 lg:block">
+              <Image
+                src="/illus/support-faq.png"
+                alt=""
+                width={760}
+                height={562}
+                className="h-auto w-full"
+                sizes="(max-width: 1024px) 0px, 40vw"
+              />
+            </div>
+            <div className="order-1 lg:order-2">
+              <FaqAccordion faqs={faqs} />
+            </div>
           </div>
         </Section>
       </main>

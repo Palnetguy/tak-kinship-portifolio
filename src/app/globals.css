@@ -343,6 +343,48 @@ body {
   }
 }
 
+/* The revolving team gallery (components/team-gallery.tsx).
+   Each track holds its list twice and travels exactly one list length, so the
+   join is never seen. `linear`, not eased: a marquee that accelerates and
+   slows announces its own loop point, which is the one thing this must not do.
+   Durations are coprime-ish so the two columns never line up. */
+@keyframes tak-marquee-up {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-50%);
+  }
+}
+
+@keyframes tak-marquee-down {
+  from {
+    transform: translateY(-50%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+.tak-marquee-up {
+  animation: tak-marquee-up 44s linear infinite;
+  will-change: transform;
+}
+
+.tak-marquee-down {
+  animation: tak-marquee-down 53s linear infinite;
+  will-change: transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  /* Held, not hidden. The photographs are the point of the section, so a
+     reduced-motion visitor still gets the full grid, just still. */
+  .tak-marquee-up,
+  .tak-marquee-down {
+    animation: none;
+  }
+}
+
 /* Slow bob for the rendered 3D decorations (components/decor.tsx
    FloatObject). Transform only, so it stays on the compositor and never
    triggers layout. Duration and delay are set per element inline. */

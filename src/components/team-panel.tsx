@@ -1,5 +1,5 @@
-import Image from "next/image";
 import Button from "@/components/button";
+import TeamGallery from "@/components/team-gallery";
 
 /**
  * "The people behind the work".
@@ -27,15 +27,12 @@ import Button from "@/components/button";
 export default function TeamPanel() {
   return (
     <div className="flex flex-col items-center gap-12 overflow-hidden rounded-2xl border border-border-subtle bg-elevated p-8 md:p-12 lg:flex-row lg:gap-16">
+      {/* Joy's layout is unchanged: media left at roughly half the measure,
+          copy right. Only what fills the media half changed, from one static
+          group photograph to the revolving gallery, on KingFizzy's order
+          (2026-08-09). The group shot is not lost, it is the first tile. */}
       <div className="w-full shrink-0 lg:w-[46%]">
-        <Image
-          src="/team/tak-team.jpg"
-          alt="The TAK Kinship team together in the Mbarara office"
-          width={1240}
-          height={935}
-          className="h-auto w-full rounded-xl object-cover"
-          sizes="(max-width: 1024px) 100vw, 46vw"
-        />
+        <TeamGallery />
       </div>
 
       <div className="flex flex-col items-start gap-5">
