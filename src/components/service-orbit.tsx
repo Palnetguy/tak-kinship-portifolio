@@ -99,16 +99,20 @@ function Pill({
       // its 8px, while a flat run of text set 8px in sits INSIDE the curve and
       // reads as cramped against the border. Equal 8/8 padding measures
       // symmetric and looks wrong, which is why it kept coming back.
-      // The ANCHOR's left inset is 18, not 20: KingFizzy trimmed it by 2 on
-      // sight (2026-08-09). Explicit value rather than a scale step, since the
-      // scale has no 18 and pl-4 would hand the 2px straight back.
+      // The ANCHOR's left inset is 16, down from 20 (KingFizzy, 2026-08-09,
+      // second pass). An intermediate 18 read as MORE space, not less, which
+      // is a real optical effect and not a mistake on his part: the pill hugs
+      // its content, so trimming the padding also narrows the pill, and
+      // against an unchanged 28px end-cap radius the text ends up sitting
+      // relatively deeper inside the curve. Below about 4px the change to the
+      // cap outruns the change to the gap. 4 is past that threshold.
       //
       // The cycling pills keep 20 deliberately. Their text side is their RIGHT
       // edge, not their left, so the two numbers are never measured against
       // each other on screen and matching them would be a change he did not
       // ask for.
       className={`flex items-center gap-3 rounded-full border py-2 transition-colors duration-500 ${
-        iconSide === "right" ? "pr-2 pl-[18px]" : "pr-5 pl-2"
+        iconSide === "right" ? "pr-2 pl-4" : "pr-5 pl-2"
       }`}
       style={{
         width,
