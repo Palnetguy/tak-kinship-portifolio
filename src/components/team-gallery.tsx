@@ -4,17 +4,21 @@ import Image from "next/image";
  * The revolving team gallery.
  *
  * Replaces the single group photograph that used to fill this half of the
- * panel. KingFizzy called that photo a placeholder (2026-08-09) and asked for
- * it to be merged with the gallery on the live takkinship.com/about, so it is
- * MERGED rather than replaced: the group shot is the first tile in the first
- * column and still gets seen, it just no longer has to carry the whole panel
- * on its own.
+ * panel. That photo was first merged in as tile one, then pulled entirely on
+ * KingFizzy's second pass (2026-08-10): he called it a placeholder twice, and
+ * keeping it as "one of eleven" was still keeping it.
  *
- * The other ten are TAK's own gallery images, pulled from the S3 bucket the
- * live site serves them from (`tak-kinship-bkt`, `gallery_images/`) and
- * downscaled to 1200px, which took the set from 9.4MB to 1.3MB. They are real
- * photographs of the real team working, which is the whole reason this section
- * exists.
+ * All ten are TAK's own gallery images, pulled from the S3 bucket the live
+ * site serves them from (`tak-kinship-bkt`, `gallery_images/`) and downscaled
+ * to 1200px, 1.7MB for the set. They are real photographs of the real team
+ * working, which is the whole reason this section exists.
+ *
+ * DOWNLOAD THESE SEQUENTIALLY IF THEY EVER NEED REFRESHING. Fetching them in
+ * parallel with a 40s ceiling silently truncated four of the ten mid-transfer:
+ * the largest is 7.5MB and arrived as 262KB. A truncated JPEG still decodes,
+ * with the missing scan lines filled flat grey, and re-encoding it produces a
+ * VALID file with a correct EOI marker. So neither the file size nor an
+ * integrity check flags it; it has to be caught by looking at the pixels.
  *
  * TWO COLUMNS, OPPOSITE DIRECTIONS. One column drifting alone reads as a
  * loading state. Two moving against each other read as depth, and the eye
@@ -24,14 +28,14 @@ import Image from "next/image";
  * Server component: this is CSS keyframes and duplicated markup, no JS at all.
  */
 
-/** Group shot first, then the gallery. */
-const PHOTOS = [
-  { src: "/team/tak-team.jpg", alt: "The TAK Kinship team together" },
-  ...Array.from({ length: 10 }, (_, i) => ({
-    src: `/gallery/g${i + 1}.jpg`,
-    alt: "TAK Kinship at work",
-  })),
-];
+/* Renamed from g1..g10 when the truncated four were re-fetched. The rename is
+   the point, not tidiness: Next keys its optimized-image cache on the source
+   URL, so replacing the bytes behind an unchanged `/gallery/g6.jpg` kept
+   serving the old, grey-bottomed derivative from cache. A new path is the only
+   invalidation that cannot be argued with. */
+const PHOTOS = Array.from({ length: 10 }, (_, i) => ({
+  src: `/gallery/tak-${String(i + 1).padStart(2, "0")}.jpg`,
+}));
 
 const COL_A = PHOTOS.filter((_, i) => i % 2 === 0);
 const COL_B = PHOTOS.filter((_, i) => i % 2 === 1);
