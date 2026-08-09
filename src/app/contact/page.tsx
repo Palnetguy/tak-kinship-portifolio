@@ -100,13 +100,39 @@ export default function ContactPage() {
                 <ContactForm />
               </div>
 
+              {/* The branded circuit plate, animated.
+                  Generated from the still with Higgsfield (minimax-2.3-fast,
+                  6s, 4 credits) under a locked-off-camera prompt, then made
+                  into a true loop by concatenating the clip with its own
+                  reverse: the first and last frames differ by 1.06/255, which
+                  is compression noise, so the seam is invisible. 147kb.
+
+                  The jpg is the `poster`, so it is what shows before the video
+                  decodes, if the file 404s, and whenever the browser refuses
+                  to autoplay. `muted` + `playsInline` are what make autoplay
+                  legal on iOS at all. */}
               <div className="relative min-h-[300px]">
+                <video
+                  className="h-full w-full rounded-xl object-cover motion-reduce:hidden"
+                  poster="/contact/circuit-panel.jpg"
+                  width={1284}
+                  height={1190}
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
+                  aria-label="TAK Kinship Technologies Ltd. Innovating the future, one solution at a time."
+                >
+                  <source src="/contact/circuit-panel.mp4" type="video/mp4" />
+                </video>
+                {/* Reduced motion gets the original still, not a frozen video
+                    element, so there is no decode cost at all. */}
                 <img
                   src="/contact/circuit-panel.jpg"
                   alt="TAK Kinship Technologies Ltd. Innovating the future, one solution at a time."
                   width={1284}
                   height={1190}
-                  className="h-full w-full rounded-xl object-cover"
+                  className="hidden h-full w-full rounded-xl object-cover motion-reduce:block"
                 />
               </div>
             </div>

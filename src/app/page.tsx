@@ -9,8 +9,10 @@ import Reveal from "@/components/reveal";
 import BentoCard from "@/components/bento-card";
 import SectionHeading from "@/components/section-heading";
 import TrustPanel from "@/components/trust-panel";
+import ServiceOrbit from "@/components/service-orbit";
+import TeamPanel from "@/components/team-panel";
 import { ICONS } from "@/components/icons";
-import { PlusField, DotField, TriangleMark, Glow, CodeBlockDecor } from "@/components/decor";
+import { PlusField, DotField, TriangleMark, Glow, FloatObject } from "@/components/decor";
 import {
   problems,
   services,
@@ -30,42 +32,44 @@ export default function Page() {
           `clip` contains that horizontally without creating a scroll container,
           so position: sticky anywhere inside still works. */}
       <main className="flex-1 overflow-x-clip pt-[72px]">
-        {/* Hero. Centred, not left-aligned: the reference sets the headline,
-            body and buttons on the page's centre line, with the two 384x384
-            `Decorative Code Block` panels flanking them (right panel high at
-            x 998.8, left panel low at x 68.8). Left-aligning these was the
-            single biggest arrangement error in the first build. */}
+        {/* Hero.
+            The reference centres the headline with two 384x384 `Decorative
+            Code Block` panels flanking it. KingFizzy ordered this one changed
+            (2026-08-09): text left, the cycling service arc right, after the
+            flohoeller clip. So the split is deliberate, not a trace error.
+            Both code panels come out: the right one is what the arc replaces,
+            and the left one sat exactly where the body copy and buttons now
+            are, ghosting its source through them at any opacity that made it
+            visible at all. They are still exported from decor.tsx and still
+            used verbatim on the Services hero, so nothing from the reference
+            is lost, and reinstating them here is a one-line change. */}
         <Section className="min-h-[779px]" pt={43} pb={62}>
-          <CodeBlockDecor
-            variant="right"
-            className="top-[43px] right-0 hidden lg:block"
-          />
-          <CodeBlockDecor
-            variant="left"
-            className="top-[261px] left-0 hidden lg:block"
-          />
           <Glow className="right-24 top-10" size={560} strength={0.14} />
           <Glow className="left-40 bottom-8" size={420} strength={0.08} />
           <PlusField className="bottom-4 left-0" rows={1} cols={5} />
 
-          <div className="relative flex flex-col items-center gap-6 py-24 text-center">
-            <h1 className="font-display m-0 max-w-[620px] text-4xl font-bold leading-tight md:text-[67px] md:leading-[1.1]">
-              Where innovation meets impact.
-            </h1>
-            <p className="m-0 max-w-[590px] text-[15px] leading-relaxed text-text-secondary">
-              We turn bold ideas into impactful digital solutions. At TAK
-              Kinship, we engineer robust software, craft intuitive
-              experiences, and build scalable infrastructure for modern
-              enterprises.
-            </p>
-            <div className="flex flex-wrap justify-center gap-4">
-              <Button variant="primary" size="md" href="/contact">
-                Start a Project
-              </Button>
-              <Button variant="secondary" size="md" href="/portfolio">
-                See Our Work
-              </Button>
+          <div className="relative flex items-center justify-between gap-12 py-20">
+            <div className="flex flex-col items-start gap-6 text-left">
+              <h1 className="font-display m-0 max-w-[560px] text-4xl font-bold leading-tight md:text-[67px] md:leading-[1.1]">
+                Where innovation meets impact.
+              </h1>
+              <p className="m-0 max-w-[520px] text-[15px] leading-relaxed text-text-secondary">
+                We turn bold ideas into impactful digital solutions. At TAK
+                Kinship, we engineer robust software, craft intuitive
+                experiences, and build scalable infrastructure for modern
+                enterprises.
+              </p>
+              <div className="flex flex-wrap gap-4">
+                <Button variant="primary" size="md" href="/contact">
+                  Start a Project
+                </Button>
+                <Button variant="secondary" size="md" href="/portfolio">
+                  See Our Work
+                </Button>
+              </div>
             </div>
+
+            <ServiceOrbit />
           </div>
         </Section>
 
@@ -88,11 +92,30 @@ export default function Page() {
 
         {/* Services. `Bento Grid Layout`, 1344x658 in the design: 3 x 2 at a
             34px gap, every card the same height whatever the copy length. */}
-        <Section pt={60} pb={200}>
+        <Section id="services" pt={60} pb={200}>
           <PlusField className="left-0 top-2" />
           <TriangleMark className="right-6 top-6" size={150} rotate={-90} opacity={0.45} />
           <TriangleMark className="bottom-10 left-1/2 -translate-x-1/2" size={90} opacity={0.3} />
           <Glow className="-right-24 top-24" size={480} strength={0.16} />
+          {/* The two generated objects. Both sit behind the bento grid and
+              outside the 1344 column so they read as depth rather than as
+              content, and the two durations are coprime-ish so the pair never
+              settles into a visible shared rhythm. */}
+          <FloatObject
+            src="/decor/tak-web.png"
+            className="-right-28 top-2 hidden xl:block"
+            size={360}
+            opacity={0.4}
+            duration={17}
+          />
+          <FloatObject
+            src="/decor/tak-orb.png"
+            className="-left-24 bottom-24 hidden xl:block"
+            size={190}
+            opacity={0.55}
+            delay={2.5}
+            duration={12}
+          />
           <Reveal>
             <SectionHeading eyebrow="What We Offer" highlight="Ideas" maxWidth={900} mb={86}>
               Transforming Ideas into Extraordinary Solutions.
@@ -227,6 +250,15 @@ export default function Page() {
                 );
               })}
             </div>
+          </Reveal>
+        </Section>
+
+        {/* The people behind the work. Ported from Joy's file per the build
+            plan's approved decisions table; it sits directly before the final
+            CTA, which is where she placed it. */}
+        <Section id="team" pt={0} pb={180}>
+          <Reveal>
+            <TeamPanel />
           </Reveal>
         </Section>
 
