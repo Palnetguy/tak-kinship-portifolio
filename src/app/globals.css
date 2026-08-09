@@ -114,6 +114,69 @@ body {
   }
 }
 
+/* The site backdrop (components/site-backdrop.tsx).
+   Two copies of the faceted plate drifting on coprime cycles, so the pair
+   never settles into a visible repeat. Transform/opacity only. */
+@keyframes tak-plate-a {
+  0%,
+  100% {
+    transform: scale(1.12) translate3d(0, 0, 0);
+    opacity: 0.55;
+  }
+  50% {
+    transform: scale(1.2) translate3d(-2.2%, -1.6%, 0);
+    opacity: 0.8;
+  }
+}
+
+@keyframes tak-plate-b {
+  0%,
+  100% {
+    transform: scaleX(-1) scale(1.18) translate3d(0, 0, 0);
+    opacity: 0.42;
+  }
+  50% {
+    transform: scaleX(-1) scale(1.1) translate3d(-2.6%, 1.8%, 0);
+    opacity: 0.16;
+  }
+}
+
+.tak-plate {
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+  will-change: transform, opacity;
+}
+
+.tak-plate-a {
+  animation-name: tak-plate-a;
+  animation-duration: 37s;
+}
+
+.tak-plate-b {
+  animation-name: tak-plate-b;
+  animation-duration: 53s;
+}
+
+/* Near-black plate on a #f2f2f2 canvas reads as dirt at any visible opacity. */
+[data-theme="light"] .tak-backdrop {
+  opacity: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tak-plate {
+    animation: none;
+  }
+  /* Without the animation the two would stack at their 0% state and the
+     mirrored copy would just darken the first. Hide it and hold the base. */
+  .tak-plate-b {
+    display: none;
+  }
+  .tak-plate-a {
+    transform: scale(1.12);
+    opacity: 0.62;
+  }
+}
+
 /* Slow bob for the rendered 3D decorations (components/decor.tsx
    FloatObject). Transform only, so it stays on the compositor and never
    triggers layout. Duration and delay are set per element inline. */

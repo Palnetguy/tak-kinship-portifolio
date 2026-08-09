@@ -62,11 +62,15 @@ function Pill({
   item,
   focused,
   iconSide = "left",
-  width = 300,
+  width,
 }: {
   item: Item;
   focused: boolean;
   iconSide?: "left" | "right";
+  /** Fixed width, for the cycling column where every pill must agree. Left
+   *  undefined the pill hugs its content, which is what the anchor wants: at a
+   *  fixed width its content was narrower than the box, and because its text is
+   *  right-aligned every pixel of slack piled up on the left. */
   width?: number;
 }) {
   const Icon = ICONS[item.icon];
@@ -116,7 +120,9 @@ function Pill({
       {iconSide === "left" && chip}
       <span
         className={`flex min-w-0 flex-col ${
-          iconSide === "right" ? "ml-1 flex-1 items-end text-right" : ""
+          // No flex-1 on the anchor: it would re-introduce the same slack the
+          // auto width just removed.
+          iconSide === "right" ? "items-end text-right" : ""
         }`}
       >
         <span className="truncate text-[14px] leading-tight font-medium text-text-primary">
@@ -136,14 +142,64 @@ export default function ServiceOrbit() {
   const [still, setStill] = useState(false);
   /** Previous slot per item, so a wrap can be moved without a transition. */
   const prev = useRef<Record<number, number>>({});
+  /** The authoritative position. Both the timer and scroll write through it. */
+  const cursor = useRef(0);
 
   useEffect(() => {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
       setStill(true);
       return;
     }
-    const id = setInterval(() => setActive((a) => a + 1), DWELL);
-    return () => clearInterval(id);
+
+    // One counter, held in a ref, so the timer and the scroll handler can
+    // never drift apart. Tracking them separately meant one auto-advance made
+    // the next scroll step jump backwards.
+    const bump = (n: number) => {
+      cursor.current += n;
+      setActive(cursor.current);
+    };
+
+    let id = window.setInterval(() => bump(1), DWELL);
+
+    /** Page scroll drives the column as well as time.
+     *
+     *  Deliberately NOT a wheel listener on the element: hijacking the wheel
+     *  over a decoration would trap the page scroll, which is the classic
+     *  version of this pattern and is hostile. This reads the page's own
+     *  scroll position instead, so the user is always still just scrolling.
+     *
+     *  SCROLL_PER_STEP is the distance that advances one service. It is a
+     *  quarter viewport, which is far enough that a normal read down the page
+     *  does not spin the column, and close enough that a deliberate scroll
+     *  back and forth visibly drives it. */
+    const SCROLL_PER_STEP = Math.max(180, window.innerHeight * 0.25);
+    let base = window.scrollY;
+    let queued = false;
+
+    const onScroll = () => {
+      if (queued) return;
+      queued = true;
+      requestAnimationFrame(() => {
+        queued = false;
+        const steps = Math.trunc((window.scrollY - base) / SCROLL_PER_STEP);
+        if (steps === 0) return;
+        // Re-anchor by whole steps only, so the leftover distance carries into
+        // the next one and a slow drag still advances exactly once per
+        // SCROLL_PER_STEP instead of stalling.
+        base += steps * SCROLL_PER_STEP;
+        bump(steps);
+        // Restart the timer so an auto-advance never lands on top of a step
+        // the user just drove.
+        window.clearInterval(id);
+        id = window.setInterval(() => bump(1), DWELL);
+      });
+    };
+
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => {
+      window.clearInterval(id);
+      window.removeEventListener("scroll", onScroll);
+    };
   }, []);
 
   return (
@@ -163,7 +219,6 @@ export default function ServiceOrbit() {
           }}
           focused
           iconSide="right"
-          width={268}
         />
       </div>
 

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Space_Grotesk, Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
+import SiteBackdrop from "@/components/site-backdrop";
 
 const spaceGrotesk = Space_Grotesk({
   variable: "--font-display",
@@ -22,7 +23,8 @@ const jetbrainsMono = JetBrains_Mono({
 
 export const metadata: Metadata = {
   title: "TAK Kinship",
-  description: "TAK Kinship website",
+  description:
+    "Where innovation meets impact. TAK Kinship engineers robust software, crafts intuitive experiences, and builds scalable infrastructure from Mbarara, Uganda.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
@@ -39,7 +41,10 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           }}
         />
       </head>
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col">
+        <SiteBackdrop />
+        {children}
+      </body>
     </html>
   );
 }
