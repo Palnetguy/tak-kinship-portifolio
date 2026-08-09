@@ -96,10 +96,12 @@ export default function Page() {
             34px gap, every card the same height whatever the copy length. */}
         <Section id="services" pt={60} pb={200}>
           <PlusField className="left-0 top-2" />
-          {/* Moved off the top right: the geodesic web object sits there
-              (-right-28 top-2, 360px) and the triangle was landing dead centre
-              on it. Bottom right is clear, since the orb is bottom LEFT. */}
-          <TriangleMark className="right-10 bottom-40" size={150} rotate={-90} opacity={0.45} />
+          {/* There WAS a second, larger triangle here at `right-10 bottom-40`,
+              below the UI/UX Design card. Removed 2026-08-09: it stacked with
+              the one at the top of the Process section directly beneath it, so
+              three triangles landed in a single viewport and the fold read as
+              cluttered. This one goes rather than Process's because the bento
+              grid above it is already the densest block on the page. */}
           <TriangleMark className="bottom-10 left-1/2 -translate-x-1/2" size={90} opacity={0.3} />
           <Glow className="-right-24 top-24" size={480} strength={0.16} />
           {/* The two generated objects. Both sit behind the bento grid and

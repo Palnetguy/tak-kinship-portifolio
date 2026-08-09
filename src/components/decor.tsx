@@ -154,7 +154,11 @@ export function PlusField({
           key={i}
           className="tak-tick"
           // Staggered so the field ripples rather than snapping as one block.
-          style={{ animationDelay: `${(i % 7) * 0.45}s` }}
+          // NEGATIVE, so every mark is already mid-cycle on first paint rather
+          // than sitting at its dim keyframe waiting for its turn. One value
+          // covers both the tick and the pulse, since `animation-delay` applies
+          // down the whole animation list.
+          style={{ animationDelay: `-${(i % 7) * 0.45}s` }}
           d={`M${m.x + 4} ${m.y + 10}h12M${m.x + 10} ${m.y + 4}v12`}
           stroke="var(--text-accent)"
           strokeOpacity={0.34}
@@ -258,6 +262,12 @@ export function TriangleMark({
     >
       <svg
         className="tak-tick-slow block"
+        // Offset derived from `size` rather than from a new prop, because
+        // every pair of triangles that shares a viewport already differs in
+        // size (130 against 110, 150 against 90). That gets them breathing out
+        // of phase with no call-site churn, and it is deterministic, so the
+        // server and client render the same value.
+        style={{ animationDelay: `-${(size % 7) * 0.6}s` }}
         width={size}
         height={size}
         viewBox="0 0 100 100"

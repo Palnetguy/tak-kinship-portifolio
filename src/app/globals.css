@@ -259,10 +259,20 @@ body {
   }
 }
 
+/* TWO animations on one element, not two classes.
+   `animation` is a shorthand, so a second class carrying its own `animation`
+   declaration would REPLACE this one outright rather than add to it, and only
+   the winner of the cascade would run. Listing both here is the version that
+   actually composes. They drive different properties (transform and opacity),
+   which is what makes running them together safe.
+   The durations are coprime-ish so the tick and the breath never lock into a
+   visible shared beat. */
 .tak-tick {
   transform-box: fill-box;
   transform-origin: center;
-  animation: tak-tick 12s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+  animation:
+    tak-tick 12s cubic-bezier(0.65, 0, 0.35, 1) infinite,
+    tak-pulse-soft 5.5s ease-in-out infinite;
   will-change: transform;
 }
 
@@ -271,7 +281,9 @@ body {
    phase with the plus field. */
 .tak-tick-slow {
   transform-origin: center;
-  animation: tak-tick 19s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+  animation:
+    tak-tick 19s cubic-bezier(0.65, 0, 0.35, 1) infinite,
+    tak-pulse-soft 6.5s ease-in-out infinite;
   will-change: transform;
 }
 
@@ -308,6 +320,21 @@ body {
 
 .tak-dot {
   animation: tak-dot-pulse 5.5s ease-in-out infinite;
+}
+
+/* The same breath, softer, for the shapes that are much larger than a 2.4px
+   dot. A triangle swinging 0.4 to 1 does not read as "alive", it reads as
+   flashing, because the eye weights the change by the area it covers.
+   0.55 is the point where the plus field and the triangles keep the dots'
+   rhythm without pulling focus off the copy. */
+@keyframes tak-pulse-soft {
+  0%,
+  100% {
+    opacity: 0.55;
+  }
+  50% {
+    opacity: 1;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
