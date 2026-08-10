@@ -45,7 +45,7 @@ export default function Page() {
             visible at all. They are still exported from decor.tsx and still
             used verbatim on the Services hero, so nothing from the reference
             is lost, and reinstating them here is a one-line change. */}
-        <Section className="min-h-[779px]" pt={43} pb={62}>
+        <Section className="min-h-[960px]" pt={43} pb={62}>
           <Glow className="right-24 top-10" size={560} strength={0.14} />
           <Glow className="left-40 bottom-8" size={420} strength={0.08} />
           <PlusField className="bottom-4 left-0" rows={1} cols={5} />
@@ -96,15 +96,27 @@ export default function Page() {
               the copy above starts at x96, and 48px out of alignment under a
               left-aligned text block reads as a mistake rather than as decor.
               `bottom-14` keeps it clear of the PlusField at `bottom-4`. Both
-              numbers were measured off the rendered page, not eyeballed. */}
+              numbers were measured off the rendered page, not eyeballed.
+
+              DOUBLED TO 300 on 2026-08-10. That does not fit under the CTA in
+              a 779-tall hero, so the hero is now 960. The clearance is sized
+              for the object's WORST CASE, not its rest position: `tak-drift`
+              lifts it 22px at mid-cycle and the pointer parallax adds `depth`
+              more, so a gap that merely looks fine in a screenshot puts a
+              half-opacity sphere behind the buttons a few seconds later. At
+              rest it sits 66px below the CTA; at full lift plus full lean it
+              is still 26px clear. `depth` came down 34 to 18 for the same
+              reason: it is much bigger and much closer to real content than
+              the two behind the Services grid, and the same lean reads as
+              wobble at this size. */}
           <FloatObject
             src="/decor/tak-orb.png"
             className="bottom-14 left-12 hidden lg:block"
-            size={150}
+            size={300}
             opacity={0.5}
             delay={1.2}
             duration={15}
-            depth={34}
+            depth={18}
           />
         </Section>
 
