@@ -25,11 +25,14 @@ import { CloseIcon, MenuIcon } from "@/components/icons";
 export default function NavBar() {
   const [open, setOpen] = useState(false);
 
+  // Contact is deliberately NOT here (KingFizzy, 2026-08-10). The green
+  // "Start a Project" pill already goes to /contact, so listing it as a plain
+  // link too gave the bar two controls for one destination, and the weaker of
+  // the two sat next to the stronger one.
   const links = [
     { href: "/about", label: "About" },
     { href: "/services", label: "Services" },
     { href: "/portfolio", label: "Portfolio" },
-    { href: "/contact", label: "Contact" },
   ];
 
   return (
@@ -76,7 +79,11 @@ export default function NavBar() {
 
       <div
         className="overflow-hidden transition-all duration-200 md:hidden"
-        style={{ maxHeight: open ? "260px" : "0px" }}
+        // 260 was sized for four links and nothing else. Three links plus the
+        // CTA plus the theme toggle measure ~284, so the old ceiling would have
+        // clipped the toggle off the bottom of an open drawer. Verified against
+        // the real scrollHeight rather than guessed.
+        style={{ maxHeight: open ? "340px" : "0px" }}
       >
         <div className="flex flex-col gap-4 border-t border-border-subtle px-12 pb-5">
           {links.map((l) => (
@@ -89,6 +96,18 @@ export default function NavBar() {
               {l.label}
             </Link>
           ))}
+          {/* The CTA is repeated here on purpose. On desktop it lives in the
+              right-hand cluster, which is `hidden md:flex`, so dropping the
+              Contact link without adding it back below would have left
+              /contact with no route at all from a phone. */}
+          <Button
+            variant="primary"
+            size="sm"
+            href="/contact"
+            onClick={() => setOpen(false)}
+          >
+            Start a Project
+          </Button>
           <ThemeToggle />
         </div>
       </div>
