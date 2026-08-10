@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Space_Grotesk, Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import SiteBackdrop from "@/components/site-backdrop";
+import BackToTop from "@/components/back-to-top";
 
 const spaceGrotesk = Space_Grotesk({
   variable: "--font-display",
@@ -44,6 +45,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       <body className="min-h-full flex flex-col">
         <SiteBackdrop />
         {children}
+        <BackToTop />
       </body>
     </html>
   );
