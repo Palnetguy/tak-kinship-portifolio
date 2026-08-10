@@ -45,9 +45,16 @@ export default function BentoCard({
         }}
       />
 
+      {/* REFERENCE: designspells, "Interaction" tag. The badge ring was inert
+          on hover while the card around it lit up, so the card's most
+          deliberate element was the one part with no state. It now fills
+          faintly and firms its ring. Colour only, no transform: these two
+          grids ARE the sections' height and the measured delta re-measures
+          them, so nothing here may move. Reduced motion keeps the state and
+          drops the tween. */}
       <span
         aria-hidden
-        className="relative mb-8 flex h-11 w-11 items-center justify-center rounded-full border border-[color-mix(in_srgb,var(--text-accent)_35%,transparent)] text-text-accent"
+        className="relative mb-8 flex h-11 w-11 items-center justify-center rounded-full border border-[color-mix(in_srgb,var(--text-accent)_35%,transparent)] text-text-accent transition-[background-color,border-color] duration-500 ease-out group-hover:border-[color-mix(in_srgb,var(--text-accent)_65%,transparent)] group-hover:bg-[color-mix(in_srgb,var(--text-accent)_10%,transparent)] motion-reduce:transition-none"
       >
         <Icon className="h-5 w-5" />
       </span>

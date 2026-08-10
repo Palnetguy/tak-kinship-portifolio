@@ -385,6 +385,37 @@ body {
   }
 }
 
+/* Portfolio filter re-entry (components/portfolio-grid.tsx). Fires on mount,
+   and the grid remounts on every filter change, so the whole surviving set
+   replays rather than only the cards that were just added. Short and small:
+   8px and 220ms, because this runs on up to nine tiles at once and anything
+   longer reads as the page loading rather than as the grid rearranging.
+   `backwards` holds the from-state during the stagger delay, otherwise a tile
+   with a 360ms delay is fully visible for 360ms and then jumps. */
+@keyframes tak-filter-enter {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.tak-filter-enter {
+  animation: tak-filter-enter 220ms ease-out backwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  /* No delay and no movement. The cards are simply there, which is the correct
+     reduced-motion answer for content that was always going to be present. */
+  .tak-filter-enter {
+    animation: none;
+    animation-delay: 0ms !important;
+  }
+}
+
 /* The client-logo ribbon in the Why Trust Us panel (components/trust-panel.tsx).
    Same contract as the team gallery above: the list is rendered twice and the
    track travels exactly one list length, so the join is never seen.

@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, type ReactNode } from "react";
+import { CloseIcon } from "@/components/icons";
 
 export default function Modal({
   onClose,
@@ -45,18 +46,7 @@ export default function Modal({
           aria-label="Close"
           className="absolute top-4 right-4 z-10 flex h-9 w-9 cursor-pointer items-center justify-center rounded-full border border-border-subtle bg-elevated-80 text-text-accent backdrop-blur"
         >
-          <svg
-            width="14"
-            height="14"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-          >
-            <line x1="18" y1="6" x2="6" y2="18" />
-            <line x1="6" y1="6" x2="18" y2="18" />
-          </svg>
+          <CloseIcon className="h-3.5 w-3.5" />
         </button>
         <div className={padded ? "p-8 md:p-10" : ""}>{children}</div>
       </div>

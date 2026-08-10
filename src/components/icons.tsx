@@ -4,12 +4,32 @@
  * The measured delta (wiki/projects/tak-kinship/home-measured-delta.md,
  * Finding 3) found ZERO <svg> in the entire build against a design whose
  * service and value cards each lead with a lined icon inside a ring. Icons
- * are the smallest visual unit of that design language, so they are drawn
- * here rather than pulled from an icon package: the set is six plus four,
- * it never grows, and a dependency would be heavier than the file.
+ * are the smallest visual unit of that design language.
  *
- * All paths are 24x24, 1.5 stroke, currentColor, round caps. That matches
- * the reference's line weight at the 20px render size the badge uses.
+ * 2026-08-10, THE FAMILY SWAP. These were hand-drawn from the reference PNG,
+ * one at a time, and it showed: the optical weights disagreed, some glyphs
+ * carried three strokes where their neighbours carried five, and several sat
+ * at different visual sizes inside an identical 24 box. Every path below is
+ * now **Tabler Icons** geometry (MIT, tabler.io, v3.46.0), inlined from the
+ * `outline` pack.
+ *
+ * TWO DELIBERATE DEPARTURES FROM TABLER, both so the swap is a family change
+ * and not a design change:
+ *
+ * 1. **Stroke stays 1.5, not Tabler's 2.** The 1.5 was measured off the
+ *    reference at the 20px size the badge renders at. Tabler contributes the
+ *    geometry; TAK's own measured line weight is not up for renegotiation by
+ *    an icon set. This is the same "structure, not theme" rule the UI-upgrade
+ *    brief applies to Watermelon.
+ * 2. **Every glyph still depicts what it depicted before.** `pulse` is still
+ *    the circle-and-bar power mark, not a heart rate line, even though
+ *    "Impact" would arguably read better as a rising chart. Swapping icon
+ *    families is sanctioned work. Changing which concept an icon shows is
+ *    redesign, and the trace is the spec.
+ *
+ * No dependency was added. `@tabler/icons-react` would pull a package to
+ * render 22 known-at-build-time paths, and tree-shaking it still costs more
+ * than this file does.
  */
 
 type IconProps = { className?: string };
@@ -24,10 +44,14 @@ const base = {
   "aria-hidden": true,
 };
 
+/* --- Services. Traced from Home.png, now on Tabler geometry. --- */
+
 export function CodeIcon({ className }: IconProps) {
   return (
     <svg {...base} className={className}>
-      <path d="m9 8-4 4 4 4M15 8l4 4-4 4" />
+      <path d="M7 8l-4 4l4 4" />
+      <path d="M17 8l4 4l-4 4" />
+      <path d="M14 4l-4 16" />
     </svg>
   );
 }
@@ -35,8 +59,9 @@ export function CodeIcon({ className }: IconProps) {
 export function PhoneIcon({ className }: IconProps) {
   return (
     <svg {...base} className={className}>
-      <rect x="7" y="3" width="10" height="18" rx="2.5" />
-      <path d="M11 18h2" />
+      <path d="M6 5a2 2 0 0 1 2 -2h8a2 2 0 0 1 2 2v14a2 2 0 0 1 -2 2h-8a2 2 0 0 1 -2 -2v-14" />
+      <path d="M11 4h2" />
+      <path d="M12 17v.01" />
     </svg>
   );
 }
@@ -44,8 +69,11 @@ export function PhoneIcon({ className }: IconProps) {
 export function GlobeIcon({ className }: IconProps) {
   return (
     <svg {...base} className={className}>
-      <circle cx="12" cy="12" r="8.5" />
-      <path d="M3.5 12h17M12 3.5c2.2 2.4 3.3 5.3 3.3 8.5S14.2 18.1 12 20.5c-2.2-2.4-3.3-5.3-3.3-8.5S9.8 5.9 12 3.5Z" />
+      <path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0" />
+      <path d="M3.6 9h16.8" />
+      <path d="M3.6 15h16.8" />
+      <path d="M11.5 3a17 17 0 0 0 0 18" />
+      <path d="M12.5 3a17 17 0 0 1 0 18" />
     </svg>
   );
 }
@@ -53,7 +81,7 @@ export function GlobeIcon({ className }: IconProps) {
 export function CloudIcon({ className }: IconProps) {
   return (
     <svg {...base} className={className}>
-      <path d="M7 18h9.5a3.5 3.5 0 0 0 .4-7A5.5 5.5 0 0 0 6.6 10 4 4 0 0 0 7 18Z" />
+      <path d="M6.657 18c-2.572 0 -4.657 -2.007 -4.657 -4.483c0 -2.475 2.085 -4.482 4.657 -4.482c.393 -1.762 1.794 -3.2 3.675 -3.773c1.88 -.572 3.956 -.193 5.444 1c1.488 1.19 2.162 3.007 1.77 4.769h.99c1.913 0 3.464 1.56 3.464 3.486c0 1.927 -1.551 3.487 -3.465 3.487h-11.878" />
     </svg>
   );
 }
@@ -61,8 +89,9 @@ export function CloudIcon({ className }: IconProps) {
 export function BulbIcon({ className }: IconProps) {
   return (
     <svg {...base} className={className}>
-      <path d="M9.5 17a5.5 5.5 0 1 1 5 0v1.5a1.5 1.5 0 0 1-1.5 1.5h-2A1.5 1.5 0 0 1 9.5 18.5V17Z" />
-      <path d="M10 20.5h4" />
+      <path d="M3 12h1m8 -9v1m8 8h1m-15.4 -6.4l.7 .7m12.1 -.7l-.7 .7" />
+      <path d="M9 16a5 5 0 1 1 6 0a3.5 3.5 0 0 0 -1 3a2 2 0 0 1 -4 0a3.5 3.5 0 0 0 -1 -3" />
+      <path d="M9.7 17l4.6 0" />
     </svg>
   );
 }
@@ -70,19 +99,20 @@ export function BulbIcon({ className }: IconProps) {
 export function PaletteIcon({ className }: IconProps) {
   return (
     <svg {...base} className={className}>
-      <path d="M12 3.5a8.5 8.5 0 1 0 0 17c1 0 1.6-.7 1.6-1.5 0-.5-.2-.8-.5-1.1-.3-.4-.5-.7-.5-1.2 0-.8.7-1.5 1.6-1.5h1.4a4.9 4.9 0 0 0 4.9-4.9c0-3.8-3.8-6.8-8.5-6.8Z" />
-      <circle cx="8.5" cy="11" r="1" fill="currentColor" stroke="none" />
-      <circle cx="12" cy="7.8" r="1" fill="currentColor" stroke="none" />
-      <circle cx="15.6" cy="10" r="1" fill="currentColor" stroke="none" />
+      <path d="M12 21a9 9 0 0 1 0 -18c4.97 0 9 3.582 9 8c0 1.06 -.474 2.078 -1.318 2.828c-.844 .75 -1.989 1.172 -3.182 1.172h-2.5a2 2 0 0 0 -1 3.75a1.3 1.3 0 0 1 -1 2.25" />
+      <path d="M7.5 10.5a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
+      <path d="M11.5 7.5a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
+      <path d="M15.5 10.5a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
     </svg>
   );
 }
 
+/* --- Why Trust Us values. --- */
+
 export function SparkleIcon({ className }: IconProps) {
   return (
     <svg {...base} className={className}>
-      <path d="M11 4.5 12.4 8.6 16.5 10l-4.1 1.4L11 15.5 9.6 11.4 5.5 10l4.1-1.4L11 4.5Z" />
-      <path d="M17.5 14.5l.7 2 2 .7-2 .7-.7 2-.7-2-2-.7 2-.7.7-2Z" />
+      <path d="M16 18a2 2 0 0 1 2 2a2 2 0 0 1 2 -2a2 2 0 0 1 -2 -2a2 2 0 0 1 -2 2m0 -12a2 2 0 0 1 2 2a2 2 0 0 1 2 -2a2 2 0 0 1 -2 -2a2 2 0 0 1 -2 2m-7 12a6 6 0 0 1 6 -6a6 6 0 0 1 -6 -6a6 6 0 0 1 -6 6a6 6 0 0 1 6 6" />
     </svg>
   );
 }
@@ -90,7 +120,7 @@ export function SparkleIcon({ className }: IconProps) {
 export function ShieldIcon({ className }: IconProps) {
   return (
     <svg {...base} className={className}>
-      <path d="M12 3.5 19 6v5.5c0 4-2.9 7.4-7 8.9-4.1-1.5-7-4.9-7-8.9V6l7-2.5Z" />
+      <path d="M12 3a12 12 0 0 0 8.5 3a12 12 0 0 1 -8.5 15a12 12 0 0 1 -8.5 -15a12 12 0 0 0 8.5 -3" />
     </svg>
   );
 }
@@ -98,8 +128,8 @@ export function ShieldIcon({ className }: IconProps) {
 export function PulseIcon({ className }: IconProps) {
   return (
     <svg {...base} className={className}>
-      <circle cx="12" cy="12" r="8.5" />
-      <path d="M12 7v5.5M15.5 8.5a5 5 0 1 1-7 0" />
+      <path d="M7 6a7.75 7.75 0 1 0 10 0" />
+      <path d="M12 4l0 8" />
     </svg>
   );
 }
@@ -107,9 +137,10 @@ export function PulseIcon({ className }: IconProps) {
 export function UsersIcon({ className }: IconProps) {
   return (
     <svg {...base} className={className}>
-      <circle cx="9.5" cy="9" r="3" />
-      <path d="M4 19a5.5 5.5 0 0 1 11 0" />
-      <path d="M16 6.4a3 3 0 0 1 0 5.2M17.5 19a5.5 5.5 0 0 0-2.2-4.4" />
+      <path d="M5 7a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
+      <path d="M3 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+      <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+      <path d="M21 21v-2a4 4 0 0 0 -3 -3.85" />
     </svg>
   );
 }
@@ -120,10 +151,11 @@ export function UsersIcon({ className }: IconProps) {
 export function PlugOffIcon({ className }: IconProps) {
   return (
     <svg {...base} className={className}>
-      <path d="M9 7V3M15 7v4" />
-      <path d="M7 7h10v3a5 5 0 0 1-5 5 5 5 0 0 1-4.4-2.6" />
-      <path d="M12 15v5" />
-      <path d="M4 4l16 16" />
+      <path d="M16.123 16.092l-.177 .177a5.81 5.81 0 1 1 -8.215 -8.215l.159 -.159" />
+      <path d="M4 20l3.5 -3.5" />
+      <path d="M15 4l-3.5 3.5" />
+      <path d="M20 9l-3.5 3.5" />
+      <path d="M3 3l18 18" />
     </svg>
   );
 }
@@ -131,9 +163,10 @@ export function PlugOffIcon({ className }: IconProps) {
 export function HourglassIcon({ className }: IconProps) {
   return (
     <svg {...base} className={className}>
-      <path d="M7 3h10M7 21h10" />
-      <path d="M8 3v3.5c0 1.4 4 3.6 4 5.5s-4 4.1-4 5.5V21" />
-      <path d="M16 3v3.5c0 1.4-4 3.6-4 5.5s4 4.1 4 5.5V21" />
+      <path d="M6.5 7h11" />
+      <path d="M6.5 17h11" />
+      <path d="M6 20v-2a6 6 0 1 1 12 0v2a1 1 0 0 1 -1 1h-10a1 1 0 0 1 -1 -1" />
+      <path d="M6 4v2a6 6 0 1 0 12 0v-2a1 1 0 0 0 -1 -1h-10a1 1 0 0 0 -1 1" />
     </svg>
   );
 }
@@ -141,8 +174,11 @@ export function HourglassIcon({ className }: IconProps) {
 export function MapIcon({ className }: IconProps) {
   return (
     <svg {...base} className={className}>
-      <path d="M9 4 3.5 6.2v13.3L9 17.3l6 2.4 5.5-2.2V4.2L15 6.4 9 4Z" />
-      <path d="M9 4v13.3M15 6.4v13.3" />
+      <path d="M12 18.5l-3 -1.5l-6 3v-13l6 -3l6 3l6 -3v7.5" />
+      <path d="M9 4v13" />
+      <path d="M15 7v5.5" />
+      <path d="M21.121 20.121a3 3 0 1 0 -4.242 0c.418 .419 1.125 1.045 2.121 1.879c1.051 -.89 1.759 -1.516 2.121 -1.879" />
+      <path d="M19 18v.01" />
     </svg>
   );
 }
@@ -152,8 +188,10 @@ export function MapIcon({ className }: IconProps) {
 export function CardIcon({ className }: IconProps) {
   return (
     <svg {...base} className={className}>
-      <rect x="2.5" y="5.5" width="19" height="13" rx="2.5" />
-      <path d="M2.5 10h19" />
+      <path d="M3 8a3 3 0 0 1 3 -3h12a3 3 0 0 1 3 3v8a3 3 0 0 1 -3 3h-12a3 3 0 0 1 -3 -3l0 -8" />
+      <path d="M3 10l18 0" />
+      <path d="M7 15l.01 0" />
+      <path d="M11 15l2 0" />
     </svg>
   );
 }
@@ -161,8 +199,8 @@ export function CardIcon({ className }: IconProps) {
 export function LeafIcon({ className }: IconProps) {
   return (
     <svg {...base} className={className}>
-      <path d="M20 4c0 9-5.2 14-11 14a5 5 0 0 1-5-5C4 7.7 10.5 4 20 4Z" />
-      <path d="M4 20c3-6 7-9 12-11" />
+      <path d="M5 21c.5 -4.5 2.5 -8 7 -10" />
+      <path d="M9 18c6.218 0 10.5 -3.288 11 -12v-2h-4.014c-9 0 -11.986 4 -12 9c0 1 0 3 2 5h3l.014 0" />
     </svg>
   );
 }
@@ -170,8 +208,8 @@ export function LeafIcon({ className }: IconProps) {
 export function GraduationIcon({ className }: IconProps) {
   return (
     <svg {...base} className={className}>
-      <path d="M12 4 22 9l-10 5L2 9l10-5Z" />
-      <path d="M6 11.2V16c0 1.7 2.7 3 6 3s6-1.3 6-3v-4.8" />
+      <path d="M22 9l-10 -4l-10 4l10 4l10 -4v6" />
+      <path d="M6 10.6v5.4a6 3 0 0 0 12 0v-5.4" />
     </svg>
   );
 }
@@ -179,10 +217,11 @@ export function GraduationIcon({ className }: IconProps) {
 export function StethoscopeIcon({ className }: IconProps) {
   return (
     <svg {...base} className={className}>
-      <path d="M6 3v5a4 4 0 0 0 8 0V3" />
-      <path d="M4 3h3M13 3h3" />
-      <path d="M10 12v3a5 5 0 0 0 10 0v-1.2" />
-      <circle cx="20" cy="11" r="2" />
+      <path d="M6 4h-1a2 2 0 0 0 -2 2v3.5a5.5 5.5 0 0 0 11 0v-3.5a2 2 0 0 0 -2 -2h-1" />
+      <path d="M8 15a6 6 0 1 0 12 0v-3" />
+      <path d="M11 3v2" />
+      <path d="M6 3v2" />
+      <path d="M18 10a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
     </svg>
   );
 }
@@ -190,8 +229,8 @@ export function StethoscopeIcon({ className }: IconProps) {
 export function BagIcon({ className }: IconProps) {
   return (
     <svg {...base} className={className}>
-      <path d="M5 8h14l-1 12H6L5 8Z" />
-      <path d="M9 8V6a3 3 0 0 1 6 0v2" />
+      <path d="M6.331 8h11.339a2 2 0 0 1 1.977 2.304l-1.255 8.152a3 3 0 0 1 -2.966 2.544h-6.852a3 3 0 0 1 -2.965 -2.544l-1.255 -8.152a2 2 0 0 1 1.977 -2.304" />
+      <path d="M9 11v-5a3 3 0 0 1 6 0v5" />
     </svg>
   );
 }
@@ -199,10 +238,10 @@ export function BagIcon({ className }: IconProps) {
 export function TruckIcon({ className }: IconProps) {
   return (
     <svg {...base} className={className}>
-      <path d="M2.5 6.5h11v9h-11v-9Z" />
-      <path d="M13.5 10h4l3 3v2.5h-7" />
-      <circle cx="7" cy="17.5" r="1.8" />
-      <circle cx="17" cy="17.5" r="1.8" />
+      <path d="M5 17a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
+      <path d="M15 17a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
+      <path d="M5 17h-2v-4m-1 -8h11v12m-4 0h6m4 0h2v-6h-8m0 -5h5l3 5" />
+      <path d="M3 9l4 0" />
     </svg>
   );
 }
@@ -210,8 +249,8 @@ export function TruckIcon({ className }: IconProps) {
 export function PlayIcon({ className }: IconProps) {
   return (
     <svg {...base} className={className}>
-      <rect x="2.5" y="4.5" width="19" height="15" rx="2.5" />
-      <path d="M10.5 9.2v5.6L15 12l-4.5-2.8Z" />
+      <path d="M3 9a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v9a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2l0 -9" />
+      <path d="M16 3l-4 4l-4 -4" />
     </svg>
   );
 }
@@ -219,9 +258,14 @@ export function PlayIcon({ className }: IconProps) {
 export function BankIcon({ className }: IconProps) {
   return (
     <svg {...base} className={className}>
-      <path d="M3 9.5 12 4l9 5.5" />
-      <path d="M5.5 9.5v8M10 9.5v8M14 9.5v8M18.5 9.5v8" />
-      <path d="M3 19.5h18" />
+      <path d="M3 21l18 0" />
+      <path d="M3 10l18 0" />
+      <path d="M5 6l7 -3l7 3" />
+      <path d="M4 10l0 11" />
+      <path d="M20 10l0 11" />
+      <path d="M8 14l0 3" />
+      <path d="M12 14l0 3" />
+      <path d="M16 14l0 3" />
     </svg>
   );
 }
@@ -230,8 +274,53 @@ export function BankIcon({ className }: IconProps) {
 export function MailIcon({ className }: IconProps) {
   return (
     <svg {...base} className={className}>
-      <rect x="2.5" y="5" width="19" height="14" rx="2.5" />
-      <path d="m3.5 7 8.5 6 8.5-6" />
+      <path d="M3 7a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v10a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-10" />
+      <path d="M3 7l9 6l9 -6" />
+    </svg>
+  );
+}
+
+/* --- Chrome glyphs: menu, close, and the theme pair.
+ *
+ * These four were the actual mismatch the brief was pointing at. They were
+ * **Feather** icons (the stock Feather sun with eight rays, the Feather moon,
+ * the Feather x and hamburger), drawn at stroke 2, sitting inline in
+ * nav-bar.tsx, modal.tsx and theme-toggle.tsx while every content icon was
+ * hand-drawn at 1.5. Three families across one page. They live here now, in
+ * the one file, at the one weight. --- */
+
+export function MenuIcon({ className }: IconProps) {
+  return (
+    <svg {...base} className={className}>
+      <path d="M4 6l16 0" />
+      <path d="M4 12l16 0" />
+      <path d="M4 18l16 0" />
+    </svg>
+  );
+}
+
+export function CloseIcon({ className }: IconProps) {
+  return (
+    <svg {...base} className={className}>
+      <path d="M18 6l-12 12" />
+      <path d="M6 6l12 12" />
+    </svg>
+  );
+}
+
+export function SunIcon({ className }: IconProps) {
+  return (
+    <svg {...base} className={className}>
+      <path d="M8 12a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
+      <path d="M3 12h1m8 -9v1m8 8h1m-9 8v1m-6.4 -15.4l.7 .7m12.1 -.7l-.7 .7m0 11.4l.7 .7m-12.1 -.7l-.7 .7" />
+    </svg>
+  );
+}
+
+export function MoonIcon({ className }: IconProps) {
+  return (
+    <svg {...base} className={className}>
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454l0 .008" />
     </svg>
   );
 }
