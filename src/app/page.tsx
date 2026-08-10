@@ -254,7 +254,10 @@ export default function Page() {
         <Section pt={46} pb={187}>
           <Glow className="left-1/3 top-16" size={460} strength={0.1} />
           <Reveal>
-            <SectionHeading eyebrow="We Build For" highlight="East Africa" maxWidth={920} mb={32}>
+            {/* mb matches Why Trust Us (95) on KingFizzy's call, 2026-08-10:
+                at 32 the tiles sat visibly tighter under their heading than
+                the value cards do under theirs, two sections apart. */}
+            <SectionHeading eyebrow="We Build For" highlight="East Africa" maxWidth={920} mb={95}>
               Built for the sectors moving East Africa.
             </SectionHeading>
             <div className="grid grid-cols-2 gap-[26px] sm:grid-cols-4">

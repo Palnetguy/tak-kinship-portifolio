@@ -40,7 +40,7 @@ export default function TeamPanel() {
           The People Behind The Work
         </p>
         <h2 className="font-display m-0 max-w-[460px] text-3xl font-bold leading-[1.12] tracking-tight md:text-[46px]">
-          Technology is built by people, for people.
+          Technology built by people, for people.
         </h2>
         <p className="m-0 max-w-[480px] text-[15px] leading-relaxed text-text-secondary">
           Behind every product is a team that listens, thinks carefully,

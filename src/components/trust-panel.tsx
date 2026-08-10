@@ -67,21 +67,43 @@ export default function TrustPanel({
         </blockquote>
       </div>
 
-      <ul className="relative mt-[76px] flex list-none flex-wrap items-center justify-between gap-8 p-0">
-        {CLIENT_MARKS.map((mark) => (
-          <li key={mark.name} className="flex items-center">
-            <img
-              src={mark.src}
-              alt={mark.name}
-              width={mark.w}
-              height={mark.h}
-              loading="lazy"
-              decoding="async"
-              className="dark-logo h-[42px] w-auto opacity-80 transition-opacity duration-300 hover:opacity-100"
-            />
-          </li>
-        ))}
-      </ul>
+      {/* The row travels horizontally rather than sitting still (KingFizzy,
+          2026-08-10). The list is rendered twice into one track; the second
+          copy is aria-hidden so a screen reader is not read five duplicate
+          client names. The panel's own `overflow-hidden` clips the track, and
+          the mask fades both ends so a logo dissolves at the edge instead of
+          being sliced by the panel border. */}
+      <div
+        className="relative mt-[76px] overflow-hidden"
+        style={{
+          maskImage:
+            "linear-gradient(to right, transparent, black 6%, black 94%, transparent)",
+          WebkitMaskImage:
+            "linear-gradient(to right, transparent, black 6%, black 94%, transparent)",
+        }}
+      >
+        <ul className="tak-marquee-x m-0 flex w-max list-none items-center p-0">
+          {[0, 1].map((copy) =>
+            CLIENT_MARKS.map((mark) => (
+              <li
+                key={`${copy}-${mark.name}`}
+                className="flex shrink-0 items-center px-10"
+                aria-hidden={copy === 1 || undefined}
+              >
+                <img
+                  src={mark.src}
+                  alt={copy === 0 ? mark.name : ""}
+                  width={mark.w}
+                  height={mark.h}
+                  loading="lazy"
+                  decoding="async"
+                  className="dark-logo h-[42px] w-auto opacity-80 transition-opacity duration-300 hover:opacity-100"
+                />
+              </li>
+            )),
+          )}
+        </ul>
+      </div>
     </div>
   );
 }

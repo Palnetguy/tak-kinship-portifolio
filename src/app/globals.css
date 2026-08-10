@@ -385,6 +385,35 @@ body {
   }
 }
 
+/* The client-logo ribbon in the Why Trust Us panel (components/trust-panel.tsx).
+   Same contract as the team gallery above: the list is rendered twice and the
+   track travels exactly one list length, so the join is never seen.
+   The items carry their spacing as padding rather than as a flex `gap`,
+   because a gap would make the track 10 items + 9 gaps wide and -50% would
+   then land half a gap off the seam. With padding the track is a pure
+   repetition of five identical cells and -50% is exact. */
+@keyframes tak-marquee-x {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.tak-marquee-x {
+  animation: tak-marquee-x 34s linear infinite;
+  will-change: transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  /* Held, not hidden: the logos are content, so a reduced-motion visitor
+     still sees the row, just parked at its start. */
+  .tak-marquee-x {
+    animation: none;
+  }
+}
+
 /* Slow bob for the rendered 3D decorations (components/decor.tsx
    FloatObject). Transform only, so it stays on the compositor and never
    triggers layout. Duration and delay are set per element inline. */
