@@ -45,7 +45,7 @@ export default function Page() {
             visible at all. They are still exported from decor.tsx and still
             used verbatim on the Services hero, so nothing from the reference
             is lost, and reinstating them here is a one-line change. */}
-        <Section className="min-h-[960px]" pt={43} pb={62}>
+        <Section className="min-h-[779px]" pt={43} pb={62}>
           <Glow className="right-24 top-10" size={560} strength={0.14} />
           <Glow className="left-40 bottom-8" size={420} strength={0.08} />
           <PlusField className="bottom-4 left-0" rows={1} cols={5} />
@@ -98,25 +98,37 @@ export default function Page() {
               `bottom-14` keeps it clear of the PlusField at `bottom-4`. Both
               numbers were measured off the rendered page, not eyeballed.
 
-              DOUBLED TO 300 on 2026-08-10. That does not fit under the CTA in
-              a 779-tall hero, so the hero is now 960. The clearance is sized
-              for the object's WORST CASE, not its rest position: `tak-drift`
-              lifts it 22px at mid-cycle and the pointer parallax adds `depth`
-              more, so a gap that merely looks fine in a screenshot puts a
-              half-opacity sphere behind the buttons a few seconds later. At
-              rest it sits 66px below the CTA; at full lift plus full lean it
-              is still 26px clear. `depth` came down 34 to 18 for the same
-              reason: it is much bigger and much closer to real content than
-              the two behind the Services grid, and the same lean reads as
-              wobble at this size. */}
+              DOUBLED TO 300 on 2026-08-10, and it FLOATS. The hero stays 779.
+              A first attempt grew the hero to 960 to fit the bigger object and
+              pushed every section below it down 181px; KingFizzy's correction
+              was that it should hang in place and move nothing, which is what
+              `-bottom-[91px]` does. The object is absolute and
+              `pointer-events-none`, so overhanging the section boundary costs
+              nothing structurally.
+
+              THE POSITION IS A 45px BUDGET, and that is the whole reason these
+              are odd numbers. Between the CTA's bottom edge (y610) and the ink
+              of the Problem heading below (y955) there are 345px. A 300px
+              object leaves 45px of total slack. `tak-drift` only ever moves it
+              UP, 22px at mid-cycle, and the pointer parallax adds `depth` on
+              top of that, so the slack has to be spent mostly above: about 32
+              there and 13 below. `depth` is 10 rather than the pair's 18 to 34
+              precisely to keep that sum under budget, and it is the right call
+              on its own terms anyway, since the same lean reads as wobble
+              rather than parallax at twice the size.
+
+              Verified at rest AND with the bob forced to its peak, because a
+              gap that measures fine in a screenshot puts a half-opacity sphere
+              behind the buttons a few seconds later. That is exactly why the
+              hero's left code panel was deleted in the first place. */}
           <FloatObject
             src="/decor/tak-orb.png"
-            className="bottom-14 left-12 hidden lg:block"
+            className="-bottom-[91px] left-12 hidden lg:block"
             size={300}
             opacity={0.5}
             delay={1.2}
             duration={15}
-            depth={18}
+            depth={10}
           />
         </Section>
 
