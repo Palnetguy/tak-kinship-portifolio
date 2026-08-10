@@ -73,6 +73,39 @@ export default function Page() {
 
             <ServiceOrbit />
           </div>
+
+          {/* The orb, repeated under the hero text block (KingFizzy,
+              2026-08-10). Same object and same two-layer motion as the pair
+              behind the Services grid: a compositor-only CSS bob on the outer
+              element, pointer parallax on the inner one.
+
+              Three numbers differ from the Services instance on purpose. It is
+              smaller (150 against 190) because here it sits INSIDE the 1344
+              column rather than bleeding outside it, and at 190 it competed
+              with the CTA row directly above it instead of sitting under it.
+              Its duration is 15 against 12 and its delay 1.2 against 2.5, so
+              the two never fall into a shared rhythm on the one page.
+
+              `lg:block` rather than the pair's `xl:block`: those two hang off
+              the column edges and need the wider viewport to have anywhere to
+              hang. This one is inside the column, so it only needs the hero to
+              still be a two-column row.
+
+              `left-12` aligns it with the text column, not the section edge:
+              `left-0` resolves to the 1344 container's own edge at x48, while
+              the copy above starts at x96, and 48px out of alignment under a
+              left-aligned text block reads as a mistake rather than as decor.
+              `bottom-14` keeps it clear of the PlusField at `bottom-4`. Both
+              numbers were measured off the rendered page, not eyeballed. */}
+          <FloatObject
+            src="/decor/tak-orb.png"
+            className="bottom-14 left-12 hidden lg:block"
+            size={150}
+            opacity={0.5}
+            delay={1.2}
+            duration={15}
+            depth={34}
+          />
         </Section>
 
         {/* Problem. Cards are 432 x 311 at a 24px gap, each centred on a lined
