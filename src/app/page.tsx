@@ -193,6 +193,7 @@ export default function Page() {
                   icon={s.icon}
                   title={s.title}
                   body={s.body}
+                  plain={s.plain}
                 />
               ))}
             </div>

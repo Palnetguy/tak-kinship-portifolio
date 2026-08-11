@@ -5,7 +5,9 @@ import Section from "@/components/section";
 import PageHero from "@/components/page-hero";
 import ConnectCta from "@/components/connect-cta";
 import PortfolioGrid from "@/components/portfolio-grid";
+import Reveal from "@/components/reveal";
 import { DotField, Glow } from "@/components/decor";
+import { portfolioIntro } from "@/lib/content";
 
 export const metadata: Metadata = {
   title: "Portfolio | TAK Kinship",
@@ -34,6 +36,11 @@ export default function PortfolioPage() {
         <Section pt={60} pb={197}>
           <DotField className="right-4 bottom-24" width={150} height={130} />
           <Glow className="-right-20 top-10" size={520} strength={0.12} />
+          <Reveal>
+            <p className="m-0 mb-9 max-w-[680px] text-[15px] leading-relaxed text-text-secondary">
+              {portfolioIntro}
+            </p>
+          </Reveal>
           <PortfolioGrid />
         </Section>
 

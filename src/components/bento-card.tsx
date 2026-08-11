@@ -17,12 +17,17 @@ export default function BentoCard({
   icon,
   title,
   body,
+  plain,
   accentTitle = false,
   minHeight = 310,
 }: {
   icon: IconKey;
   title: string;
   body: string;
+  /** Optional plain-language benefit line, rendered under the body. Set on the
+   *  services grid (Yona's non-technical-audience note); absent on the Why
+   *  Trust Us cards, which reuse this component. */
+  plain?: string;
   accentTitle?: boolean;
   minHeight?: number;
 }) {
@@ -69,6 +74,11 @@ export default function BentoCard({
       <p className="relative m-0 max-w-[30ch] text-[15px] leading-relaxed text-text-secondary">
         {body}
       </p>
+      {plain && (
+        <p className="relative m-0 mt-3 max-w-[32ch] text-[13.5px] leading-relaxed text-text-primary">
+          {plain}
+        </p>
+      )}
     </div>
   );
 }

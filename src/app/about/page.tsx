@@ -137,7 +137,20 @@ export default async function Page() {
           </Reveal>
         </Section>
 
-        {/* The real team. */}
+        {/* The real team.
+            FLAG, awaiting TAK content (2026-08-10 walkthrough), do not fabricate:
+            1. ROSTER EXPANSION. This shows the six people from the old site's
+               bundle. Reviewers said more members are not represented and it
+               must be updated before go-live. Needs real names, roles and bios
+               from TAK; the array lives in src/lib/about.ts and the live API
+               roster overrides it the moment Martin fills team-members/.
+            2. EXPERIENCE-FIRST REFRAME. The team asked that the copy move from
+               "what each member can do" toward each member's experience working
+               at TAK. Several of these bios already read that way and they are
+               real people's own words, so they are NOT rewritten here; the
+               reframe is applied when TAK supplies experience-first bios, via
+               the same about.ts / API path. The heading already frames it: "In
+               their own words." */}
         <Section id="team" pt={0} pb={180}>
           <TriangleMark className="right-8 top-0" size={130} rotate={-90} opacity={0.35} />
           <FloatObject

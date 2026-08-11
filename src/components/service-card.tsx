@@ -18,11 +18,15 @@ export default function ServiceCard({
   icon,
   title,
   body,
+  plain,
   detail,
 }: {
   icon: IconKey;
   title: string;
   body: string;
+  /** Plain-language benefit line under the body (Yona's non-technical-audience
+   *  note, 2026-08-10). Same copy as the Home services grid. */
+  plain?: string;
   detail?: ServiceDetail;
 }) {
   const [open, setOpen] = useState(false);
@@ -58,6 +62,11 @@ export default function ServiceCard({
         <p className="relative m-0 max-w-[30ch] text-[15px] leading-relaxed text-text-secondary">
           {body}
         </p>
+        {plain && (
+          <p className="relative m-0 mt-3 max-w-[32ch] text-[13.5px] leading-relaxed text-text-primary">
+            {plain}
+          </p>
+        )}
 
         {detail && (
           <span className="font-mono-eyebrow relative mt-auto pt-6 text-[11px] text-text-accent opacity-0 transition-opacity duration-300 group-hover:opacity-100 group-focus-visible:opacity-100">

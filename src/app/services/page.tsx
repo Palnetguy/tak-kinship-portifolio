@@ -70,6 +70,7 @@ export default function ServicesPage() {
                 icon={c.icon}
                 title={c.title}
                 body={c.body}
+                plain={c.plain}
                 detail={c.detail}
               />
             ))}

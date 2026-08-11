@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import Button from "./button";
 import ThemeToggle from "./theme-toggle";
 import { CloseIcon, MenuIcon } from "@/components/icons";
@@ -24,16 +25,30 @@ import { CloseIcon, MenuIcon } from "@/components/icons";
  */
 export default function NavBar() {
   const [open, setOpen] = useState(false);
+  const pathname = usePathname();
 
+  // Home is an explicit tab now (Yona and Ian, 2026-08-10 walkthrough). The
+  // logo already returns home, but two reviewers asked for a labelled item so
+  // the destination is obvious, so it leads the list with the same styling as
+  // the others.
+  //
   // Contact is deliberately NOT here (KingFizzy, 2026-08-10). The green
   // "Start a Project" pill already goes to /contact, so listing it as a plain
   // link too gave the bar two controls for one destination, and the weaker of
   // the two sat next to the stronger one.
   const links = [
+    { href: "/", label: "Home" },
     { href: "/about", label: "About" },
     { href: "/services", label: "Services" },
     { href: "/portfolio", label: "Portfolio" },
   ];
+
+  // Active page, same green accent the reviewers approved on the portfolio
+  // filter rail. "/" only matches Home exactly, so the root does not light up
+  // every tab; the others also match their nested routes (e.g. a project at
+  // /portfolio/desn keeps Portfolio lit).
+  const isActive = (href: string) =>
+    href === "/" ? pathname === "/" : pathname === href || pathname.startsWith(`${href}/`);
 
   return (
     <nav className="fixed top-0 right-0 left-0 z-50 border-b border-border-subtle bg-bg-canvas">
@@ -49,15 +64,23 @@ export default function NavBar() {
         </Link>
 
         <div className="absolute left-1/2 hidden -translate-x-1/2 items-center gap-9 md:flex">
-          {links.map((l) => (
-            <Link
-              key={l.href}
-              href={l.href}
-              className="text-[15px] text-text-primary no-underline transition-colors hover:text-text-accent"
-            >
-              {l.label}
-            </Link>
-          ))}
+          {links.map((l) => {
+            const on = isActive(l.href);
+            return (
+              <Link
+                key={l.href}
+                href={l.href}
+                aria-current={on ? "page" : undefined}
+                className={`text-[15px] no-underline transition-colors ${
+                  on
+                    ? "font-medium text-text-accent"
+                    : "text-text-primary hover:text-text-accent"
+                }`}
+              >
+                {l.label}
+              </Link>
+            );
+          })}
         </div>
 
         <div className="hidden items-center gap-4 md:flex">
@@ -79,23 +102,31 @@ export default function NavBar() {
 
       <div
         className="overflow-hidden transition-all duration-200 md:hidden"
-        // 260 was sized for four links and nothing else. Three links plus the
-        // CTA plus the theme toggle measure ~284, so the old ceiling would have
-        // clipped the toggle off the bottom of an open drawer. Verified against
-        // the real scrollHeight rather than guessed.
-        style={{ maxHeight: open ? "340px" : "0px" }}
+        // Sized to the open drawer's real content: four links (Home added
+        // 2026-08-10) at pt-5 + gap-4 each, plus the CTA and the theme toggle.
+        // The previous 340 ceiling was set for three links and would clip the
+        // toggle now that Home is a fourth. 400 clears the measured height with
+        // margin; a too-tall ceiling is invisible because the inner content
+        // still defines the drawer's resting height.
+        style={{ maxHeight: open ? "400px" : "0px" }}
       >
         <div className="flex flex-col gap-4 border-t border-border-subtle px-12 pb-5">
-          {links.map((l) => (
-            <Link
-              key={l.href}
-              href={l.href}
-              onClick={() => setOpen(false)}
-              className="pt-5 text-sm text-text-secondary no-underline"
-            >
-              {l.label}
-            </Link>
-          ))}
+          {links.map((l) => {
+            const on = isActive(l.href);
+            return (
+              <Link
+                key={l.href}
+                href={l.href}
+                onClick={() => setOpen(false)}
+                aria-current={on ? "page" : undefined}
+                className={`pt-5 text-sm no-underline ${
+                  on ? "font-medium text-text-accent" : "text-text-secondary"
+                }`}
+              >
+                {l.label}
+              </Link>
+            );
+          })}
           {/* The CTA is repeated here on purpose. On desktop it lives in the
               right-hand cluster, which is `hidden md:flex`, so dropping the
               Contact link without adding it back below would have left

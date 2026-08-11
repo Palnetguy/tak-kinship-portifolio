@@ -18,36 +18,47 @@ export const problems = [
   },
 ];
 
+// `plain` is a benefit-led, jargon-free line added per Yona's walkthrough note
+// (2026-08-10): terms like "IT Consulting" and "Cloud" read as jargon to a
+// non-technical visitor who still needs to understand the offer. It sits under
+// the existing `body` and says, in everyday words, what the service gets the
+// client. Truthful to what TAK actually does, no invented outcomes or metrics.
 export const services = [
   {
     icon: "code" as const,
     title: "Custom Software",
     body: "End-to-end systems built around your exact processes, not the other way round.",
+    plain: "So your team keeps working the way it already does, instead of bending to fit someone else's tool.",
   },
   {
     icon: "phone" as const,
     title: "Mobile Apps",
     body: "Native-feeling apps that empower communities and scale with your users.",
+    plain: "So your customers can reach you from the phone in their pocket, wherever they are.",
   },
   {
     icon: "globe" as const,
     title: "Web Development",
     body: "Responsive, performant websites and web apps built for real business goals.",
+    plain: "So visitors get a fast, reliable site that works on any device and turns interest into enquiries.",
   },
   {
     icon: "cloud" as const,
     title: "Cloud",
     body: "Architecture, deployment, and migration for reliability at scale.",
+    plain: "So your systems stay online and steady, even as more people start using them.",
   },
   {
     icon: "bulb" as const,
     title: "IT Consulting",
     body: "Strategy-to-execution guidance for teams modernizing their tech stack and operations.",
+    plain: "So you know exactly what to build or change next, without the technical guesswork.",
   },
   {
     icon: "palette" as const,
     title: "UI/UX Design",
     body: "From wireframes to polished designs, we make interactions leave a lasting impression.",
+    plain: "So people understand your product the moment they open it.",
   },
 ];
 
@@ -313,6 +324,13 @@ export const portfolioHero = {
   heading: "Every project is a testament to innovation.",
   body: "A journey into excellence, and a canvas painted with the strokes of transformative technology.",
 };
+
+// Plain-language intro above the project grid (Yona's non-technical-audience
+// note, 2026-08-10). The hero copy is deliberately evocative; this line says,
+// in everyday words, what a visitor is looking at and how to start their own
+// project. Truthful to the real work shown below.
+export const portfolioIntro =
+  "Below are real apps and systems we have built for businesses across East Africa, from shops and schools to farms and radio. Filter by the kind of product you have in mind, and if you see something close to yours, start a project and we will talk it through.";
 
 export const contactHero = {
   heading: "Contact us for any questions.",
