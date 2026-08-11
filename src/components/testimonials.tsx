@@ -4,23 +4,30 @@ import SectionHeading from "@/components/section-heading";
 import Reveal from "@/components/reveal";
 import { DotField } from "@/components/decor";
 import { getLiveTestimonials } from "@/lib/tak-api";
+import { placeholderTestimonials } from "@/lib/content";
 
 /**
- * Client testimonials, live-only by design.
+ * Client testimonials.
  *
- * The reference design has a testimonials block and the rebuild has never
- * shipped one, because the only two ways to fill it were to invent quotes or
- * to leave a visibly empty section on a real company's homepage. This is the
- * third way: it renders NOTHING until TAK's own backend returns at least one
- * real testimonial with a quote and an attributable name, and appears on its
- * own the day Martin adds one. Nothing to remember, nothing to deploy.
+ * The live backend is the source of truth: when Martin wires the key,
+ * `getLiveTestimonials` returns real quotes and they take priority. Until then
+ * the section shows DEMO PLACEHOLDER quotes (KingFizzy, 2026-08-11) so the
+ * layout is visible for the Wednesday walkthrough. The placeholders are
+ * qualitative with fictitious first names and no real client names, so nothing
+ * a visitor could check is invented; see `placeholderTestimonials` in
+ * content.ts. Swap them for real quotes before this is production content.
+ *
+ * Previously this rendered NOTHING without a live backend. That is the correct
+ * production behaviour and is one line away (drop the fallback), which is why
+ * the placeholders live in their own clearly-labelled export rather than being
+ * inlined here.
  *
  * Server component. It never reaches the client, so the credential behind
  * `getLiveTestimonials` never does either.
  */
 export default async function Testimonials() {
-  const items = await getLiveTestimonials();
-  if (!items) return null;
+  const items = (await getLiveTestimonials()) ?? placeholderTestimonials;
+  if (!items.length) return null;
 
   return (
     <Section pt={60} pb={180}>

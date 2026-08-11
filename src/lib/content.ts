@@ -343,6 +343,43 @@ export const contactInfo = [
   { label: "Phone", value: "+256 700 000 000", href: "tel:+256700000000" },
 ];
 
+// DEMO PLACEHOLDER testimonials (KingFizzy, 2026-08-11). The home-page
+// testimonial section normally renders ONLY when TAK's backend returns real
+// quotes, so a real visitor never sees an invented one. For the Wednesday
+// walkthrough the section needs to show its layout before any real quotes
+// exist, so these stand in. They are deliberately QUALITATIVE with no hard
+// numbers or real client names (fictitious first names + generic sectors from
+// the "We Build For" list), so nothing here is a checkable false claim. The
+// live backend, when Martin wires the key, takes priority over these. Replace
+// with real client quotes before this is presented as production content.
+export type Testimonial = {
+  quote: string;
+  author: string;
+  role: string;
+  image?: string;
+};
+
+export const placeholderTestimonials: Testimonial[] = [
+  {
+    quote:
+      "We came to TAK with a rough idea and a tight budget. They asked the right questions first, then built exactly what our team needed instead of what was easy. The app simply fits how we already work.",
+    author: "Grace N.",
+    role: "Operations Manager, Retail",
+  },
+  {
+    quote:
+      "What stood out was the communication. We always knew where the project stood, and when we hit a snag they were honest about it and fixed it quickly. It felt like working with our own team.",
+    author: "Samuel A.",
+    role: "Founder, Education",
+  },
+  {
+    quote:
+      "They understood that our staff are not technical. The system they delivered is simple enough that everyone picked it up in a day, and it has held up as we have grown.",
+    author: "Miriam T.",
+    role: "Director, Agriculture",
+  },
+];
+
 export type Faq = { question: string; answer: string };
 
 export const faqs: Faq[] = [

@@ -11,10 +11,15 @@
  * ships. The six people below are the real team, in the order the live site
  * lists them.
  *
- * Bios are verbatim, with only sentence casing applied to the roles (the live
- * site renders them lowercase via CSS) and the standing grammar rule applied:
- * a missing space after a comma in Yonah's line, and "Tak Kinship" corrected
- * to "TAK Kinship" in Ian's.
+ * BIOS: experience-first DRAFTS, pending each member's confirmation.
+ * The team approved reframing the roster copy from "what each member can do"
+ * toward each member's experience working at TAK (2026-08-10 walkthrough), and
+ * KingFizzy authorized replacing the copy with drafts for the Wednesday
+ * demo. Real facts are kept (roles, self-taught frontend, Makerere CS student,
+ * Django backend, two years at TAK); nothing checkable is invented. Each
+ * person should confirm or adjust their own words before this is treated as
+ * final. The previous verbatim bios (read off the live takkinship.com /about
+ * DOM) are preserved in git history at commit d9ae8a2 if a revert is needed.
  */
 
 export type TeamMember = {
@@ -28,37 +33,37 @@ export const teamMembers: TeamMember[] = [
   {
     name: "Tusingwire Martin",
     role: "Founder & Team Leader",
-    bio: "It's a privilege to work alongside this exceptional team. I've had the honour of witnessing many of our members grow and evolve, and their dedication and passion continually inspire me. At TAK Kinship, we believe in building more than just software, we build people. We cherish the opportunity to mentor and collaborate, fostering an environment where everyone can thrive. Though we may be a small team, the impact we create together is truly remarkable, and it's a testament to the talent and heart each individual brings to the table.",
+    bio: "Building TAK Kinship has been the most rewarding work of my career. What I value most is watching people on this team grow, from their first commit to leading projects of their own, and the trust our clients place in us to get their ideas right. We stay small on purpose, because it keeps us close to the work and close to each other. Every project we take on is a chance to prove that software built with real care changes what a business can do.",
     image: "/team/martin.jpg",
   },
   {
     name: "Masaba Ian Samuel",
     role: "Head of Frontend",
-    bio: "I'm a self-taught front-end developer passionate about crafting intuitive, high-performance user interfaces across web, desktop, and mobile platforms. As the Head of Frontend at TAK Kinship, I specialize in transforming complex ideas into elegant, user-centered digital experiences using modern technologies. With a focus on clean design, scalable architecture, and collaborative development, I strive to build functional and enjoyable products.",
+    bio: "My years at TAK Kinship have shaped how I build. I came in as a self-taught developer and grew into leading our frontend work across web, desktop and mobile. What keeps me here is the room to take a messy, half-formed idea and turn it into an interface that feels effortless, and a team that reviews each other's work honestly. Shipping something a client genuinely enjoys using is still the best part of the job.",
     image: "/team/ian.jpg",
   },
   {
     name: "Yonah Odhiambo",
     role: "Backend Developer",
-    bio: "I focus on building robust and scalable server-side solutions. My passion for crafting efficient infrastructure is truly amplified by working with the Django framework here. Being part of TAK Kinship has deepened my commitment to creating reliable backend systems that power meaningful applications. Beyond my core development work, I'm also keenly following the exciting advancements in Artificial Intelligence, a curiosity that TAK Kinship's innovative environment encourages.",
+    bio: "Working on the backend here has taught me that reliable infrastructure is quiet work everyone feels. I build the server-side systems our apps run on, mostly with Django, and TAK Kinship has pushed me to care about doing that well rather than just doing it fast. The team's curiosity is contagious, and it is part of why I keep exploring where AI can fit into what we build next.",
     image: "/team/yonah.jpg",
   },
   {
     name: "Fuad Michael Lawal",
     role: "UI/UX Designer",
-    bio: "As a UI/UX Designer at TAK Kinship, I'm passionate about crafting intuitive and human-centered digital experiences. My focus is on blending strategic insight with sharp design execution to create user-friendly interfaces and comprehensive design systems. At TAK Kinship, our design team serves as the creative compass for user experience, and I'm proud to contribute to building products that are not only usable but truly memorable and aim to delight.",
+    bio: "Designing at TAK Kinship means I get to sit with a real problem before drawing a single screen. Over my time here I have grown from making things look right to making them make sense, and building design systems the whole team can rely on. The moments I chase are the ones where someone moves through what we made without a second thought, because that ease is the whole point of the work.",
     image: "/team/fuad.jpg",
   },
   {
     name: "Kazibwe David Nelson",
     role: "UI/UX Designer",
-    bio: "As a UI Designer at TAK Kinship and a Computer Science student at Makerere University, my passion for design, cultivated since high school, continues to flourish. I'm incredibly excited to contribute to a team that leverages technology for meaningful impact within our local communities. Joining TAK Kinship two years ago has been instrumental in my growth, providing invaluable support and experiences that are shaping my craft. It's more than just a job; it's an opportunity to be part of impactful innovation, and I'm eager to see what we achieve together.",
+    bio: "I joined TAK Kinship two years ago while studying Computer Science at Makerere University, and it is where my love of design turned into a real craft. The support here, honest feedback and genuine responsibility early on, has done more for my growth than anything else. Getting to design products that make a difference in our own communities is what makes this feel like far more than a job.",
     image: "/team/david.jpg",
   },
   {
     name: "Lawrence Odhiambo",
     role: "Frontend Developer",
-    bio: "What truly sets my experience apart here is the incredible environment at TAK Kinship. From day one, the collaborative spirit of the team and the supportive leadership have been invaluable in honing my skills and encouraging innovation. We operate with a strong agile mindset, which means we're constantly learning, adapting, and delivering user-focused solutions efficiently. Being part of a team that values collaboration and continuous improvement has not only made me a better developer but also instilled a real sense of ownership and pride in the work we do.",
+    bio: "The environment is what I would tell anyone about first. From my very first week at TAK Kinship the team had my back, and that support is how I have grown as a developer. We work in fast, honest cycles, learning and adjusting as we go, and it has given me a real sense of ownership over what we ship. Being trusted to do good work, alongside people who do the same, is why I am proud of what we build.",
     image: "/team/lawrence.jpg",
   },
 ];
