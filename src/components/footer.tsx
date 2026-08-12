@@ -38,11 +38,13 @@ const COLUMNS: { heading: string; links: { label: string; href: string }[] }[] =
     ],
   },
   {
+    // Only confirmed, working links (KingFizzy, 2026-08-12). TAK's own site links its
+    // Instagram/X but both are dead (instagram.com/takkinship = "page not found"), so they
+    // are omitted until TAK supplies real handles. LinkedIn confirmed by KingFizzy.
     heading: "Follow Us",
     links: [
-      { label: "Instagram", href: "https://instagram.com" },
-      { label: "LinkedIn", href: "https://linkedin.com" },
-      { label: "X / Twitter", href: "https://x.com" },
+      { label: "LinkedIn", href: "https://www.linkedin.com/company/takkinship/" },
+      { label: "Email", href: "mailto:info@takkinship.com" },
     ],
   },
 ];
@@ -92,16 +94,30 @@ export default function Footer() {
                 {col.heading}
               </h3>
               <ul className="m-0 mt-5 flex list-none flex-col gap-[14px] p-0">
-                {col.links.map((l) => (
-                  <li key={l.label}>
-                    <Link
-                      href={l.href}
-                      className="text-sm text-text-secondary no-underline transition-colors hover:text-text-accent"
-                    >
-                      {l.label}
-                    </Link>
-                  </li>
-                ))}
+                {col.links.map((l) => {
+                  const isExternal = /^(https?:|mailto:|tel:)/.test(l.href);
+                  const cls =
+                    "text-sm text-text-secondary no-underline transition-colors hover:text-text-accent";
+                  return (
+                    <li key={l.label}>
+                      {isExternal ? (
+                        <a
+                          href={l.href}
+                          className={cls}
+                          {...(l.href.startsWith("http")
+                            ? { target: "_blank", rel: "noopener noreferrer" }
+                            : {})}
+                        >
+                          {l.label}
+                        </a>
+                      ) : (
+                        <Link href={l.href} className={cls}>
+                          {l.label}
+                        </Link>
+                      )}
+                    </li>
+                  );
+                })}
               </ul>
             </div>
           ))}

@@ -47,8 +47,8 @@ const CONTACT_ROWS = [
   {
     icon: "phone" as const,
     label: "Phone",
-    value: "[+256 700 000 000]",
-    href: "tel:+256700000000",
+    value: "+256 783 808 236",
+    href: "tel:+256783808236",
   },
 ];
 
