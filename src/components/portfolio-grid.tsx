@@ -1,7 +1,7 @@
 "use client";
 
 import { useLayoutEffect, useRef, useState } from "react";
-import { portfolioProjects } from "@/lib/content";
+import { type PortfolioProject } from "@/lib/content";
 import PortfolioCard from "@/components/portfolio-card";
 
 /**
@@ -40,7 +40,11 @@ function matchesFilter(category: string, filter: Filter) {
   return category === "Desktop App";
 }
 
-export default function PortfolioGrid() {
+export default function PortfolioGrid({
+  projects,
+}: {
+  projects: PortfolioProject[];
+}) {
   const [active, setActive] = useState<Filter>("All");
   const railRef = useRef<HTMLDivElement>(null);
   const [indicator, setIndicator] = useState<{ x: number; w: number } | null>(
@@ -65,7 +69,7 @@ export default function PortfolioGrid() {
     return () => observer.disconnect();
   }, [active]);
 
-  const visible = portfolioProjects.filter((p) => matchesFilter(p.category, active));
+  const visible = projects.filter((p) => matchesFilter(p.category, active));
 
   return (
     <div>

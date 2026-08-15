@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { getLiveCompanyInfo } from "@/lib/tak-api";
 
 /**
  * Footer, traced from Home.png y 7418-7837.
@@ -14,7 +15,7 @@ import Link from "next/link";
  * carries.
  */
 
-const COLUMNS: { heading: string; links: { label: string; href: string }[] }[] = [
+const BASE_COLUMNS: { heading: string; links: { label: string; href: string }[] }[] = [
   {
     heading: "Pages",
     links: [
@@ -37,19 +38,30 @@ const COLUMNS: { heading: string; links: { label: string; href: string }[] }[] =
       { label: "UI/UX", href: "/services" },
     ],
   },
-  {
-    // Only confirmed, working links (KingFizzy, 2026-08-12). TAK's own site links its
-    // Instagram/X but both are dead (instagram.com/takkinship = "page not found"), so they
-    // are omitted until TAK supplies real handles. LinkedIn confirmed by KingFizzy.
-    heading: "Follow Us",
-    links: [
-      { label: "LinkedIn", href: "https://www.linkedin.com/company/takkinship/" },
-      { label: "Email", href: "mailto:info@takkinship.com" },
-    ],
-  },
 ];
 
-export default function Footer() {
+export default async function Footer() {
+  const company = await getLiveCompanyInfo();
+  const followLinks = [
+    company?.linkedin
+      ? { label: "LinkedIn", href: company.linkedin }
+      : { label: "LinkedIn", href: "https://www.linkedin.com/company/takkinship/" },
+    company?.instagram ? { label: "Instagram", href: company.instagram } : null,
+    company?.twitter ? { label: "X", href: company.twitter } : null,
+    {
+      label: "Email",
+      href: `mailto:${company?.email || "info@takkinship.com"}`,
+    },
+  ].filter((item): item is { label: string; href: string } => Boolean(item));
+
+  const columns = [
+    ...BASE_COLUMNS,
+    {
+      heading: "Follow Us",
+      links: followLinks,
+    },
+  ];
+
   return (
     <footer className="relative isolate overflow-hidden bg-bg-canvas">
       {/* The green light streak that runs under the brand column in the
@@ -88,7 +100,7 @@ export default function Footer() {
             </p>
           </div>
 
-          {COLUMNS.map((col) => (
+          {columns.map((col) => (
             <div key={col.heading}>
               <h3 className="m-0 text-sm font-semibold text-text-primary">
                 {col.heading}

@@ -7,7 +7,8 @@ import ConnectCta from "@/components/connect-cta";
 import PortfolioGrid from "@/components/portfolio-grid";
 import Reveal from "@/components/reveal";
 import { DotField, Glow } from "@/components/decor";
-import { portfolioIntro } from "@/lib/content";
+import { portfolioIntro, portfolioProjects } from "@/lib/content";
+import { getLiveProjects } from "@/lib/tak-api";
 
 export const metadata: Metadata = {
   title: "Portfolio | TAK Kinship",
@@ -21,7 +22,9 @@ export const metadata: Metadata = {
  * with the opposite correct answer, which is why the two are one component
  * taking an `align` rather than one shared alignment.
  */
-export default function PortfolioPage() {
+export default async function PortfolioPage() {
+  const projects = (await getLiveProjects()) ?? portfolioProjects;
+
   return (
     <>
       <NavBar />
@@ -41,7 +44,7 @@ export default function PortfolioPage() {
               {portfolioIntro}
             </p>
           </Reveal>
-          <PortfolioGrid />
+          <PortfolioGrid projects={projects} />
         </Section>
 
         <ConnectCta />

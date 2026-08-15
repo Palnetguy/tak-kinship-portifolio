@@ -71,6 +71,7 @@ export const processSteps = [
 ];
 
 export type PortfolioProject = {
+  projectId?: string;
   slug: string;
   name: string;
   category: "MOBILE APP" | "Desktop App" | "Web App";
@@ -91,6 +92,14 @@ export type PortfolioProject = {
   year?: string;
   /** Shown as "Visit the app". Only set where a real live URL exists. */
   url?: string;
+  /** Download links for app builds, when the backend exposes them. */
+  downloads?: {
+    label: string;
+    href: string;
+    version?: string;
+    description?: string;
+    releasedOn?: string;
+  }[];
   overview: string;
   problem: string;
   solution: string;

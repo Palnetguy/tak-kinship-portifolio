@@ -1,5 +1,6 @@
 import Button from "@/components/button";
-import TeamGallery from "@/components/team-gallery";
+import { TeamGalleryContent } from "@/components/team-gallery";
+import { getLiveGalleryPhotos } from "@/lib/tak-api";
 
 /**
  * "The people behind the work".
@@ -24,7 +25,13 @@ import TeamGallery from "@/components/team-gallery";
  * company feel staffed by people", which is exactly why it should not have
  * been dropped.
  */
-export default function TeamPanel() {
+const FALLBACK_PHOTOS = Array.from({ length: 10 }, (_, i) => ({
+  src: `/gallery/tak-${String(i + 1).padStart(2, "0")}.jpg`,
+}));
+
+export default async function TeamPanel() {
+  const photos = (await getLiveGalleryPhotos()) ?? FALLBACK_PHOTOS;
+
   return (
     <div className="flex flex-col items-center gap-12 overflow-hidden rounded-2xl border border-border-subtle bg-elevated p-8 md:p-12 lg:flex-row lg:gap-16">
       {/* Joy's layout is unchanged: media left at roughly half the measure,
@@ -32,7 +39,7 @@ export default function TeamPanel() {
           group photograph to the revolving gallery, on KingFizzy's order
           (2026-08-09). The group shot is not lost, it is the first tile. */}
       <div className="w-full shrink-0 lg:w-[46%]">
-        <TeamGallery />
+        <TeamGalleryContent photos={photos} />
       </div>
 
       <div className="flex flex-col items-start gap-5">

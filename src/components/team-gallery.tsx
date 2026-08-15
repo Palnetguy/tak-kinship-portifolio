@@ -33,18 +33,15 @@ import Image from "next/image";
    URL, so replacing the bytes behind an unchanged `/gallery/g6.jpg` kept
    serving the old, grey-bottomed derivative from cache. A new path is the only
    invalidation that cannot be argued with. */
-const PHOTOS = Array.from({ length: 10 }, (_, i) => ({
+const FALLBACK_PHOTOS = Array.from({ length: 10 }, (_, i) => ({
   src: `/gallery/tak-${String(i + 1).padStart(2, "0")}.jpg`,
 }));
-
-const COL_A = PHOTOS.filter((_, i) => i % 2 === 0);
-const COL_B = PHOTOS.filter((_, i) => i % 2 === 1);
 
 function Column({
   photos,
   className,
 }: {
-  photos: typeof PHOTOS;
+  photos: { src: string }[];
   className: string;
 }) {
   return (
@@ -88,6 +85,18 @@ function Column({
 }
 
 export default function TeamGallery() {
+  const photos = FALLBACK_PHOTOS;
+  return <TeamGalleryContent photos={photos} />;
+}
+
+export function TeamGalleryContent({
+  photos,
+}: {
+  photos: { src: string }[];
+}) {
+  const colA = photos.filter((_, i) => i % 2 === 0);
+  const colB = photos.filter((_, i) => i % 2 === 1);
+
   return (
     <div
       className="relative h-[440px] w-full"
@@ -101,8 +110,8 @@ export default function TeamGallery() {
       }}
     >
       <div className="flex h-full gap-4">
-        <Column photos={COL_A} className="tak-marquee-up" />
-        <Column photos={COL_B} className="tak-marquee-down" />
+        <Column photos={colA} className="tak-marquee-up" />
+        <Column photos={colB} className="tak-marquee-down" />
       </div>
       {/* The photographs are decorative here: the section's meaning is in its
           heading and body, and eleven identical "TAK Kinship at work" alts

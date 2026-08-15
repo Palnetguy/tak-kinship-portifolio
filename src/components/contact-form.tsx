@@ -2,11 +2,6 @@
 
 import { useState, type FormEvent } from "react";
 
-// PLACEHOLDER: no backend or form-processing service exists yet. Submitting
-// opens the user's email client with the message prefilled via mailto: so the
-// form is honestly functional rather than a dead end. Wire to a real form
-// handler (e.g. an API route + email service) before launch.
-
 /**
  * Traced from Contact.png y 449-1044.
  *
@@ -47,23 +42,47 @@ const FIELD =
   "user-invalid:border-[#c0564f] user-invalid:shadow-[0_0_0_3px_color-mix(in_srgb,#c0564f_20%,transparent)]";
 
 export default function ContactForm() {
-  const [sent, setSent] = useState(false);
+  const [state, setState] = useState<"idle" | "submitting" | "success" | "error">(
+    "idle",
+  );
+  const [errorText, setErrorText] = useState("");
 
-  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    const body = [
-      `Name: ${data.get("firstName")} ${data.get("lastName")}`,
-      `Email: ${data.get("email")}`,
-      `Organisation: ${data.get("organisation") || "Not set"}`,
-      "",
-      String(data.get("message") ?? ""),
-    ].join("\n");
+    const form = event.currentTarget;
+    const data = new FormData(form);
 
-    window.location.href = `mailto:info@takkinship.com?subject=${encodeURIComponent(
-      "New project inquiry",
-    )}&body=${encodeURIComponent(body)}`;
-    setSent(true);
+    setState("submitting");
+    setErrorText("");
+
+    const response = await fetch("/api/contact", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify({
+        firstName: String(data.get("firstName") ?? ""),
+        lastName: String(data.get("lastName") ?? ""),
+        email: String(data.get("email") ?? ""),
+        organisation: String(data.get("organisation") ?? ""),
+        message: String(data.get("message") ?? ""),
+      }),
+    });
+
+    if (response.ok) {
+      form.reset();
+      setState("success");
+      return;
+    }
+
+    const payload = (await response.json().catch(() => null)) as
+      | { error?: string }
+      | null;
+    setErrorText(
+      payload?.error ||
+        "We could not send your message right now. Email info@takkinship.com instead.",
+    );
+    setState("error");
   }
 
   return (
@@ -100,18 +119,25 @@ export default function ContactForm() {
           button that is not a <Button> does not behave differently. */}
       <button
         type="submit"
+        disabled={state === "submitting"}
         className="mt-1 w-full cursor-pointer rounded-lg border border-action-primary bg-action-primary px-6 py-3 text-[15px] font-medium text-text-on-accent
           transition-[background-color,box-shadow,transform] duration-200 ease-out
           hover:bg-[color-mix(in_srgb,var(--action-primary)_88%,white)]
           hover:shadow-[0_8px_28px_color-mix(in_srgb,var(--text-accent)_28%,transparent)]
           active:scale-[0.985] motion-reduce:active:scale-100
-          focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--text-accent)]"
+          focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--text-accent)]
+          disabled:cursor-not-allowed disabled:opacity-70"
       >
-        Send
+        {state === "submitting" ? "Sending..." : "Send"}
       </button>
-      {sent && (
+      {state === "success" && (
         <p className="m-0 text-sm text-text-accent" role="status">
-          Opening your email client with this message prefilled.
+          Message sent. We will get back to you soon.
+        </p>
+      )}
+      {state === "error" && (
+        <p className="m-0 text-sm text-[#d07a72]" role="alert">
+          {errorText}
         </p>
       )}
     </form>

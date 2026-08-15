@@ -15,6 +15,7 @@ import Testimonials from "@/components/testimonials";
 import { ICONS } from "@/components/icons";
 import { PlusField, DotField, TriangleMark, Glow } from "@/components/decor";
 import FloatObject from "@/components/float-object";
+import { getLiveProjects } from "@/lib/tak-api";
 import {
   problems,
   services,
@@ -24,7 +25,9 @@ import {
   sectors,
 } from "@/lib/content";
 
-export default function Page() {
+export default async function Page() {
+  const projects = (await getLiveProjects()) ?? portfolioProjects;
+
   return (
     <>
       <NavBar />
@@ -268,7 +271,7 @@ export default function Page() {
               Every project is a testament to innovation, a journey into excellence.
             </SectionHeading>
             <div className="grid grid-cols-1 gap-[33px] md:grid-cols-2 lg:grid-cols-3">
-              {portfolioProjects.map((project) => (
+              {projects.map((project) => (
                 <PortfolioCard key={project.slug} project={project} />
               ))}
             </div>

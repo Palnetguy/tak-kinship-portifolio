@@ -7,6 +7,9 @@ import ConnectCta from "@/components/connect-cta";
 import Button from "@/components/button";
 import ProjectDetailContent from "@/components/project-detail-modal";
 import { portfolioProjects } from "@/lib/content";
+import { getLiveProjectBySlug } from "@/lib/tak-api";
+
+export const dynamicParams = true;
 
 export function generateStaticParams() {
   return portfolioProjects.map((p) => ({ slug: p.slug }));
@@ -18,7 +21,9 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const project = portfolioProjects.find((p) => p.slug === slug);
+  const project =
+    (await getLiveProjectBySlug(slug)) ??
+    portfolioProjects.find((p) => p.slug === slug);
   if (!project) {
     return { title: "Project not found | TAK Kinship" };
   }
@@ -47,7 +52,9 @@ export default async function PortfolioProjectPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const project = portfolioProjects.find((p) => p.slug === slug);
+  const project =
+    (await getLiveProjectBySlug(slug)) ??
+    portfolioProjects.find((p) => p.slug === slug);
   if (!project) {
     notFound();
   }

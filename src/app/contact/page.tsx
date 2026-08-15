@@ -10,7 +10,8 @@ import FaqAccordion from "@/components/faq-accordion";
 import SectionHeading from "@/components/section-heading";
 import { MailIcon } from "@/components/icons";
 import { Glow } from "@/components/decor";
-import { contactHero, faqs } from "@/lib/content";
+import { getLiveCompanyInfo, getLiveFaqs } from "@/lib/tak-api";
+import { contactHero, contactInfo, faqs } from "@/lib/content";
 
 export const metadata: Metadata = {
   title: "Contact | TAK Kinship",
@@ -31,26 +32,6 @@ export const metadata: Metadata = {
  *
  * Both images were cut from the 4x reference at those measured bounds.
  */
-
-const CONTACT_ROWS = [
-  {
-    icon: "mail" as const,
-    label: "Email",
-    value: "INFO@TAKKINSHIP.COM",
-    href: "mailto:info@takkinship.com",
-  },
-  {
-    icon: "pin" as const,
-    label: "Office",
-    value: "KAKOBA DIVISION, MBARARA, UGANDA",
-  },
-  {
-    icon: "phone" as const,
-    label: "Phone",
-    value: "+256 783 808 236",
-    href: "tel:+256783808236",
-  },
-];
 
 function RowIcon({ kind }: { kind: "mail" | "pin" | "phone" }) {
   const common = {
@@ -78,7 +59,29 @@ function RowIcon({ kind }: { kind: "mail" | "pin" | "phone" }) {
   );
 }
 
-export default function ContactPage() {
+export default async function ContactPage() {
+  const liveInfo = await getLiveCompanyInfo();
+  const liveFaqs = (await getLiveFaqs()) ?? faqs;
+  const rows = [
+    {
+      icon: "mail" as const,
+      label: "Email",
+      value: liveInfo?.email || contactInfo.find((item) => item.label === "Email")?.value || "",
+      href: `mailto:${liveInfo?.email || contactInfo.find((item) => item.label === "Email")?.value || "info@takkinship.com"}`,
+    },
+    {
+      icon: "pin" as const,
+      label: "Office",
+      value: liveInfo?.location || contactInfo.find((item) => item.label === "Office")?.value || "",
+    },
+    {
+      icon: "phone" as const,
+      label: "Phone",
+      value: liveInfo?.phone || contactInfo.find((item) => item.label === "Phone")?.value || "",
+      href: `tel:${(liveInfo?.phone || contactInfo.find((item) => item.label === "Phone")?.value || "").replace(/\s+/g, "")}`,
+    },
+  ];
+
   return (
     <>
       <NavBar />
@@ -158,7 +161,7 @@ export default function ContactPage() {
                 To Get us
               </h2>
               <ul className="m-0 flex list-none flex-col gap-6 p-0">
-                {CONTACT_ROWS.map((row) => (
+                {rows.map((row) => (
                   <li key={row.label} className="flex items-start gap-4">
                     <span className="mt-0.5 flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-[color-mix(in_srgb,var(--text-accent)_35%,transparent)] text-text-accent">
                       <RowIcon kind={row.icon} />
@@ -219,7 +222,7 @@ export default function ContactPage() {
               />
             </div>
             <div className="order-1 lg:order-2">
-              <FaqAccordion faqs={faqs} />
+              <FaqAccordion faqs={liveFaqs} />
             </div>
           </div>
         </Section>

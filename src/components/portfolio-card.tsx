@@ -27,8 +27,10 @@ export default function PortfolioCard({ project }: { project: PortfolioProject }
   return (
     <>
       <button
+        type="button"
         onClick={() => setOpen(true)}
         aria-label={`${project.name} project details`}
+        aria-haspopup="dialog"
         className="group flex min-h-[474px] cursor-pointer flex-col overflow-hidden rounded-xl border border-border-subtle bg-surface p-0 text-left tak-hover-glow hover:-translate-y-1 motion-reduce:transform-none"
       >
         <div className="h-[225px] w-full shrink-0 overflow-hidden">

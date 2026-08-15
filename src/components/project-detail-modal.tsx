@@ -108,6 +108,51 @@ export default function ProjectDetailContent({
                 Visit the app &#8599;
               </a>
             )}
+
+            {project.downloads && project.downloads.length > 0 && (
+              <div className="border-t border-border-subtle pt-4">
+                <p className="font-display m-0 mb-3 text-sm font-bold text-text-primary">
+                  Downloads
+                </p>
+                <div className="flex flex-col gap-3">
+                  {project.downloads.map((download) => (
+                    <a
+                      key={`${download.href}-${download.version ?? download.label}`}
+                      href={download.href}
+                      target="_blank"
+                      rel="noreferrer noopener"
+                      className="rounded-lg border border-border-subtle px-3 py-2 text-sm text-text-accent no-underline transition-colors hover:border-text-accent"
+                    >
+                      <span className="block">{download.label}</span>
+                      {download.releasedOn ? (
+                        <span className="mt-1 block text-[11px] text-text-secondary">
+                          {download.releasedOn}
+                        </span>
+                      ) : null}
+                    </a>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {project.projectId && (
+              <div className="border-t border-border-subtle pt-4 text-sm">
+                <div className="flex flex-col gap-2">
+                  <a
+                    href={`/portfolio/${project.slug}/privacy`}
+                    className="text-text-accent no-underline hover:underline"
+                  >
+                    Privacy policy
+                  </a>
+                  <a
+                    href={`/portfolio/${project.slug}/terms`}
+                    className="text-text-accent no-underline hover:underline"
+                  >
+                    Terms and conditions
+                  </a>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>

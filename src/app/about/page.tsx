@@ -40,6 +40,10 @@ export default async function Page() {
      starts serving Martin's edits the moment the rotated key is set in Vercel.
      No code change sits between those two states. */
   const roster = (await getLiveTeam()) ?? teamMembers;
+  const liveCeo =
+    roster.find((member) => member.name.toLowerCase().includes("martin")) ??
+    null;
+  const ceoImage = liveCeo?.image || ceo.image;
 
   return (
     <>
@@ -108,7 +112,7 @@ export default async function Page() {
             <div className="flex flex-col items-center gap-10 rounded-2xl border border-border-subtle bg-elevated p-8 md:p-12 lg:flex-row lg:items-start lg:gap-14">
               <div className="w-[220px] shrink-0">
                 <Image
-                  src={ceo.image}
+                  src={ceoImage}
                   alt={`${ceo.name}, ${ceo.role} of TAK Kinship`}
                   width={520}
                   height={520}
