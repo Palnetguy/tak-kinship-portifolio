@@ -70,6 +70,9 @@ function Column({
               src={p.src}
               alt=""
               fill
+              unoptimized={p.src.startsWith(
+                "https://tak-kinship-bkt.s3.us-west-2.amazonaws.com/",
+              )}
               className="object-cover"
               // The tile is about 245px wide at the 1344 column, so this asks
               // for roughly 2x that. The first pass said 22vw and Next served

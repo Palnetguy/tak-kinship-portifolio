@@ -23,7 +23,13 @@ export const metadata: Metadata = {
  * taking an `align` rather than one shared alignment.
  */
 export default async function PortfolioPage() {
-  const projects = (await getLiveProjects()) ?? portfolioProjects;
+  const liveProjects = await getLiveProjects();
+  const projects =
+    liveProjects ??
+    portfolioProjects.map((project) => ({
+      ...project,
+      image: "",
+    }));
 
   return (
     <>

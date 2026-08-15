@@ -54,7 +54,12 @@ export default async function PortfolioProjectPage({
   const { slug } = await params;
   const project =
     (await getLiveProjectBySlug(slug)) ??
-    portfolioProjects.find((p) => p.slug === slug);
+    portfolioProjects.find((p) => p.slug === slug)?.image
+      ? {
+          ...portfolioProjects.find((p) => p.slug === slug)!,
+          image: "",
+        }
+      : portfolioProjects.find((p) => p.slug === slug);
   if (!project) {
     notFound();
   }

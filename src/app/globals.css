@@ -477,3 +477,13 @@ body {
 [data-theme="light"] .dark-logo {
   filter: invert(1) hue-rotate(180deg);
 }
+
+/* The floating orb/web renders were authored for the dark theme, where their
+   deep blacks read as depth. On the light canvas those same blacks turn into
+   dirty patches. Keep the same assets and motion, but soften their contrast
+   and saturation so they read as pale technical atmosphere instead of dark
+   objects dropped on a white page. */
+[data-theme="light"] .tak-float-art {
+  filter: brightness(1.38) contrast(0.56) saturate(0.72);
+  opacity: 0.76;
+}

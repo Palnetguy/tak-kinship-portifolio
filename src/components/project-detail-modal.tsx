@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { type PortfolioProject } from "@/lib/content";
 
 /**
@@ -23,15 +24,28 @@ export default function ProjectDetailContent({
 }: {
   project: PortfolioProject;
 }) {
+  const unoptimized = project.image.startsWith(
+    "https://tak-kinship-bkt.s3.us-west-2.amazonaws.com/",
+  );
+
   return (
     <div>
-      <img
-        src={project.image}
-        alt=""
-        width={852}
-        height={450}
-        className="block h-[305px] w-full object-cover"
-      />
+      {project.image ? (
+        <div className="relative h-[305px] w-full">
+          <Image
+            src={project.image}
+            alt=""
+            fill
+            unoptimized={unoptimized}
+            sizes="(max-width: 900px) 100vw, 852px"
+            className="block object-cover"
+          />
+        </div>
+      ) : (
+        <div className="flex h-[305px] w-full items-center justify-center bg-surface text-sm text-text-muted">
+          Project image pending backend
+        </div>
+      )}
 
       <div className="p-8 md:p-10">
         <p className="font-mono-eyebrow m-0 mb-3 text-[11px] font-medium uppercase tracking-[0.14em] text-text-accent">

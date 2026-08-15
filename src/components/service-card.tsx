@@ -1,10 +1,15 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import { useState } from "react";
 import { type ServiceDetail } from "@/lib/content";
 import { ICONS, type IconKey } from "@/components/icons";
 import Modal from "@/components/modal";
-import ServiceDetailContent from "@/components/service-detail-modal";
+
+const ServiceDetailContent = dynamic(
+  () => import("@/components/service-detail-modal"),
+  { loading: () => null },
+);
 
 /**
  * The Services page card, traced from Services.png y ~1000-1560.

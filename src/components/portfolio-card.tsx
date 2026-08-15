@@ -1,9 +1,15 @@
 "use client";
 
+import Image from "next/image";
+import dynamic from "next/dynamic";
 import { useState } from "react";
 import { type PortfolioProject } from "@/lib/content";
 import Modal from "@/components/modal";
-import ProjectDetailContent from "@/components/project-detail-modal";
+
+const ProjectDetailContent = dynamic(
+  () => import("@/components/project-detail-modal"),
+  { loading: () => null },
+);
 
 /**
  * Portfolio card, traced from Home.png y 3352-4773.
@@ -23,6 +29,9 @@ import ProjectDetailContent from "@/components/project-detail-modal";
  */
 export default function PortfolioCard({ project }: { project: PortfolioProject }) {
   const [open, setOpen] = useState(false);
+  const unoptimized = project.image.startsWith(
+    "https://tak-kinship-bkt.s3.us-west-2.amazonaws.com/",
+  );
 
   return (
     <>
@@ -33,16 +42,21 @@ export default function PortfolioCard({ project }: { project: PortfolioProject }
         aria-haspopup="dialog"
         className="group flex min-h-[474px] cursor-pointer flex-col overflow-hidden rounded-xl border border-border-subtle bg-surface p-0 text-left tak-hover-glow hover:-translate-y-1 motion-reduce:transform-none"
       >
-        <div className="h-[225px] w-full shrink-0 overflow-hidden">
-          <img
-            src={project.image}
-            alt=""
-            width={852}
-            height={450}
-            loading="lazy"
-            decoding="async"
-            className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.03] motion-reduce:transform-none"
-          />
+        <div className="relative h-[225px] w-full shrink-0 overflow-hidden">
+          {project.image ? (
+            <Image
+              src={project.image}
+              alt=""
+              fill
+              unoptimized={unoptimized}
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 426px"
+              className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.03] motion-reduce:transform-none"
+            />
+          ) : (
+            <div className="flex h-full w-full items-center justify-center bg-elevated text-sm text-text-muted">
+              Project image pending backend
+            </div>
+          )}
         </div>
 
         <div className="flex flex-col gap-2 px-5 pt-6 pb-7">
@@ -52,7 +66,14 @@ export default function PortfolioCard({ project }: { project: PortfolioProject }
           <span className="font-mono-eyebrow text-[11px] font-medium uppercase tracking-[0.14em] text-text-accent">
             {project.category}
           </span>
-          <p className="m-0 mt-1 text-sm leading-relaxed text-text-secondary">
+          <p
+            className="m-0 mt-1 overflow-hidden text-sm leading-relaxed text-text-secondary"
+            style={{
+              display: "-webkit-box",
+              WebkitBoxOrient: "vertical",
+              WebkitLineClamp: 4,
+            }}
+          >
             {project.blurb}
           </p>
           <div className="mt-3 flex flex-wrap gap-2">

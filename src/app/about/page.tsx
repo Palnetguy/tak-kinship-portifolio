@@ -39,11 +39,16 @@ export default async function Page() {
      no credential configured this renders exactly what it rendered before and
      starts serving Martin's edits the moment the rotated key is set in Vercel.
      No code change sits between those two states. */
-  const roster = (await getLiveTeam()) ?? teamMembers;
+  const roster =
+    (await getLiveTeam()) ??
+    teamMembers.map((member) => ({
+      ...member,
+      image: "",
+    }));
   const liveCeo =
     roster.find((member) => member.name.toLowerCase().includes("martin")) ??
     null;
-  const ceoImage = liveCeo?.image || ceo.image;
+  const ceoImage = liveCeo?.image || "";
 
   return (
     <>
@@ -111,14 +116,20 @@ export default async function Page() {
           <Reveal>
             <div className="flex flex-col items-center gap-10 rounded-2xl border border-border-subtle bg-elevated p-8 md:p-12 lg:flex-row lg:items-start lg:gap-14">
               <div className="w-[220px] shrink-0">
-                <Image
-                  src={ceoImage}
-                  alt={`${ceo.name}, ${ceo.role} of TAK Kinship`}
-                  width={520}
-                  height={520}
-                  className="h-auto w-full rounded-xl object-cover"
-                  sizes="220px"
-                />
+                {ceoImage ? (
+                  <Image
+                    src={ceoImage}
+                    alt={`${ceo.name}, ${ceo.role} of TAK Kinship`}
+                    width={520}
+                    height={520}
+                    className="h-auto w-full rounded-xl object-cover"
+                    sizes="220px"
+                  />
+                ) : (
+                  <div className="flex aspect-square w-full items-center justify-center rounded-xl border border-border-subtle bg-surface text-center text-sm text-text-muted">
+                    CEO image pending backend
+                  </div>
+                )}
               </div>
               <div className="flex flex-col items-start">
                 <p className="font-mono-eyebrow m-0 mb-4 text-xs font-medium tracking-[0.18em] text-text-accent uppercase">
@@ -184,14 +195,20 @@ export default async function Page() {
                   className="flex flex-col rounded-xl border border-border-subtle bg-surface p-6 tak-hover-glow"
                 >
                   <div className="mb-5 flex items-center gap-4">
-                    <Image
-                      src={m.image}
-                      alt={m.name}
-                      width={520}
-                      height={520}
-                      className="h-14 w-14 shrink-0 rounded-full object-cover"
-                      sizes="56px"
-                    />
+                    {m.image ? (
+                      <Image
+                        src={m.image}
+                        alt={m.name}
+                        width={520}
+                        height={520}
+                        className="h-14 w-14 shrink-0 rounded-full object-cover"
+                        sizes="56px"
+                      />
+                    ) : (
+                      <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full border border-border-subtle bg-elevated text-[11px] text-text-muted">
+                        N/A
+                      </div>
+                    )}
                     <div className="min-w-0">
                       <h3 className="font-display m-0 text-[17px] font-bold leading-tight">
                         {m.name}

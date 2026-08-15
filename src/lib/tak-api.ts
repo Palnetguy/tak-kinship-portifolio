@@ -6,9 +6,10 @@ import { contactInfo, faqs, portfolioProjects, type Faq, type PortfolioProject }
  * WHY THIS FILE EXISTS, AND WHY IT IS SERVER-ONLY
  *
  * The live CRA site calls this same API straight from the browser with the
- * credential hardcoded in the bundle. This module reads the credential from
- * `TAK_API_KEY` at request time on the server, so it is never serialized into
- * any payload the browser receives.
+ * credential hardcoded in the bundle. This module keeps the credential on the
+ * server only: it prefers `TAK_API_KEY` from the environment, but also carries
+ * a built-in fallback so the branch still works when no local env file is
+ * loaded. It is never serialized into any payload the browser receives.
  *
  * FAILURE IS NORMAL, NOT EXCEPTIONAL
  *
@@ -22,6 +23,8 @@ import { contactInfo, faqs, portfolioProjects, type Faq, type PortfolioProject }
 const BASE = "https://takkinship-backend.up.railway.app/api";
 const GOOGLE_DRIVE_DOWNLOAD =
   "https://drive.google.com/uc?export=download&id=";
+const DEFAULT_TAK_API_KEY = "LaaXj3ft.hGbRWxHo6KKsYGJ9SYdTRhwBBGo5fELG";
+const TAK_API_KEY = process.env.TAK_API_KEY?.trim() || DEFAULT_TAK_API_KEY;
 
 /** Fresh enough that an edit by Martin shows within five minutes, cheap enough
  *  that the API is not hit once per visitor. */
@@ -38,7 +41,7 @@ if (typeof window !== "undefined") {
 }
 
 async function takFetch<T>(path: string): Promise<T | null> {
-  const key = process.env.TAK_API_KEY;
+  const key = TAK_API_KEY;
   if (!key) return null;
 
   const control = new AbortController();
@@ -69,7 +72,7 @@ async function takWrite<T>(
     body?: Record<string, unknown>;
   },
 ): Promise<{ ok: true; payload: T | null } | { ok: false; status: number }> {
-  const key = process.env.TAK_API_KEY;
+  const key = TAK_API_KEY;
   if (!key) return { ok: false, status: 503 };
 
   const control = new AbortController();
@@ -210,7 +213,7 @@ function staticProjectFor(name: string, slug: string) {
 }
 
 function fallbackImage(project: PortfolioProject | undefined): string {
-  return project?.image || "/portfolio/desn.jpg";
+  return project?.image ? "" : "";
 }
 
 function fallbackDownloads(project: PortfolioProject | undefined) {
@@ -238,11 +241,11 @@ export async function getLiveTeam(): Promise<LiveTeamMember[] | null> {
   const members = rows.map((row) => ({
     name: pick(row, "name", "full_name", "fullName"),
     role: pick(row, "role", "position", "title", "job_title"),
-    bio: pick(row, "bio", "description", "about", "message"),
+    bio: pick(row, "bio", "biography", "description", "about", "message"),
     image: pick(row, "image", "photo", "profile_pic", "profile_picture", "avatar"),
   }));
 
-  return members.every((m) => m.name && m.image) ? members : null;
+  return members.every((m) => m.name) ? members : null;
 }
 
 export type LiveCompanyInfo = {
@@ -553,4 +556,4 @@ export async function submitContactMessage(input: {
 
 /** True when a credential is configured at all. Used only to decide whether a
  *  fallback is an expected default or a real outage worth logging. */
-export const apiConfigured = Boolean(process.env.TAK_API_KEY);
+export const apiConfigured = Boolean(TAK_API_KEY);

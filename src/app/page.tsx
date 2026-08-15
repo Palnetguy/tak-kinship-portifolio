@@ -26,7 +26,13 @@ import {
 } from "@/lib/content";
 
 export default async function Page() {
-  const projects = (await getLiveProjects()) ?? portfolioProjects;
+  const liveProjects = await getLiveProjects();
+  const projects =
+    liveProjects ??
+    portfolioProjects.map((project) => ({
+      ...project,
+      image: "",
+    }));
 
   return (
     <>

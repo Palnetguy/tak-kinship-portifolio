@@ -61,30 +61,33 @@ export default function FloatObject({
 
     let targetX = 0;
     let targetY = 0;
-    let x = 0;
-    let y = 0;
     let raf = 0;
+
+    const apply = () => {
+      raf = 0;
+      node.style.transform = `translate3d(${targetX.toFixed(2)}px, ${targetY.toFixed(2)}px, 0)`;
+    };
 
     const onMove = (e: PointerEvent) => {
       // -1..1 across the viewport, so the lean is symmetric about the centre.
       targetX = (e.clientX / window.innerWidth - 0.5) * 2 * depth;
       targetY = (e.clientY / window.innerHeight - 0.5) * 2 * depth;
+      if (!raf) raf = requestAnimationFrame(apply);
     };
 
-    const tick = () => {
-      // Ease toward the pointer instead of tracking it exactly. Following it
-      // 1:1 reads as the image being dragged; lagging behind reads as mass,
-      // which is what makes it feel like an object rather than a sticker.
-      x += (targetX - x) * 0.06;
-      y += (targetY - y) * 0.06;
-      node.style.transform = `translate3d(${x.toFixed(2)}px, ${y.toFixed(2)}px, 0)`;
-      raf = requestAnimationFrame(tick);
+    const reset = () => {
+      targetX = 0;
+      targetY = 0;
+      if (!raf) raf = requestAnimationFrame(apply);
     };
 
     window.addEventListener("pointermove", onMove, { passive: true });
-    raf = requestAnimationFrame(tick);
+    window.addEventListener("pointerdown", onMove, { passive: true });
+    window.addEventListener("blur", reset);
     return () => {
       window.removeEventListener("pointermove", onMove);
+      window.removeEventListener("pointerdown", onMove);
+      window.removeEventListener("blur", reset);
       cancelAnimationFrame(raf);
     };
   }, [depth]);
@@ -101,12 +104,22 @@ export default function FloatObject({
         animationDuration: `${duration}s`,
       }}
     >
-      <span ref={inner} className="block h-full w-full will-change-transform">
+      <span
+        ref={inner}
+        className="block h-full w-full will-change-transform"
+        style={{ transition: "transform 220ms cubic-bezier(0.22, 1, 0.36, 1)" }}
+      >
         {/* Plain <img>: a fixed-size decoration that must never affect layout,
             and next/image would add a wrapper and fight the real content
             images for fetch priority.
             eslint-disable-next-line @next/next/no-img-element */}
-        <img src={src} alt="" width={size} height={size} className="h-full w-full" />
+        <img
+          src={src}
+          alt=""
+          width={size}
+          height={size}
+          className="tak-float-art h-full w-full"
+        />
       </span>
     </span>
   );

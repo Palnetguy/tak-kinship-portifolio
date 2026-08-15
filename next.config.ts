@@ -2,11 +2,16 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   images: {
-    /* TAK's own media lives on Cloudinary under the `palnet` cloud, which is
-       where every image the backend returns points. Allowing exactly that host
-       and path prefix, rather than a wildcard, keeps the optimizer from being
-       usable as an open image proxy for arbitrary remote URLs. */
+    /* Live TAK media now comes from the S3 bucket the backend returns, while
+       older/static assets still point at Cloudinary. Allow only those exact
+       hosts instead of a wildcard so the optimizer cannot proxy arbitrary
+       third-party URLs. */
     remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "tak-kinship-bkt.s3.us-west-2.amazonaws.com",
+        pathname: "/**",
+      },
       {
         protocol: "https",
         hostname: "res.cloudinary.com",
