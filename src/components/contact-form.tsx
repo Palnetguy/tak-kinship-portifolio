@@ -1,0 +1,119 @@
+"use client";
+
+import { useState, type FormEvent } from "react";
+
+// PLACEHOLDER: no backend or form-processing service exists yet. Submitting
+// opens the user's email client with the message prefilled via mailto: so the
+// form is honestly functional rather than a dead end. Wire to a real form
+// handler (e.g. an API route + email service) before launch.
+
+/**
+ * Traced from Contact.png y 449-1044.
+ *
+ * The reference labels every field with an in-field placeholder, not a label
+ * above it, and the fields sit two-up then full width: Last Name / First
+ * Name, Email, Organisation, Message, then a full-width green Send. The build
+ * had stacked labels, which made the panel ~120px taller than the design and
+ * changed its rhythm entirely.
+ *
+ * Each input still carries a real <label>, visually hidden. A placeholder is
+ * not an accessible name: it disappears on focus and screen readers treat it
+ * inconsistently, so matching the design's LOOK must not cost the label.
+ *
+ * NOTE: the reference spells this field "Organsitaion". Shipped as
+ * "Organisation" under the standing rule not to reproduce a typo verbatim.
+ * Flagged for David so the Figma file gets fixed at source too.
+ */
+/**
+ * UI upgrade pass, 2026-08-09. Reference: designspells.com, `Interaction` tag.
+ *
+ * Taken from it: a field should confirm focus with more than a one-pixel
+ * border change, and should say what is wrong WHERE it is wrong rather than
+ * only at submit. Three changes, all inside TAK's existing tokens:
+ *
+ *   1. focus adds a soft accent ring on top of the border, so the active field
+ *      is findable at a glance instead of by hunting for a colour shift
+ *   2. `user-invalid`, not `invalid`. Plain `:invalid` marks every required
+ *      field red before the user has typed a character, which is the single
+ *      most common way this pattern is shipped wrong. `:user-invalid` waits
+ *      until the field has actually been interacted with.
+ *   3. the ring is `box-shadow`, not `outline`, so it follows the 8px radius
+ */
+const FIELD =
+  "w-full rounded-lg border border-border-subtle bg-transparent px-4 py-3 text-[15px] text-text-primary outline-none " +
+  "placeholder:text-text-muted " +
+  "transition-[border-color,box-shadow] duration-200 " +
+  "focus:border-action-primary focus:shadow-[0_0_0_3px_color-mix(in_srgb,var(--text-accent)_22%,transparent)] " +
+  "user-invalid:border-[#c0564f] user-invalid:shadow-[0_0_0_3px_color-mix(in_srgb,#c0564f_20%,transparent)]";
+
+export default function ContactForm() {
+  const [sent, setSent] = useState(false);
+
+  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    const data = new FormData(event.currentTarget);
+    const body = [
+      `Name: ${data.get("firstName")} ${data.get("lastName")}`,
+      `Email: ${data.get("email")}`,
+      `Organisation: ${data.get("organisation") || "Not set"}`,
+      "",
+      String(data.get("message") ?? ""),
+    ].join("\n");
+
+    window.location.href = `mailto:info@takkinship.com?subject=${encodeURIComponent(
+      "New project inquiry",
+    )}&body=${encodeURIComponent(body)}`;
+    setSent(true);
+  }
+
+  return (
+    <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+        <label className="block">
+          <span className="sr-only">Last Name</span>
+          <input name="lastName" required placeholder="Last Name" className={FIELD} />
+        </label>
+        <label className="block">
+          <span className="sr-only">First Name</span>
+          <input name="firstName" required placeholder="First Name" className={FIELD} />
+        </label>
+      </div>
+      <label className="block">
+        <span className="sr-only">Email</span>
+        <input type="email" name="email" required placeholder="Email" className={FIELD} />
+      </label>
+      <label className="block">
+        <span className="sr-only">Organisation</span>
+        <input name="organisation" placeholder="Organisation" className={FIELD} />
+      </label>
+      <label className="block">
+        <span className="sr-only">Message</span>
+        <textarea
+          name="message"
+          required
+          rows={4}
+          placeholder="Message"
+          className={`${FIELD} resize-none`}
+        />
+      </label>
+      {/* Same press/focus contract as `components/button.tsx`, so the one
+          button that is not a <Button> does not behave differently. */}
+      <button
+        type="submit"
+        className="mt-1 w-full cursor-pointer rounded-lg border border-action-primary bg-action-primary px-6 py-3 text-[15px] font-medium text-text-on-accent
+          transition-[background-color,box-shadow,transform] duration-200 ease-out
+          hover:bg-[color-mix(in_srgb,var(--action-primary)_88%,white)]
+          hover:shadow-[0_8px_28px_color-mix(in_srgb,var(--text-accent)_28%,transparent)]
+          active:scale-[0.985] motion-reduce:active:scale-100
+          focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--text-accent)]"
+      >
+        Send
+      </button>
+      {sent && (
+        <p className="m-0 text-sm text-text-accent" role="status">
+          Opening your email client with this message prefilled.
+        </p>
+      )}
+    </form>
+  );
+}

@@ -1,0 +1,479 @@
+@import "tailwindcss";
+
+:root {
+  --bg-canvas: #191919;
+  --bg-input: #2e2e2e;
+  --bg-scrim: rgba(12, 12, 13, 0.8);
+  --border-subtle: #2e2e2e;
+
+  /* Surfaces.
+     Measured off the reference: cards in the design are DARKER than the
+     canvas (#0a0b0a against #191919), and the wide panels sit a step above
+     them (#0f0f10). These were hardcoded as hex literals across eleven
+     components, which is what broke the light theme: the fill stayed
+     near-black while --text-primary flipped to #111, so every card title
+     went dark-on-dark and vanished. They are tokens now so the two themes
+     move together. */
+  --bg-surface: #0a0b0a;
+  --bg-elevated: #0f0f10;
+  --bg-code: rgba(10, 11, 10, 0.72);
+  --text-primary: #ffffff;
+  --text-secondary: #9e9e9e;
+  --text-muted: #8a8a8a;
+  --text-accent: #5fa968;
+  --text-on-accent: #111111;
+  --action-primary: #4a9252;
+  --action-secondary-hover: #7c8b99;
+
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-8: 48px;
+  --space-12: 96px;
+  --space-16: 128px;
+
+  --radius-full: 9999px;
+}
+
+[data-theme="light"] {
+  --bg-canvas: #f2f2f2;
+  --bg-input: #ffffff;
+  --bg-scrim: rgba(247, 247, 248, 0.6);
+  --border-subtle: #c4c4c4;
+
+  /* The design is dark-only, so these are the light-theme counterparts
+     rather than measured values: surfaces sit ABOVE the canvas here, which
+     is the inverse of the dark theme and the reason a single hardcoded
+     value could never serve both. */
+  --bg-surface: #ffffff;
+  --bg-elevated: #ffffff;
+  --bg-code: rgba(255, 255, 255, 0.92);
+  --text-primary: #111111;
+  --text-secondary: #2e2e2e;
+  --text-muted: #6b6b6b;
+  --text-accent: #3a7a42;
+  --text-on-accent: #111111;
+  --action-primary: #4a9252;
+  --action-secondary-hover: #556472;
+}
+
+@theme {
+  --color-bg-canvas: var(--bg-canvas);
+  --color-bg-input: var(--bg-input);
+  --color-bg-scrim: var(--bg-scrim);
+  --color-border-subtle: var(--border-subtle);
+  --color-text-primary: var(--text-primary);
+  --color-text-secondary: var(--text-secondary);
+  --color-text-muted: var(--text-muted);
+  --color-text-accent: var(--text-accent);
+  --color-text-on-accent: var(--text-on-accent);
+  --color-action-primary: var(--action-primary);
+  --color-action-secondary-hover: var(--action-secondary-hover);
+  --radius-full: var(--radius-full);
+
+  --font-sans: var(--font-body);
+  --font-display: var(--font-display);
+  --font-mono: var(--font-mono);
+}
+
+body {
+  background: var(--bg-canvas);
+  color: var(--text-primary);
+  font-family: var(--font-body), sans-serif;
+}
+
+.font-display {
+  font-family: var(--font-display), sans-serif;
+}
+
+.font-mono-eyebrow {
+  font-family: var(--font-mono), monospace;
+}
+
+/* Surface utilities.
+   These are written by hand rather than registered in `@theme` because
+   Tailwind v4 resolves a `--color-*` that points at another custom property
+   ONCE, at build time: `--color-bg-surface: var(--bg-surface)` compiled down
+   to a literal #fff, so cards came out white in BOTH themes and the dark
+   theme's titles went white-on-white. Declaring the utility directly keeps
+   the var() live in the cascade, so it re-resolves per theme. */
+@layer utilities {
+  .bg-surface {
+    background-color: var(--bg-surface);
+  }
+  .bg-elevated {
+    background-color: var(--bg-elevated);
+  }
+  .bg-elevated-80 {
+    background-color: color-mix(in srgb, var(--bg-elevated) 80%, transparent);
+  }
+  .bg-code {
+    background-color: var(--bg-code);
+  }
+}
+
+/* The site backdrop (components/site-backdrop.tsx).
+   Two copies of the faceted plate drifting on coprime cycles, so the pair
+   never settles into a visible repeat. Transform/opacity only. */
+/* Amplitude and tempo are deliberate, and the first attempt got both wrong:
+   37s cycles moving 2% and scaling 0.08 are real motion that no human can
+   perceive. Over ten seconds of looking, the scale changed by 0.02. It read as
+   a still image, which is exactly how it was reported.
+   These move roughly three times as far in half the time, and the two cycles
+   are still coprime so the pair never settles into a visible repeat. */
+@keyframes tak-plate-a {
+  0%,
+  100% {
+    transform: scale(1.14) translate3d(-3%, -2%, 0) rotate(-0.6deg);
+    opacity: 0.5;
+  }
+  50% {
+    transform: scale(1.28) translate3d(3.5%, 2.5%, 0) rotate(0.6deg);
+    opacity: 0.85;
+  }
+}
+
+@keyframes tak-plate-b {
+  0%,
+  100% {
+    transform: scaleX(-1) scale(1.3) translate3d(3%, 2.5%, 0);
+    opacity: 0.45;
+  }
+  50% {
+    transform: scaleX(-1) scale(1.12) translate3d(-3.5%, -2%, 0);
+    opacity: 0.12;
+  }
+}
+
+/* The part that actually sells "alive": a soft green highlight sweeping
+   diagonally across the plate, so the light streaks brighten as it passes
+   them and fall dark again. The facets stay put; the light moves over them,
+   which is what light does. */
+@keyframes tak-sweep {
+  0% {
+    transform: translate3d(-35%, -25%, 0);
+    opacity: 0;
+  }
+  30% {
+    opacity: 0.85;
+  }
+  70% {
+    opacity: 0.85;
+  }
+  100% {
+    transform: translate3d(35%, 25%, 0);
+    opacity: 0;
+  }
+}
+
+.tak-sweep {
+  animation: tak-sweep 23s ease-in-out infinite;
+  will-change: transform, opacity;
+}
+
+.tak-plate {
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+  will-change: transform, opacity;
+}
+
+.tak-plate-a {
+  animation-name: tak-plate-a;
+  animation-duration: 19s;
+}
+
+.tak-plate-b {
+  animation-name: tak-plate-b;
+  animation-duration: 27s;
+}
+
+/* Near-black plate on a #f2f2f2 canvas reads as dirt at any visible opacity. */
+[data-theme="light"] .tak-backdrop {
+  opacity: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tak-plate {
+    animation: none;
+  }
+  /* Without the animation the two would stack at their 0% state and the
+     mirrored copy would just darken the first. Hide it and hold the base. */
+  .tak-plate-b,
+  .tak-sweep {
+    display: none;
+  }
+  .tak-plate-a {
+    transform: scale(1.12);
+    opacity: 0.62;
+  }
+}
+
+/* The one hover state, shared by every card.
+   Values are lifted from the hero arc's focused pill (service-orbit.tsx) so
+   the site has a single idea of "this thing is lit": a 40% accent border plus
+   a wide, soft accent cast. The previous per-card hover was only a 35% border
+   with no shadow at all, which was invisible against a near-black surface. */
+.tak-hover-glow {
+  transition:
+    border-color 300ms ease,
+    box-shadow 300ms ease,
+    transform 300ms ease;
+}
+
+.tak-hover-glow:hover {
+  border-color: color-mix(in srgb, var(--text-accent) 40%, transparent);
+  box-shadow: 0 8px 40px color-mix(in srgb, var(--text-accent) 20%, transparent);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tak-hover-glow {
+    transition: none;
+  }
+}
+
+/* Quarter-turn ticks for the plus marks and triangles.
+   Stepped rather than continuous: a decoration spinning nonstop reads as a
+   loading spinner and pulls the eye off the copy. Holding still, snapping a
+   quarter turn, then holding again reads as a mechanism idling, which is the
+   intent. Each element gets its own delay so the field never ticks in unison.
+   `transform-box: fill-box` is required to rotate an SVG <path> about its own
+   centre rather than the viewBox origin. */
+@keyframes tak-tick {
+  0%,
+  20% {
+    transform: rotate(0deg);
+  }
+  27%,
+  47% {
+    transform: rotate(90deg);
+  }
+  54%,
+  74% {
+    transform: rotate(180deg);
+  }
+  81%,
+  100% {
+    transform: rotate(270deg);
+  }
+}
+
+/* TWO animations on one element, not two classes.
+   `animation` is a shorthand, so a second class carrying its own `animation`
+   declaration would REPLACE this one outright rather than add to it, and only
+   the winner of the cascade would run. Listing both here is the version that
+   actually composes. They drive different properties (transform and opacity),
+   which is what makes running them together safe.
+   The durations are coprime-ish so the tick and the breath never lock into a
+   visible shared beat. */
+.tak-tick {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation:
+    tak-tick 12s cubic-bezier(0.65, 0, 0.35, 1) infinite,
+    tak-pulse-soft 5.5s ease-in-out infinite;
+  will-change: transform;
+}
+
+/* The triangles carry a base rotation from their call site, so they animate on
+   an inner wrapper and inherit the base from the outer one. Slower and out of
+   phase with the plus field. */
+.tak-tick-slow {
+  transform-origin: center;
+  animation:
+    tak-tick 19s cubic-bezier(0.65, 0, 0.35, 1) infinite,
+    tak-pulse-soft 6.5s ease-in-out infinite;
+  will-change: transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tak-tick,
+  .tak-tick-slow {
+    animation: none;
+  }
+}
+
+/* Radial ripple through the dot fields (components/decor.tsx DotField).
+   The delay is a function of each dot's distance from the cluster centre, set
+   inline, so brightness travels outward along the same axis the density
+   already falls away on: the cluster breathes instead of flickering.
+
+   DELIBERATELY NO `will-change` HERE, unlike every other animation in this
+   file. A page carries several fields of roughly a hundred dots each, and
+   promoting six hundred SVG circles to their own compositor layers would cost
+   far more memory than it could ever save on an opacity-only animation. This
+   is the one case where the usual hint is the wrong call.
+
+   Slow on purpose. At 5.5s a dot spends most of its cycle near a resting
+   value, so the field reads as alive in peripheral vision and never competes
+   with the copy it sits behind. */
+@keyframes tak-dot-pulse {
+  0%,
+  100% {
+    opacity: 0.4;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+.tak-dot {
+  animation: tak-dot-pulse 5.5s ease-in-out infinite;
+}
+
+/* The same breath, softer, for the shapes that are much larger than a 2.4px
+   dot. A triangle swinging 0.4 to 1 does not read as "alive", it reads as
+   flashing, because the eye weights the change by the area it covers.
+   0.55 is the point where the plus field and the triangles keep the dots'
+   rhythm without pulling focus off the copy. */
+@keyframes tak-pulse-soft {
+  0%,
+  100% {
+    opacity: 0.55;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tak-dot {
+    animation: none;
+  }
+}
+
+/* The revolving team gallery (components/team-gallery.tsx).
+   Each track holds its list twice and travels exactly one list length, so the
+   join is never seen. `linear`, not eased: a marquee that accelerates and
+   slows announces its own loop point, which is the one thing this must not do.
+   Durations are coprime-ish so the two columns never line up. */
+@keyframes tak-marquee-up {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-50%);
+  }
+}
+
+@keyframes tak-marquee-down {
+  from {
+    transform: translateY(-50%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+.tak-marquee-up {
+  animation: tak-marquee-up 44s linear infinite;
+  will-change: transform;
+}
+
+.tak-marquee-down {
+  animation: tak-marquee-down 53s linear infinite;
+  will-change: transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  /* Held, not hidden. The photographs are the point of the section, so a
+     reduced-motion visitor still gets the full grid, just still. */
+  .tak-marquee-up,
+  .tak-marquee-down {
+    animation: none;
+  }
+}
+
+/* Portfolio filter re-entry (components/portfolio-grid.tsx). Fires on mount,
+   and the grid remounts on every filter change, so the whole surviving set
+   replays rather than only the cards that were just added. Short and small:
+   8px and 220ms, because this runs on up to nine tiles at once and anything
+   longer reads as the page loading rather than as the grid rearranging.
+   `backwards` holds the from-state during the stagger delay, otherwise a tile
+   with a 360ms delay is fully visible for 360ms and then jumps. */
+@keyframes tak-filter-enter {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.tak-filter-enter {
+  animation: tak-filter-enter 220ms ease-out backwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  /* No delay and no movement. The cards are simply there, which is the correct
+     reduced-motion answer for content that was always going to be present. */
+  .tak-filter-enter {
+    animation: none;
+    animation-delay: 0ms !important;
+  }
+}
+
+/* The client-logo ribbon in the Why Trust Us panel (components/trust-panel.tsx).
+   Same contract as the team gallery above: the list is rendered twice and the
+   track travels exactly one list length, so the join is never seen.
+   The items carry their spacing as padding rather than as a flex `gap`,
+   because a gap would make the track 10 items + 9 gaps wide and -50% would
+   then land half a gap off the seam. With padding the track is a pure
+   repetition of five identical cells and -50% is exact. */
+@keyframes tak-marquee-x {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.tak-marquee-x {
+  animation: tak-marquee-x 34s linear infinite;
+  will-change: transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  /* Held, not hidden: the logos are content, so a reduced-motion visitor
+     still sees the row, just parked at its start. */
+  .tak-marquee-x {
+    animation: none;
+  }
+}
+
+/* Slow bob for the rendered 3D decorations (components/decor.tsx
+   FloatObject). Transform only, so it stays on the compositor and never
+   triggers layout. Duration and delay are set per element inline. */
+@keyframes tak-drift {
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-22px) rotate(2deg);
+  }
+}
+
+.tak-drift {
+  animation-name: tak-drift;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+  will-change: transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tak-drift {
+    animation: none;
+  }
+}
+
+/* The logo raster is cut from a dark-only reference, so its "KINSHIP" half is
+   white. In the light theme that half would vanish into the page; invert only
+   the lightness so it reads as dark ink and the green "TAK" half survives. */
+[data-theme="light"] .dark-logo {
+  filter: invert(1) hue-rotate(180deg);
+}

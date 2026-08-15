@@ -1,44 +1,36 @@
-# TAK Kinship Devs Frontend
-
-Welcome to the TAK Kinship Devs Frontend repository – where innovation meets pixels! 🚀
-
-## Overview
-
-TAK Kinship Dev is not just a website; it's a portal to the future. Explore the frontend that powers our digital journey, bringing together creativity, functionality, and a touch of magic.
-
-## Features
-
-- **Sleek Design:** A visual masterpiece that goes beyond aesthetics.
-- **Responsive:** Seamlessly adapts to devices of all sizes – because one size doesn't fit all.
-- **Intuitive Navigation:** Explore with ease, guided by an intuitive user interface.
-- **Innovative Interactions:** Engage with cutting-edge features that redefine user experiences.
+This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started
 
-1. **Contribute:**
-   Found a bug? Have an idea? We welcome contributions! Open an issue or submit a pull request.
+First, run the development server:
 
-## Tech Stack
+```bash
+npm run dev
+# or
+yarn dev
+# or
+pnpm dev
+# or
+bun dev
+```
 
-- HTML5
-- CSS3
-- JavaScript
-- React
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-## Gallery
+You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
-## Feedback
+This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
-We'd love to hear your thoughts! Open an issue or reach out to us.
+## Learn More
 
-## Contributors
+To learn more about Next.js, take a look at the following resources:
 
-- Tusingwire Martin [@Palnetguy](https://github.com/Palnetguy)
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
-## License
+You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
 
-This project is licensed under the [MIT License](LICENSE).
+## Deploy on Vercel
 
----
+The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
-Crafted with ❤️ by the TAK Kinship Devs Team
+Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
