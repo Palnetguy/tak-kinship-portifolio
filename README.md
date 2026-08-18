@@ -1,44 +1,21 @@
-# TAK Kinship Devs Frontend
+# TAK Kinship Portfolio
 
-Welcome to the TAK Kinship Devs Frontend repository – where innovation meets pixels! 🚀
+The public portfolio website for TAK Kinship, built with Next.js, React, TypeScript, and Tailwind CSS.
 
-## Overview
+## Local development
 
-TAK Kinship Dev is not just a website; it's a portal to the future. Explore the frontend that powers our digital journey, bringing together creativity, functionality, and a touch of magic.
+1. Copy `env.example` to `.env.local` and provide the required values.
+2. Install dependencies with `npm install`.
+3. Start the development server with `npm run dev`.
+4. Open [http://localhost:3000](http://localhost:3000).
 
-## Features
+## Checks
 
-- **Sleek Design:** A visual masterpiece that goes beyond aesthetics.
-- **Responsive:** Seamlessly adapts to devices of all sizes – because one size doesn't fit all.
-- **Intuitive Navigation:** Explore with ease, guided by an intuitive user interface.
-- **Innovative Interactions:** Engage with cutting-edge features that redefine user experiences.
+Run these commands before opening a pull request:
 
-## Getting Started
+```bash
+npm run lint
+npm run build
+```
 
-1. **Contribute:**
-   Found a bug? Have an idea? We welcome contributions! Open an issue or submit a pull request.
-
-## Tech Stack
-
-- HTML5
-- CSS3
-- JavaScript
-- React
-
-## Gallery
-
-## Feedback
-
-We'd love to hear your thoughts! Open an issue or reach out to us.
-
-## Contributors
-
-- Tusingwire Martin [@Palnetguy](https://github.com/Palnetguy)
-
-## License
-
-This project is licensed under the [MIT License](LICENSE).
-
----
-
-Crafted with ❤️ by the TAK Kinship Devs Team
+The production build can be started locally with `npm start` after `npm run build` completes.
