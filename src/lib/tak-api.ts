@@ -95,6 +95,10 @@ async function takWrite<T>(
     });
 
     if (!res.ok) {
+      console.error("TAK API write returned an error", {
+        path,
+        status: res.status,
+      });
       return { ok: false, status: res.status };
     }
 
@@ -106,10 +110,15 @@ async function takWrite<T>(
     }
     return { ok: true, payload };
   } catch (error) {
+    const timedOut = error instanceof Error && error.name === "AbortError";
+    console.error("TAK API write request failed", {
+      path,
+      timedOut,
+      error: error instanceof Error ? error.message : String(error),
+    });
     return {
       ok: false,
-      status:
-        error instanceof Error && error.name === "AbortError" ? 504 : 502,
+      status: timedOut ? 504 : 502,
     };
   } finally {
     clearTimeout(timer);
