@@ -34,6 +34,10 @@ const REVALIDATE = 300;
  *  hold a page render open. Railway free tiers cold-start. */
 const TIMEOUT_MS = 6000;
 
+/** Writes may include backend-side notification delivery. Allow that work
+ *  longer than cached reads without leaving the route open indefinitely. */
+const WRITE_TIMEOUT_MS = 20000;
+
 if (typeof window !== "undefined") {
   throw new Error(
     "lib/tak-api.ts was imported into client code. It holds a credential and must stay on the server.",
@@ -76,7 +80,7 @@ async function takWrite<T>(
   if (!key) return { ok: false, status: 503 };
 
   const control = new AbortController();
-  const timer = setTimeout(() => control.abort(), TIMEOUT_MS);
+  const timer = setTimeout(() => control.abort(), WRITE_TIMEOUT_MS);
 
   try {
     const res = await fetch(`${BASE}/${path.replace(/^\/+/, "")}`, {
@@ -101,8 +105,12 @@ async function takWrite<T>(
       payload = null;
     }
     return { ok: true, payload };
-  } catch {
-    return { ok: false, status: 502 };
+  } catch (error) {
+    return {
+      ok: false,
+      status:
+        error instanceof Error && error.name === "AbortError" ? 504 : 502,
+    };
   } finally {
     clearTimeout(timer);
   }
