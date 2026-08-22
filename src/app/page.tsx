@@ -276,7 +276,7 @@ export default async function Page() {
             <SectionHeading eyebrow="Our Work" maxWidth={1290} mb={54}>
               Every project is a testament to innovation, a journey into excellence.
             </SectionHeading>
-            <div className="grid grid-cols-1 gap-[33px] md:grid-cols-2 lg:grid-cols-3">
+            <div className="grid auto-rows-fr grid-cols-1 gap-[33px] md:grid-cols-2 lg:grid-cols-3">
               {projects.map((project) => (
                 <PortfolioCard key={project.slug} project={project} />
               ))}
