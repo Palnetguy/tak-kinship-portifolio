@@ -8,6 +8,7 @@ import ConnectCta from "@/components/connect-cta";
 import Reveal from "@/components/reveal";
 import BentoCard from "@/components/bento-card";
 import SectionHeading from "@/components/section-heading";
+import RotatingLocation from "@/components/rotating-location";
 import TrustPanel from "@/components/trust-panel";
 import ServiceOrbit from "@/components/service-orbit";
 import TeamPanel from "@/components/team-panel";
@@ -276,7 +277,7 @@ export default async function Page() {
             <SectionHeading eyebrow="Our Work" maxWidth={1290} mb={54}>
               Every project is a testament to innovation, a journey into excellence.
             </SectionHeading>
-            <div className="grid grid-cols-1 gap-[33px] md:grid-cols-2 lg:grid-cols-3">
+            <div className="grid auto-rows-fr grid-cols-1 gap-[33px] md:grid-cols-2 lg:grid-cols-3">
               {projects.map((project) => (
                 <PortfolioCard key={project.slug} project={project} />
               ))}
@@ -324,8 +325,14 @@ export default async function Page() {
             {/* mb matches Why Trust Us (95) on KingFizzy's call, 2026-08-10:
                 at 32 the tiles sat visibly tighter under their heading than
                 the value cards do under theirs, two sections apart. */}
-            <SectionHeading eyebrow="We Build For" highlight="East Africa" maxWidth={920} mb={95}>
-              Built for the sectors moving East Africa.
+            <SectionHeading
+              eyebrow="We Build For"
+              highlight="East Africa"
+              highlightReplacement={<RotatingLocation />}
+              maxWidth={920}
+              mb={95}
+            >
+              Built for the sectors moving East Africa
             </SectionHeading>
             <div className="grid grid-cols-2 gap-[26px] sm:grid-cols-4">
               {sectors.map((sector) => {

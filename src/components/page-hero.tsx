@@ -1,5 +1,6 @@
 import Section from "@/components/section";
-import { CodeBlockDecor, PlusField, Glow } from "@/components/decor";
+import { PlusField, Glow } from "@/components/decor";
+import AnimatedCodeBlockDecor from "@/components/animated-code-block-decor";
 
 /**
  * The inner-page hero, traced from Services.png, Portfolio.png and
@@ -45,8 +46,7 @@ export default function PageHero({
   return (
     <Section pt={60} pb={40} minHeight={height}>
       {codePanel && (
-        <CodeBlockDecor
-          variant="right"
+        <AnimatedCodeBlockDecor
           className="top-[60px] right-0 hidden lg:block"
         />
       )}

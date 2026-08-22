@@ -1,6 +1,7 @@
 import Button from "@/components/button";
 import { TeamGalleryContent } from "@/components/team-gallery";
 import { getLiveGalleryPhotos } from "@/lib/tak-api";
+import MediaPlaceholder from "@/components/media-placeholder";
 
 /**
  * "The people behind the work".
@@ -38,8 +39,8 @@ export default async function TeamPanel() {
         {photos?.length ? (
           <TeamGalleryContent photos={photos} />
         ) : (
-          <div className="flex h-[440px] items-center justify-center rounded-xl border border-border-subtle bg-surface text-center text-sm text-text-muted">
-            Team gallery images pending backend
+          <div className="h-[440px] overflow-hidden rounded-xl border border-border-subtle">
+            <MediaPlaceholder />
           </div>
         )}
       </div>

@@ -8,6 +8,7 @@ import SectionHeading from "@/components/section-heading";
 import ConnectCta from "@/components/connect-cta";
 import Reveal from "@/components/reveal";
 import Card from "@/components/card";
+import MediaPlaceholder from "@/components/media-placeholder";
 import { PlusField, TriangleMark, Glow } from "@/components/decor";
 import FloatObject from "@/components/float-object";
 import {
@@ -126,8 +127,8 @@ export default async function Page() {
                     sizes="220px"
                   />
                 ) : (
-                  <div className="flex aspect-square w-full items-center justify-center rounded-xl border border-border-subtle bg-surface text-center text-sm text-text-muted">
-                    CEO image pending backend
+                  <div className="aspect-square w-full overflow-hidden rounded-xl border border-border-subtle">
+                    <MediaPlaceholder />
                   </div>
                 )}
               </div>
