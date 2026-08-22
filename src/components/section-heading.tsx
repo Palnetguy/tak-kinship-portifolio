@@ -1,3 +1,5 @@
+import { type ReactNode } from "react";
+
 /**
  * Centred eyebrow + display heading.
  *
@@ -22,6 +24,7 @@ export default function SectionHeading({
   eyebrow,
   children,
   highlight,
+  highlightReplacement,
   sub,
   maxWidth = 920,
   mb = 40,
@@ -29,6 +32,8 @@ export default function SectionHeading({
   eyebrow?: string;
   children: string;
   highlight?: string;
+  /** Replaces the highlighted text while retaining the original sentence. */
+  highlightReplacement?: ReactNode;
   sub?: string;
   /** Heading measure, design px. Controls where the reference wraps. */
   maxWidth?: number;
@@ -52,7 +57,9 @@ export default function SectionHeading({
           <span key={i}>
             {part}
             {highlight && i < parts.length - 1 && (
-              <span className="text-text-accent">{highlight}</span>
+              <span className="text-text-accent">
+                {highlightReplacement ?? highlight}
+              </span>
             )}
           </span>
         ))}
