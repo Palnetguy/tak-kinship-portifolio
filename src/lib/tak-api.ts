@@ -521,10 +521,10 @@ export async function getLiveTestimonials(): Promise<LiveTestimonial[] | null> {
 
   const items = rows
     .map((row) => ({
-      quote: pick(row, "message", "quote", "testimonial", "content", "body"),
+      quote: pick(row, "comment", "message", "quote", "testimonial", "content", "body"),
       author: pick(row, "name", "author", "client_name", "full_name"),
-      role: pick(row, "role", "position", "company", "organisation", "title"),
-      image: pick(row, "image", "photo", "avatar", "profile_pic"),
+      role: pick(row, "job_title", "role", "position", "company", "organisation", "title"),
+      image: pick(row, "user_photo", "image", "photo", "avatar", "profile_pic"),
     }))
     .filter((t) => t.quote && t.author);
 
