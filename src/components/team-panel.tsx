@@ -57,11 +57,7 @@ export default async function TeamPanel() {
           designs with intention and builds with purpose. That is how TAK
           works.
         </p>
-        {/* PLACEHOLDER: Joy's design points this at a dedicated team page,
-            which does not exist on either file. Contact is the only route that
-            actually reaches these people, so it goes there until a /team route
-            with real names and roles is written. */}
-        <Button variant="secondary" size="md" href="/contact">
+        <Button variant="secondary" size="md" href="/about#team">
           Meet the team
         </Button>
       </div>
