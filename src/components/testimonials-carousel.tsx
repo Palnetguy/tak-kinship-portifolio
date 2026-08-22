@@ -10,7 +10,13 @@ type TestimonialItem = {
   image?: string;
 };
 
-function TestimonialCard({ item }: { item: TestimonialItem }) {
+function TestimonialCard({
+  item,
+  onHoverChange,
+}: {
+  item: TestimonialItem;
+  onHoverChange: (hovered: boolean) => void;
+}) {
   const unoptimized = item.image?.startsWith(
     "https://tak-kinship-bkt.s3.us-west-2.amazonaws.com/",
   );
@@ -18,7 +24,11 @@ function TestimonialCard({ item }: { item: TestimonialItem }) {
   const [imageFailed, setImageFailed] = useState(false);
 
   return (
-    <figure className="m-0 flex min-h-[390px] w-[min(390px,calc(100vw-48px))] flex-col rounded-xl border border-border-subtle bg-surface p-6 sm:w-[420px] sm:p-7">
+    <figure
+      onMouseEnter={() => onHoverChange(true)}
+      onMouseLeave={() => onHoverChange(false)}
+      className="m-0 flex min-h-[390px] w-[min(390px,calc(100vw-48px))] flex-col rounded-xl border border-border-subtle bg-surface p-6 sm:w-[420px] sm:p-7"
+    >
       <blockquote className="m-0 flex-1 text-[15px] leading-relaxed text-text-secondary">
         {item.quote}
       </blockquote>
@@ -67,54 +77,72 @@ export default function TestimonialsCarousel({
   items: TestimonialItem[];
 }) {
   const railRef = useRef<HTMLDivElement>(null);
+  const trackRef = useRef<HTMLDivElement>(null);
   const pauseUntil = useRef(0);
-  const [hovered, setHovered] = useState(false);
+  const cardHovered = useRef(false);
+  const offset = useRef(0);
+  const loopWidth = useRef(0);
+
+  const renderTrack = () => {
+    const track = trackRef.current;
+    if (!track) return;
+    track.style.transform = `translate3d(-${offset.current}px, 0, 0)`;
+  };
 
   useEffect(() => {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
     let frame = 0;
     let previousTime = performance.now();
+    const track = trackRef.current;
+    if (!track) return;
+
+    const measure = () => {
+      loopWidth.current = track.scrollWidth / 2;
+      if (loopWidth.current > 0) offset.current %= loopWidth.current;
+      renderTrack();
+    };
+
+    const resizeObserver = new ResizeObserver(measure);
+    resizeObserver.observe(track);
+    measure();
 
     const move = (time: number) => {
-      const rail = railRef.current;
-      if (rail && !hovered && time >= pauseUntil.current) {
-        const setWidth = rail.scrollWidth / 2;
-        if (setWidth > 0) {
-          const distance = ((time - previousTime) * 0.02) % setWidth;
-          rail.scrollLeft += distance;
-          if (rail.scrollLeft >= setWidth) rail.scrollLeft -= setWidth;
-        }
+      const elapsed = Math.min(time - previousTime, 64);
+      if (!cardHovered.current && time >= pauseUntil.current && loopWidth.current > 0) {
+        offset.current = (offset.current + elapsed * 0.02) % loopWidth.current;
+        renderTrack();
       }
       previousTime = time;
       frame = window.requestAnimationFrame(move);
     };
 
     frame = window.requestAnimationFrame(move);
-    return () => window.cancelAnimationFrame(frame);
-  }, [hovered]);
+    return () => {
+      window.cancelAnimationFrame(frame);
+      resizeObserver.disconnect();
+    };
+  }, []);
+
+  const setCardHovered = (hovered: boolean) => {
+    cardHovered.current = hovered;
+  };
 
   const moveByCard = (direction: 1 | -1) => {
     const rail = railRef.current;
-    if (!rail) return;
+    if (!rail || loopWidth.current === 0) return;
 
-    const setWidth = rail.scrollWidth / 2;
     const cardWidth = Math.min(444, rail.clientWidth * 0.85);
-    if (direction < 0 && rail.scrollLeft < cardWidth) {
-      rail.scrollLeft += setWidth;
-    }
-    pauseUntil.current = performance.now() + 700;
-    rail.scrollBy({ left: direction * cardWidth, behavior: "smooth" });
+    offset.current =
+      (offset.current + direction * cardWidth + loopWidth.current) % loopWidth.current;
+    pauseUntil.current = performance.now() + 260;
+    renderTrack();
   };
 
   return (
     <section
       aria-roledescription="carousel"
       aria-label="Client testimonials"
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-      onFocusCapture={() => setHovered(true)}
-      onBlurCapture={() => setHovered(false)}
     >
       <div className="mb-4 flex justify-end gap-1">
         <button
@@ -139,12 +167,13 @@ export default function TestimonialsCarousel({
         </button>
       </div>
       <div ref={railRef} className="overflow-hidden">
-        <div className="flex w-max">
+        <div ref={trackRef} className="flex w-max will-change-transform">
           <div className="flex gap-6 pr-6">
             {items.map((item) => (
               <TestimonialCard
                 key={`${item.author}-${item.quote.slice(0, 24)}`}
                 item={item}
+                onHoverChange={setCardHovered}
               />
             ))}
           </div>
@@ -153,6 +182,7 @@ export default function TestimonialsCarousel({
               <TestimonialCard
                 key={`repeat-${item.author}-${item.quote.slice(0, 24)}`}
                 item={item}
+                onHoverChange={setCardHovered}
               />
             ))}
           </div>
