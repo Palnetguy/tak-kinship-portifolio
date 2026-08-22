@@ -125,12 +125,12 @@ export default function PortfolioGrid({
           than only the newly-added ones animating. */}
       <div
         key={active}
-        className="grid grid-cols-1 gap-[33px] md:grid-cols-2 lg:grid-cols-3"
+        className="grid auto-rows-fr grid-cols-1 gap-[33px] md:grid-cols-2 lg:grid-cols-3"
       >
         {visible.map((project, i) => (
           <div
             key={project.slug}
-            className="tak-filter-enter"
+            className="h-full tak-filter-enter"
             style={{ animationDelay: `${Math.min(i, 8) * 45}ms` }}
           >
             <PortfolioCard project={project} />

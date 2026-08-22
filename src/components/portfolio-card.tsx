@@ -40,7 +40,7 @@ export default function PortfolioCard({ project }: { project: PortfolioProject }
         onClick={() => setOpen(true)}
         aria-label={`${project.name} project details`}
         aria-haspopup="dialog"
-        className="group flex min-h-[474px] cursor-pointer flex-col overflow-hidden rounded-xl border border-border-subtle bg-surface p-0 text-left tak-hover-glow hover:-translate-y-1 motion-reduce:transform-none"
+        className="group flex h-full min-h-[474px] cursor-pointer flex-col overflow-hidden rounded-xl border border-border-subtle bg-surface p-0 text-left tak-hover-glow hover:-translate-y-1 motion-reduce:transform-none"
       >
         <div className="relative h-[225px] w-full shrink-0 overflow-hidden">
           {project.image ? (
@@ -59,7 +59,7 @@ export default function PortfolioCard({ project }: { project: PortfolioProject }
           )}
         </div>
 
-        <div className="flex flex-col gap-2 px-5 pt-6 pb-7">
+        <div className="flex flex-1 flex-col gap-2 px-5 pt-6 pb-7">
           <h3 className="font-display m-0 text-2xl font-medium text-text-primary">
             {project.name}
           </h3>
@@ -76,7 +76,7 @@ export default function PortfolioCard({ project }: { project: PortfolioProject }
           >
             {project.blurb}
           </p>
-          <div className="mt-3 flex flex-wrap gap-2">
+          <div className="mt-auto flex flex-wrap gap-2 pt-3">
             {project.stack.map((tag) => (
               <span
                 key={tag}
