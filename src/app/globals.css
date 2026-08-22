@@ -437,6 +437,86 @@ body {
   will-change: transform;
 }
 
+/* Services hero code panel. It types a distinct code path, runs the final
+   command, then settles before moving to the next path. */
+@keyframes tak-code-execute {
+  0% {
+    opacity: 0;
+    transform: scaleX(0);
+  }
+  20%,
+  70% {
+    opacity: 0.16;
+    transform: scaleX(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scaleX(1);
+  }
+}
+
+@keyframes tak-code-cursor {
+  0%,
+  20% {
+    opacity: 0;
+  }
+  35%,
+  55% {
+    opacity: 1;
+  }
+  70%,
+  100% {
+    opacity: 0;
+  }
+}
+
+.tak-code-execute::before {
+  position: absolute;
+  inset: -2px -6px;
+  z-index: 0;
+  border-radius: 3px;
+  background: var(--text-accent);
+  content: "";
+  opacity: 0;
+  transform: scaleX(0);
+  transform-origin: left;
+}
+
+.tak-code-executing .tak-code-execute::before {
+  animation: tak-code-execute 720ms ease-out both;
+  will-change: transform, opacity;
+}
+
+.tak-code-cursor {
+  position: relative;
+  z-index: 1;
+  display: inline-block;
+  width: 1px;
+  height: 1em;
+  margin-left: 2px;
+  vertical-align: -0.16em;
+  background: var(--text-accent);
+  opacity: 0;
+}
+
+.tak-code-typing .tak-code-cursor,
+.tak-code-executing .tak-code-cursor {
+  animation: tak-code-cursor 760ms steps(1, end) infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tak-code-executing .tak-code-execute::before,
+  .tak-code-typing .tak-code-cursor,
+  .tak-code-executing .tak-code-cursor {
+    animation: none;
+  }
+
+  .tak-code-execute::before,
+  .tak-code-cursor {
+    display: none;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   /* Held, not hidden: the logos are content, so a reduced-motion visitor
      still sees the row, just parked at its start. */
