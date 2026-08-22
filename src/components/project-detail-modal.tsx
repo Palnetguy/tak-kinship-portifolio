@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { type PortfolioProject } from "@/lib/content";
+import MediaPlaceholder from "@/components/media-placeholder";
 
 /**
  * Project Details overlay, traced from "Project Details.png".
@@ -42,8 +43,8 @@ export default function ProjectDetailContent({
           />
         </div>
       ) : (
-        <div className="flex h-[305px] w-full items-center justify-center bg-surface text-sm text-text-muted">
-          Project image pending backend
+        <div className="h-[305px] w-full">
+          <MediaPlaceholder />
         </div>
       )}
 

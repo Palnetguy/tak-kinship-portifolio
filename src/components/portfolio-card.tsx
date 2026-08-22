@@ -5,6 +5,7 @@ import dynamic from "next/dynamic";
 import { useState } from "react";
 import { type PortfolioProject } from "@/lib/content";
 import Modal from "@/components/modal";
+import MediaPlaceholder from "@/components/media-placeholder";
 
 const ProjectDetailContent = dynamic(
   () => import("@/components/project-detail-modal"),
@@ -53,9 +54,7 @@ export default function PortfolioCard({ project }: { project: PortfolioProject }
               className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.03] motion-reduce:transform-none"
             />
           ) : (
-            <div className="flex h-full w-full items-center justify-center bg-elevated text-sm text-text-muted">
-              Project image pending backend
-            </div>
+            <MediaPlaceholder />
           )}
         </div>
 
