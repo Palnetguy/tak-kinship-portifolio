@@ -9,6 +9,7 @@ import Reveal from "@/components/reveal";
 import { DotField, Glow } from "@/components/decor";
 import { portfolioIntro } from "@/lib/content";
 import { getLiveProjects } from "@/lib/tak-api";
+import BackendNotice from "@/components/backend-notice";
 
 export const metadata: Metadata = {
   title: "Portfolio | TAK Kinship",
@@ -45,7 +46,14 @@ export default async function PortfolioPage() {
               {portfolioIntro}
             </p>
           </Reveal>
-          <PortfolioGrid projects={projects} />
+          {projects.length ? (
+            <PortfolioGrid projects={projects} />
+          ) : (
+            <BackendNotice
+              title="Portfolio unavailable"
+              body="There are no published portfolio projects available right now. Please check back shortly."
+            />
+          )}
         </Section>
 
         <ConnectCta />

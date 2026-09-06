@@ -4,6 +4,7 @@ import Reveal from "@/components/reveal";
 import { DotField } from "@/components/decor";
 import TestimonialsCarousel from "@/components/testimonials-carousel";
 import { getLiveTestimonials } from "@/lib/tak-api";
+import BackendNotice from "@/components/backend-notice";
 
 /**
  * Client testimonials.
@@ -26,7 +27,16 @@ import { getLiveTestimonials } from "@/lib/tak-api";
  */
 export default async function Testimonials() {
   const items = await getLiveTestimonials();
-  if (!items?.length) return null;
+  if (!items?.length) {
+    return (
+      <Section pt={60} pb={180}>
+        <BackendNotice
+          title="Testimonials unavailable"
+          body="Client testimonials have not been published yet. Please check back shortly."
+        />
+      </Section>
+    );
+  }
 
   return (
     <Section pt={60} pb={180}>

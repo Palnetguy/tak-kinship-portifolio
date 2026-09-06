@@ -1,4 +1,4 @@
-import { contactInfo, type Faq, type PortfolioProject } from "@/lib/content";
+import { type Faq, type PortfolioProject } from "@/lib/content";
 
 /**
  * Server-side client for TAK's own backend.
@@ -8,16 +8,13 @@ import { contactInfo, type Faq, type PortfolioProject } from "@/lib/content";
  * The live CRA site calls this same API straight from the browser with the
  * credential hardcoded in the bundle. This module keeps the credential on the
  * server only: it prefers `TAK_API_KEY` from the environment, but also carries
- * a built-in fallback so the branch still works when no local env file is
- * loaded. It is never serialized into any payload the browser receives.
+ * a local development value when no environment variable is loaded. It is
+ * never serialized into any payload the browser receives.
  *
  * FAILURE IS NORMAL, NOT EXCEPTIONAL
  *
- * Every accessor returns `null` on any failure: no key configured, network
- * down, 403, malformed JSON, or a shape we do not recognise. Callers fall
- * back to the vetted static content in `lib/about.ts`, `lib/content.ts`, and
- * `lib/legal.ts`. That means the site still renders correctly with no key set,
- * and starts serving live backend data the moment the key is configured.
+ * Every accessor returns `null` on an unavailable or invalid response. Pages
+ * show a clear publishing message instead of substituting static website data.
  */
 
 const BASE = (process.env.TAK_API_BASE?.trim() || "https://takkinship-backend.up.railway.app/api").replace(/\/$/, "");
@@ -31,8 +28,7 @@ const TAK_API_KEY = process.env.TAK_API_KEY?.trim() || DEFAULT_TAK_API_KEY;
 const REVALIDATE = 300;
 const LOCAL_BACKEND = /^https?:\/\/(127\.0\.0\.1|localhost)(:\d+)?(?:\/|$)/.test(BASE);
 
-/** Hard ceiling. A slow upstream must degrade to the static fallback, never
- *  hold a page render open. Railway free tiers cold-start. */
+/** Hard ceiling so a slow upstream never holds a page render open. */
 const TIMEOUT_MS = 6000;
 
 if (typeof window !== "undefined") {
@@ -256,18 +252,9 @@ export async function getLiveCompanyInfo(): Promise<LiveCompanyInfo | null> {
 
   return {
     companyName: pick(row, "company_name", "companyName", "name"),
-    email:
-      pick(row, "email", "contact_email") ||
-      contactInfo.find((item) => item.label === "Email")?.value ||
-      "",
-    phone:
-      pick(row, "phone_number", "phone", "telephone") ||
-      contactInfo.find((item) => item.label === "Phone")?.value ||
-      "",
-    location:
-      pick(row, "location", "address", "office") ||
-      contactInfo.find((item) => item.label === "Office")?.value ||
-      "",
+    email: pick(row, "email", "contact_email"),
+    phone: pick(row, "phone_number", "phone", "telephone"),
+    location: pick(row, "location", "address", "office"),
     instagram: pick(row, "instgram", "instagram", "instagram_url"),
     twitter: pick(row, "twitter", "x", "x_url", "twitter_url"),
     linkedin: pick(row, "linkedIn", "linkedin", "linkedin_url"),

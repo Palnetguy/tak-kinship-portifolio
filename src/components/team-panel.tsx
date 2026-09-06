@@ -1,7 +1,7 @@
 import Button from "@/components/button";
 import { TeamGalleryContent } from "@/components/team-gallery";
 import { getLiveGalleryPhotos } from "@/lib/tak-api";
-import MediaPlaceholder from "@/components/media-placeholder";
+import BackendNotice from "@/components/backend-notice";
 
 /**
  * "The people behind the work".
@@ -39,9 +39,7 @@ export default async function TeamPanel() {
         {photos?.length ? (
           <TeamGalleryContent photos={photos} />
         ) : (
-          <div className="h-[440px] overflow-hidden rounded-xl border border-border-subtle">
-            <MediaPlaceholder />
-          </div>
+          <BackendNotice title="Gallery unavailable" body="No team images have been published yet." />
         )}
       </div>
 
