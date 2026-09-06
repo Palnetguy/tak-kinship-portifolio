@@ -7,7 +7,7 @@ import ConnectCta from "@/components/connect-cta";
 import PortfolioGrid from "@/components/portfolio-grid";
 import Reveal from "@/components/reveal";
 import { DotField, Glow } from "@/components/decor";
-import { portfolioIntro, portfolioProjects } from "@/lib/content";
+import { portfolioIntro } from "@/lib/content";
 import { getLiveProjects } from "@/lib/tak-api";
 
 export const metadata: Metadata = {
@@ -24,12 +24,7 @@ export const metadata: Metadata = {
  */
 export default async function PortfolioPage() {
   const liveProjects = await getLiveProjects();
-  const projects =
-    liveProjects ??
-    portfolioProjects.map((project) => ({
-      ...project,
-      image: "",
-    }));
+  const projects = liveProjects ?? [];
 
   return (
     <>

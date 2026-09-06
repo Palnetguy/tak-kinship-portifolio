@@ -21,7 +21,6 @@ import {
   problems,
   services,
   processSteps,
-  portfolioProjects,
   whyTrustValues,
   sectors,
 } from "@/lib/content";
@@ -31,12 +30,7 @@ export default async function Page() {
     heading: string; body: string; primary_cta_label: string; primary_cta_href: string; secondary_cta_label: string; secondary_cta_href: string;
   }>("home-hero");
   const liveProjects = await getLiveProjects();
-  const projects =
-    liveProjects ??
-    portfolioProjects.map((project) => ({
-      ...project,
-      image: "",
-    }));
+  const projects = liveProjects ?? [];
 
   return (
     <>

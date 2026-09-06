@@ -1,4 +1,4 @@
-import { contactInfo, faqs, portfolioProjects, type Faq, type PortfolioProject } from "@/lib/content";
+import { contactInfo, portfolioProjects, type Faq, type PortfolioProject } from "@/lib/content";
 
 /**
  * Server-side client for TAK's own backend.

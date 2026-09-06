@@ -4,7 +4,6 @@ import Reveal from "@/components/reveal";
 import { DotField } from "@/components/decor";
 import TestimonialsCarousel from "@/components/testimonials-carousel";
 import { getLiveTestimonials } from "@/lib/tak-api";
-import { placeholderTestimonials } from "@/lib/content";
 
 /**
  * Client testimonials.
@@ -26,8 +25,8 @@ import { placeholderTestimonials } from "@/lib/content";
  * `getLiveTestimonials` never does either.
  */
 export default async function Testimonials() {
-  const items = (await getLiveTestimonials()) ?? placeholderTestimonials;
-  if (!items.length) return null;
+  const items = await getLiveTestimonials();
+  if (!items?.length) return null;
 
   return (
     <Section pt={60} pb={180}>
