@@ -32,6 +32,7 @@ const LOCAL_BACKEND = /^https?:\/\/(127\.0\.0\.1|localhost)(:\d+)?(?:\/|$)/.test
 
 /** Hard ceiling so a slow upstream never holds a page render open. */
 const TIMEOUT_MS = 6000;
+/** Writes get longer than cached reads without leaving the route open indefinitely. */
 const WRITE_TIMEOUT_MS = 15000;
 
 if (typeof window !== "undefined") {

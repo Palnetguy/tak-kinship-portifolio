@@ -3,6 +3,7 @@ import { submitContactMessage } from "@/lib/tak-api";
 
 export async function POST(request: Request) {
   const requestId = crypto.randomUUID();
+  const startedAt = performance.now();
   const body = (await request.json().catch(() => null)) as
     | {
         firstName?: string;
@@ -36,19 +37,25 @@ export async function POST(request: Request) {
   if (!result.ok) {
     console.error("Contact submission failed", {
       requestId,
-      upstreamStatus: result.status,
+      status: result.status,
+      durationMs: Math.round(performance.now() - startedAt),
     });
     return NextResponse.json(
       {
         error:
           "We could not send your message right now. Email info@takkinship.com instead.",
+        requestId,
       },
       { status: result.status, headers: { "X-Request-ID": requestId } },
     );
   }
 
+  console.info("Contact submission completed", {
+    requestId,
+    durationMs: Math.round(performance.now() - startedAt),
+  });
   return NextResponse.json(
-    { ok: true },
+    { ok: true, requestId },
     { headers: { "X-Request-ID": requestId } },
   );
 }
