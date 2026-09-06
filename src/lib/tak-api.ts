@@ -159,6 +159,12 @@ function pickText(value: unknown): string {
   return "";
 }
 
+export async function getPublishedWebsiteContent<T extends Record<string, unknown>>(key: string): Promise<T | null> {
+  const payload = asRecord(await takFetch<unknown>(`admin/v1/public/website-content/${key}/`));
+  const value = payload ? asRecord(payload.value) : null;
+  return value as T | null;
+}
+
 function absoluteBackendUrl(value: string): string {
   if (!value.startsWith("/")) return value;
   try { return `${new URL(BASE).origin}${value}`; } catch { return value; }
