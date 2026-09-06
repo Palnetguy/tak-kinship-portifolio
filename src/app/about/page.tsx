@@ -16,7 +16,6 @@ import {
   ceo,
   differentiators,
   experience,
-  teamMembers,
 } from "@/lib/about";
 import { getLiveTeam } from "@/lib/tak-api";
 
@@ -35,17 +34,7 @@ export const metadata: Metadata = {
  * names) and is deliberately not used. See wiki synergy-plan.md section 1B.
  */
 export default async function Page() {
-  /* Live first, hand-verified static second. `getLiveTeam` returns null on a
-     missing key, a 403, a timeout, or a shape it does not recognise, so with
-     no credential configured this renders exactly what it rendered before and
-     starts serving Martin's edits the moment the rotated key is set in Vercel.
-     No code change sits between those two states. */
-  const roster =
-    (await getLiveTeam()) ??
-    teamMembers.map((member) => ({
-      ...member,
-      image: "",
-    }));
+  const roster = (await getLiveTeam()) ?? [];
   const liveCeo =
     roster.find((member) => member.name.toLowerCase().includes("martin")) ??
     null;
