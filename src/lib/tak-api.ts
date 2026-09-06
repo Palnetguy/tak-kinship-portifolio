@@ -20,7 +20,7 @@ import { contactInfo, faqs, portfolioProjects, type Faq, type PortfolioProject }
  * and starts serving live backend data the moment the key is configured.
  */
 
-const BASE = "https://takkinship-backend.up.railway.app/api";
+const BASE = (process.env.TAK_API_BASE?.trim() || "https://takkinship-backend.up.railway.app/api").replace(/\/$/, "");
 const GOOGLE_DRIVE_DOWNLOAD =
   "https://drive.google.com/uc?export=download&id=";
 const DEFAULT_TAK_API_KEY = "LaaXj3ft.hGbRWxHo6KKsYGJ9SYdTRhwBBGo5fELG";
@@ -157,6 +157,11 @@ function pickText(value: unknown): string {
   if (typeof value === "string" && value.trim()) return value.trim();
   if (typeof value === "number" || typeof value === "bigint") return String(value);
   return "";
+}
+
+function absoluteBackendUrl(value: string): string {
+  if (!value.startsWith("/")) return value;
+  try { return `${new URL(BASE).origin}${value}`; } catch { return value; }
 }
 
 function slugify(value: string): string {
@@ -307,9 +312,7 @@ export async function getLiveGalleryPhotos(): Promise<LiveGalleryPhoto[] | null>
 
   const photos = rows
     .map((row) => ({
-      src:
-        pick(row, "image", "photo", "image_url", "url") ||
-        pickNested(row, "image", "url"),
+      src: absoluteBackendUrl(pick(row, "image", "photo", "image_url", "url") || pickNested(row, "image", "url")),
     }))
     .filter((photo) => photo.src);
 
@@ -452,7 +455,7 @@ export async function getLiveProjects(): Promise<PortfolioProject[] | null> {
         category,
         blurb,
         stack: stack.length ? stack : fallback?.stack ?? [],
-        image,
+        image: absoluteBackendUrl(image),
         year: year || undefined,
         url: url || undefined,
         downloads: downloads.length ? downloads : fallback?.downloads,
@@ -524,7 +527,7 @@ export async function getLiveTestimonials(): Promise<LiveTestimonial[] | null> {
       quote: pick(row, "comment", "message", "quote", "testimonial", "content", "body"),
       author: pick(row, "name", "author", "client_name", "full_name"),
       role: pick(row, "job_title", "role", "position", "company", "organisation", "title"),
-      image: pick(row, "user_photo", "image", "photo", "avatar", "profile_pic"),
+      image: absoluteBackendUrl(pick(row, "user_photo", "image", "photo", "avatar", "profile_pic")),
     }))
     .filter((t) => t.quote && t.author);
 
