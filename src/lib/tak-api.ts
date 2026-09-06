@@ -1,4 +1,4 @@
-import { contactInfo, portfolioProjects, type Faq, type PortfolioProject } from "@/lib/content";
+import { contactInfo, type Faq, type PortfolioProject } from "@/lib/content";
 
 /**
  * Server-side client for TAK's own backend.
@@ -178,10 +178,6 @@ function slugify(value: string): string {
     .replace(/^-+|-+$/g, "");
 }
 
-function normalise(value: string): string {
-  return value.toLowerCase().replace(/[^a-z0-9]+/g, "");
-}
-
 function mapCategory(value: string): PortfolioProject["category"] | null {
   const lower = value.toLowerCase();
   if (lower.includes("mobile")) return "MOBILE APP";
@@ -211,24 +207,6 @@ function techStackFrom(value: unknown): string[] {
 function dateToYear(value: string): string {
   const year = value.match(/\b(19|20)\d{2}\b/);
   return year ? year[0] : "";
-}
-
-function staticProjectFor(name: string, slug: string) {
-  const key = normalise(name || slug);
-  return portfolioProjects.find((project) => {
-    return (
-      normalise(project.name) === key ||
-      normalise(project.slug) === key
-    );
-  });
-}
-
-function fallbackImage(project: PortfolioProject | undefined): string {
-  return project?.image ? "" : "";
-}
-
-function fallbackDownloads(project: PortfolioProject | undefined) {
-  return project?.downloads ?? [];
 }
 
 export type LiveTeamMember = {
@@ -382,9 +360,8 @@ export async function getLiveProjects(): Promise<PortfolioProject[] | null> {
       const projectId = pickText(rawId);
       const name =
         pick(row, "title", "name") ||
-        `Project ${projectId || portfolioProjects.length + 1}`;
-      const fallback = staticProjectFor(name, slugify(name));
-      const slug = fallback?.slug || slugify(name);
+        `Project ${projectId || "untitled"}`;
+      const slug = pick(row, "slug") || slugify(name);
 
       const detail = projectId
         ? asRecord(await takFetch<unknown>(`project/${projectId}`))
@@ -393,78 +370,67 @@ export async function getLiveProjects(): Promise<PortfolioProject[] | null> {
       const category =
         mapCategory(
           pick(detail ?? row, "project_category", "category", "type"),
-        ) ??
-        fallback?.category ??
-        "Web App";
+        ) ?? "Web App";
 
       const stack = Array.from(
         new Set([
           ...techStackFrom(row.tech_stack),
           ...techStackFrom(detail?.tech_stack),
-          ...(fallback?.stack ?? []),
         ]),
       );
 
       const url =
         (projectId && category === "Web App"
           ? await getProjectWebUrl(projectId)
-          : "") || fallback?.url || "";
+          : "");
 
       const downloads =
         (projectId
           ? await getProjectDownloads(projectId, category)
-          : []) || fallbackDownloads(fallback);
+          : []);
 
       const image =
         pickNested(row, "images", "background", "image") ||
         pick(row, "image", "background") ||
         pickNested(detail ?? {}, "images", "background", "image") ||
-        pick(detail ?? {}, "image", "background") ||
-        fallbackImage(fallback);
+        pick(detail ?? {}, "image", "background");
 
       const blurb =
         pick(detail ?? row, "about_project", "summary", "description", "blurb") ||
-        fallback?.blurb ||
         "More details coming soon.";
 
       const overview =
         pick(detail ?? row, "project_goals", "overview", "about_project", "description") ||
-        fallback?.overview ||
         blurb;
 
       const problem =
         pick(detail ?? row, "problem", "challenge") ||
-        fallback?.problem ||
         "Project problem statement coming soon.";
 
       const solution =
         pick(detail ?? row, "solution", "approach") ||
-        fallback?.solution ||
         "Project solution details coming soon.";
 
       const status =
         pick(detail ?? row, "status", "project_status", "state") ||
-        fallback?.status ||
         "Completed";
 
       const year =
         dateToYear(
           pick(detail ?? row, "date_published", "published_at", "created_at"),
-        ) ||
-        fallback?.year ||
-        "";
+        );
 
       return {
-        projectId: projectId || fallback?.projectId,
+        projectId,
         slug,
         name,
         category,
         blurb,
-        stack: stack.length ? stack : fallback?.stack ?? [],
+        stack,
         image: absoluteBackendUrl(image),
         year: year || undefined,
         url: url || undefined,
-        downloads: downloads.length ? downloads : fallback?.downloads,
+        downloads: downloads.length ? downloads : undefined,
         overview,
         problem,
         solution,
