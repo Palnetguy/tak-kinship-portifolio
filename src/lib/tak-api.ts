@@ -29,6 +29,7 @@ const TAK_API_KEY = process.env.TAK_API_KEY?.trim() || DEFAULT_TAK_API_KEY;
 /** Fresh enough that an edit by Martin shows within five minutes, cheap enough
  *  that the API is not hit once per visitor. */
 const REVALIDATE = 300;
+const LOCAL_BACKEND = /^https?:\/\/(127\.0\.0\.1|localhost)(:\d+)?(?:\/|$)/.test(BASE);
 
 /** Hard ceiling. A slow upstream must degrade to the static fallback, never
  *  hold a page render open. Railway free tiers cold-start. */
@@ -54,7 +55,7 @@ async function takFetch<T>(path: string): Promise<T | null> {
         "content-type": "application/json",
       },
       signal: control.signal,
-      next: { revalidate: REVALIDATE },
+      ...(LOCAL_BACKEND ? { cache: "no-store" as const } : { next: { revalidate: REVALIDATE } }),
     });
     if (!res.ok) return null;
     return (await res.json()) as T;

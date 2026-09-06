@@ -6,6 +6,11 @@ const nextConfig: NextConfig = {
   turbopack: {
     root: process.cwd(),
   },
+  experimental: {
+    // Keep local production builds within the available Windows memory budget.
+    staticGenerationMaxConcurrency: 1,
+    staticGenerationMinPagesPerWorker: 100,
+  },
   images: {
     /* Live TAK media now comes from the S3 bucket the backend returns, while
        older/static assets still point at Cloudinary. Allow only those exact
