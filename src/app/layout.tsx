@@ -23,6 +23,7 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://app.takkinship.com"),
   title: "TAK Kinship",
   description:
     "Where innovation meets impact. TAK Kinship engineers robust software, crafts intuitive experiences, and builds scalable infrastructure from Mbarara, Uganda.",

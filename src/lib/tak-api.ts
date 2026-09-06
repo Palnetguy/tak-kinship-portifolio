@@ -7,9 +7,8 @@ import { contactInfo, faqs, portfolioProjects, type Faq, type PortfolioProject }
  *
  * The live CRA site calls this same API straight from the browser with the
  * credential hardcoded in the bundle. This module keeps the credential on the
- * server only: it prefers `TAK_API_KEY` from the environment, but also carries
- * a built-in fallback so the branch still works when no local env file is
- * loaded. It is never serialized into any payload the browser receives.
+ * server only and reads it from `TAK_API_KEY`. It is never serialized into any
+ * payload the browser receives.
  *
  * FAILURE IS NORMAL, NOT EXCEPTIONAL
  *
@@ -20,11 +19,12 @@ import { contactInfo, faqs, portfolioProjects, type Faq, type PortfolioProject }
  * and starts serving live backend data the moment the key is configured.
  */
 
-const BASE = "https://takkinship-backend.up.railway.app/api";
+const BASE =
+  process.env.TAK_API_BASE_URL?.trim().replace(/\/$/, "") ||
+  "https://takkinship-backend.up.railway.app/api";
 const GOOGLE_DRIVE_DOWNLOAD =
   "https://drive.google.com/uc?export=download&id=";
-const DEFAULT_TAK_API_KEY = "LaaXj3ft.hGbRWxHo6KKsYGJ9SYdTRhwBBGo5fELG";
-const TAK_API_KEY = process.env.TAK_API_KEY?.trim() || DEFAULT_TAK_API_KEY;
+const TAK_API_KEY = process.env.TAK_API_KEY?.trim();
 
 /** Fresh enough that an edit by Martin shows within five minutes, cheap enough
  *  that the API is not hit once per visitor. */
