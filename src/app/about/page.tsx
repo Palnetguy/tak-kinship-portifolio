@@ -16,9 +16,9 @@ import {
   ceo,
   differentiators,
   experience,
-  teamMembers,
 } from "@/lib/about";
 import { getLiveTeam } from "@/lib/tak-api";
+import BackendNotice from "@/components/backend-notice";
 
 export const metadata: Metadata = {
   title: "About | TAK Kinship",
@@ -35,17 +35,7 @@ export const metadata: Metadata = {
  * names) and is deliberately not used. See wiki synergy-plan.md section 1B.
  */
 export default async function Page() {
-  /* Live first, hand-verified static second. `getLiveTeam` returns null on a
-     missing key, a 403, a timeout, or a shape it does not recognise, so with
-     no credential configured this renders exactly what it rendered before and
-     starts serving Martin's edits the moment the rotated key is set in Vercel.
-     No code change sits between those two states. */
-  const roster =
-    (await getLiveTeam()) ??
-    teamMembers.map((member) => ({
-      ...member,
-      image: "",
-    }));
+  const roster = (await getLiveTeam()) ?? [];
   const liveCeo =
     roster.find((member) => member.name.toLowerCase().includes("martin")) ??
     null;
@@ -182,14 +172,14 @@ export default async function Page() {
             <SectionHeading eyebrow="Our Team" maxWidth={820} mb={20}>
               The people behind the work.
             </SectionHeading>
-            <p className="mx-auto mb-14 max-w-[620px] text-center text-[15px] leading-relaxed text-text-secondary">
+            {roster.length ? <p className="mx-auto mb-14 max-w-[620px] text-center text-[15px] leading-relaxed text-text-secondary">
               {/* Counted, not typed. Once the roster can come from the API a
                   hardcoded "Six" is a sentence that goes wrong the first time
                   Martin hires someone. */}
               {roster.length} people in Uganda building software for the region.
               In their own words.
-            </p>
-            <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+            </p> : null}
+            {roster.length ? <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
               {roster.map((m) => (
                 <article
                   key={m.name}
@@ -224,7 +214,7 @@ export default async function Page() {
                   </p>
                 </article>
               ))}
-            </div>
+            </div> : <BackendNotice title="Team unavailable" body="Team profiles have not been published yet. Please check back shortly." />}
           </Reveal>
         </Section>
 

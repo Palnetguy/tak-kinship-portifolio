@@ -16,24 +16,21 @@ import Testimonials from "@/components/testimonials";
 import { ICONS } from "@/components/icons";
 import { PlusField, DotField, TriangleMark, Glow } from "@/components/decor";
 import FloatObject from "@/components/float-object";
-import { getLiveProjects } from "@/lib/tak-api";
+import { getLiveProjects, getPublishedWebsiteContent } from "@/lib/tak-api";
 import {
   problems,
   services,
   processSteps,
-  portfolioProjects,
   whyTrustValues,
   sectors,
 } from "@/lib/content";
 
 export default async function Page() {
+  const homeHero = await getPublishedWebsiteContent<{
+    heading: string; body: string; primary_cta_label: string; primary_cta_href: string; secondary_cta_label: string; secondary_cta_href: string;
+  }>("home-hero");
   const liveProjects = await getLiveProjects();
-  const projects =
-    liveProjects ??
-    portfolioProjects.map((project) => ({
-      ...project,
-      image: "",
-    }));
+  const projects = liveProjects ?? [];
 
   return (
     <>
@@ -63,21 +60,14 @@ export default async function Page() {
           <div className="relative flex items-center justify-between gap-12 py-20">
             <div className="flex flex-col items-start gap-6 text-left">
               <h1 className="font-display m-0 max-w-[560px] text-4xl font-bold leading-tight md:text-[67px] md:leading-[1.1]">
-                Where innovation meets impact.
+                {homeHero?.heading || "Website content is not published yet."}
               </h1>
               <p className="m-0 max-w-[520px] text-[15px] leading-relaxed text-text-secondary">
-                We turn bold ideas into impactful digital solutions. At TAK
-                Kinship, we engineer robust software, craft intuitive
-                experiences, and build scalable infrastructure for modern
-                enterprises.
+                {homeHero?.body || "Publish the Home hero in TAK Admin to make this section available."}
               </p>
               <div className="flex flex-wrap gap-4">
-                <Button variant="primary" size="md" href="/contact">
-                  Start a Project
-                </Button>
-                <Button variant="secondary" size="md" href="/portfolio">
-                  See Our Work
-                </Button>
+                {homeHero?.primary_cta_href && homeHero.primary_cta_label && <Button variant="primary" size="md" href={homeHero.primary_cta_href}>{homeHero.primary_cta_label}</Button>}
+                {homeHero?.secondary_cta_href && homeHero.secondary_cta_label && <Button variant="secondary" size="md" href={homeHero.secondary_cta_href}>{homeHero.secondary_cta_label}</Button>}
               </div>
             </div>
 

@@ -91,8 +91,8 @@ export default function AnimatedCodeBlockDecor({
     if (!panel) return;
 
     if (!("IntersectionObserver" in window)) {
-      setInView(true);
-      return;
+      const timer = setTimeout(() => setInView(true), 0);
+      return () => clearTimeout(timer);
     }
 
     const observer = new IntersectionObserver(([entry]) => setInView(entry.isIntersecting), {
@@ -107,15 +107,15 @@ export default function AnimatedCodeBlockDecor({
 
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (reducedMotion) {
-      setTypedCharacters(source.length);
-      setPhase("settled");
-      return;
+      const timer = window.setTimeout(() => {
+        setTypedCharacters(source.length);
+        setPhase("settled");
+      }, 0);
+      return () => window.clearTimeout(timer);
     }
 
     const timers: ReturnType<typeof setTimeout>[] = [];
     let index = 0;
-    setTypedCharacters(0);
-    setPhase("typing");
 
     const typeNextCharacter = () => {
       index += 1;
@@ -131,11 +131,14 @@ export default function AnimatedCodeBlockDecor({
       timers.push(setTimeout(() => setScenarioIndex((current) => (current + 1) % SCENARIOS.length), 3_250));
     };
 
-    timers.push(setTimeout(typeNextCharacter, 280));
+    timers.push(setTimeout(() => {
+      setTypedCharacters(0);
+      setPhase("typing");
+      typeNextCharacter();
+    }, 280));
     return () => timers.forEach(clearTimeout);
   }, [inView, scenarioIndex, source]);
 
-  let remainingCharacters = typedCharacters;
   let cursorLine = 0;
   let sourcePosition = 0;
 
@@ -170,9 +173,14 @@ export default function AnimatedCodeBlockDecor({
         <div className="mx-5 border-t border-border-subtle" />
         <div className="font-mono-eyebrow flex flex-col gap-[5px] px-5 py-4 text-[10.5px] leading-[1.5] text-text-secondary">
           {scenario.lines.map((line, lineIndex) => {
-            let lineRemaining = remainingCharacters;
-            const lineLength = line.reduce((total, [text]) => total + text.length, 0);
-            remainingCharacters -= lineLength + 1;
+            const charactersBeforeLine = scenario.lines
+              .slice(0, lineIndex)
+              .reduce(
+                (total, priorLine) =>
+                  total + priorLine.reduce((lineTotal, [text]) => lineTotal + text.length, 0) + 1,
+                0,
+              );
+            const lineRemaining = typedCharacters - charactersBeforeLine;
             const isExecuting = lineIndex === scenario.executeLine && phase === "executing";
 
             return (
@@ -181,8 +189,13 @@ export default function AnimatedCodeBlockDecor({
                 className={`relative min-h-[1.5em] whitespace-pre ${isExecuting ? "tak-code-execute" : ""}`}
               >
                 {line.map(([text, tone], tokenIndex) => {
-                  const visibleLength = Math.max(0, Math.min(text.length, lineRemaining));
-                  lineRemaining -= text.length;
+                  const charactersBeforeToken = line
+                    .slice(0, tokenIndex)
+                    .reduce((total, [priorText]) => total + priorText.length, 0);
+                  const visibleLength = Math.max(
+                    0,
+                    Math.min(text.length, lineRemaining - charactersBeforeToken),
+                  );
                   return (
                     <span key={tokenIndex} style={tone ? { color: TONE[tone] } : undefined}>
                       {text.slice(0, visibleLength)}

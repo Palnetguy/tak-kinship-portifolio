@@ -1,4 +1,4 @@
-import { contactInfo, faqs, portfolioProjects, type Faq, type PortfolioProject } from "@/lib/content";
+import { type Faq, type PortfolioProject } from "@/lib/content";
 
 /**
  * Server-side client for TAK's own backend.
@@ -7,36 +7,33 @@ import { contactInfo, faqs, portfolioProjects, type Faq, type PortfolioProject }
  *
  * The live CRA site calls this same API straight from the browser with the
  * credential hardcoded in the bundle. This module keeps the credential on the
- * server only: it prefers `TAK_API_KEY` from the environment, but also carries
- * a built-in fallback so the branch still works when no local env file is
- * loaded. It is never serialized into any payload the browser receives.
+ * server only and requires `TAK_API_KEY` from the environment. It is never
+ * serialized into any payload the browser receives.
  *
  * FAILURE IS NORMAL, NOT EXCEPTIONAL
  *
- * Every accessor returns `null` on any failure: no key configured, network
- * down, 403, malformed JSON, or a shape we do not recognise. Callers fall
- * back to the vetted static content in `lib/about.ts`, `lib/content.ts`, and
- * `lib/legal.ts`. That means the site still renders correctly with no key set,
- * and starts serving live backend data the moment the key is configured.
+ * Every accessor returns `null` on an unavailable or invalid response. Pages
+ * show a clear publishing message instead of substituting static website data.
  */
 
-const BASE = "https://takkinship-backend.up.railway.app/api";
+const BASE = (
+  process.env.TAK_API_BASE_URL?.trim() ||
+  process.env.TAK_API_BASE?.trim() ||
+  "https://takkinship-backend.up.railway.app/api"
+).replace(/\/$/, "");
 const GOOGLE_DRIVE_DOWNLOAD =
   "https://drive.google.com/uc?export=download&id=";
-const DEFAULT_TAK_API_KEY = "LaaXj3ft.hGbRWxHo6KKsYGJ9SYdTRhwBBGo5fELG";
-const TAK_API_KEY = process.env.TAK_API_KEY?.trim() || DEFAULT_TAK_API_KEY;
+const TAK_API_KEY = process.env.TAK_API_KEY?.trim();
 
 /** Fresh enough that an edit by Martin shows within five minutes, cheap enough
  *  that the API is not hit once per visitor. */
 const REVALIDATE = 300;
+const LOCAL_BACKEND = /^https?:\/\/(127\.0\.0\.1|localhost)(:\d+)?(?:\/|$)/.test(BASE);
 
-/** Hard ceiling. A slow upstream must degrade to the static fallback, never
- *  hold a page render open. Railway free tiers cold-start. */
+/** Hard ceiling so a slow upstream never holds a page render open. */
 const TIMEOUT_MS = 6000;
-
-/** Writes may include backend-side notification delivery. Allow that work
- *  longer than cached reads without leaving the route open indefinitely. */
-const WRITE_TIMEOUT_MS = 20000;
+/** Writes get longer than cached reads without leaving the route open indefinitely. */
+const WRITE_TIMEOUT_MS = 15000;
 
 if (typeof window !== "undefined") {
   throw new Error(
@@ -58,7 +55,7 @@ async function takFetch<T>(path: string): Promise<T | null> {
         "content-type": "application/json",
       },
       signal: control.signal,
-      next: { revalidate: REVALIDATE },
+      ...(LOCAL_BACKEND ? { cache: "no-store" as const } : { next: { revalidate: REVALIDATE } }),
     });
     if (!res.ok) return null;
     return (await res.json()) as T;
@@ -116,10 +113,7 @@ async function takWrite<T>(
       timedOut,
       error: error instanceof Error ? error.message : String(error),
     });
-    return {
-      ok: false,
-      status: timedOut ? 504 : 502,
-    };
+    return { ok: false, status: timedOut ? 504 : 502 };
   } finally {
     clearTimeout(timer);
   }
@@ -176,16 +170,23 @@ function pickText(value: unknown): string {
   return "";
 }
 
+export async function getPublishedWebsiteContent<T extends Record<string, unknown>>(key: string): Promise<T | null> {
+  const payload = asRecord(await takFetch<unknown>(`admin/v1/public/website-content/${key}/`));
+  const value = payload ? asRecord(payload.value) : null;
+  return value as T | null;
+}
+
+function absoluteBackendUrl(value: string): string {
+  if (!value.startsWith("/")) return value;
+  try { return `${new URL(BASE).origin}${value}`; } catch { return value; }
+}
+
 function slugify(value: string): string {
   return value
     .toLowerCase()
     .replace(/&/g, " and ")
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/^-+|-+$/g, "");
-}
-
-function normalise(value: string): string {
-  return value.toLowerCase().replace(/[^a-z0-9]+/g, "");
 }
 
 function mapCategory(value: string): PortfolioProject["category"] | null {
@@ -217,24 +218,6 @@ function techStackFrom(value: unknown): string[] {
 function dateToYear(value: string): string {
   const year = value.match(/\b(19|20)\d{2}\b/);
   return year ? year[0] : "";
-}
-
-function staticProjectFor(name: string, slug: string) {
-  const key = normalise(name || slug);
-  return portfolioProjects.find((project) => {
-    return (
-      normalise(project.name) === key ||
-      normalise(project.slug) === key
-    );
-  });
-}
-
-function fallbackImage(project: PortfolioProject | undefined): string {
-  return project?.image ? "" : "";
-}
-
-function fallbackDownloads(project: PortfolioProject | undefined) {
-  return project?.downloads ?? [];
 }
 
 export type LiveTeamMember = {
@@ -283,18 +266,9 @@ export async function getLiveCompanyInfo(): Promise<LiveCompanyInfo | null> {
 
   return {
     companyName: pick(row, "company_name", "companyName", "name"),
-    email:
-      pick(row, "email", "contact_email") ||
-      contactInfo.find((item) => item.label === "Email")?.value ||
-      "",
-    phone:
-      pick(row, "phone_number", "phone", "telephone") ||
-      contactInfo.find((item) => item.label === "Phone")?.value ||
-      "",
-    location:
-      pick(row, "location", "address", "office") ||
-      contactInfo.find((item) => item.label === "Office")?.value ||
-      "",
+    email: pick(row, "email", "contact_email"),
+    phone: pick(row, "phone_number", "phone", "telephone"),
+    location: pick(row, "location", "address", "office"),
     instagram: pick(row, "instgram", "instagram", "instagram_url"),
     twitter: pick(row, "twitter", "x", "x_url", "twitter_url"),
     linkedin: pick(row, "linkedIn", "linkedin", "linkedin_url"),
@@ -324,23 +298,11 @@ export async function getLiveGalleryPhotos(): Promise<LiveGalleryPhoto[] | null>
 
   const photos = rows
     .map((row) => ({
-      src:
-        pick(row, "image", "photo", "image_url", "url") ||
-        pickNested(row, "image", "url"),
+      src: absoluteBackendUrl(pick(row, "image", "photo", "image_url", "url") || pickNested(row, "image", "url")),
     }))
     .filter((photo) => photo.src);
 
   return photos.length > 0 ? photos : null;
-}
-
-async function getProjectWebUrl(projectId: string): Promise<string> {
-  const rows = asList(
-    await takFetch<unknown>(`project/${projectId}/web-applications/`),
-  );
-  const firstRow = rows[0];
-  return firstRow
-    ? pick(firstRow, "url", "link", "website", "website_url")
-    : "";
 }
 
 function mapDownloadRows(rows: Record<string, unknown>[]) {
@@ -366,120 +328,92 @@ function mapDownloadRows(rows: Record<string, unknown>[]) {
     .filter((item): item is NonNullable<typeof item> => Boolean(item));
 }
 
-async function getProjectDownloads(
-  projectId: string,
+function getProjectDownloads(
+  row: Record<string, unknown>,
   category: PortfolioProject["category"],
 ) {
   if (category === "Web App") return [];
-
-  const path =
+  const source =
     category === "Desktop App"
-      ? `project/${projectId}/desktop-applications/`
-      : `project/${projectId}/mobile-applications/`;
-
-  return mapDownloadRows(asList(await takFetch<unknown>(path)));
+      ? row.desktop_applications
+      : row.mobile_applications;
+  return mapDownloadRows(asList(source));
 }
 
 export async function getLiveProjects(): Promise<PortfolioProject[] | null> {
   const rows = asList(await takFetch<unknown>("projects/"));
   if (rows.length === 0) return null;
 
-  const projects = await Promise.all(
-    rows.map(async (row) => {
+  const projects = rows.map((row) => {
       const rawId = first(row, "id", "project_id");
       const projectId = pickText(rawId);
       const name =
         pick(row, "title", "name") ||
-        `Project ${projectId || portfolioProjects.length + 1}`;
-      const fallback = staticProjectFor(name, slugify(name));
-      const slug = fallback?.slug || slugify(name);
-
-      const detail = projectId
-        ? asRecord(await takFetch<unknown>(`project/${projectId}`))
-        : null;
+        `Project ${projectId || "untitled"}`;
+      const slug = pick(row, "slug") || slugify(name);
 
       const category =
         mapCategory(
-          pick(detail ?? row, "project_category", "category", "type"),
-        ) ??
-        fallback?.category ??
-        "Web App";
+          pick(row, "project_category", "category", "type"),
+        ) ?? "Web App";
 
       const stack = Array.from(
-        new Set([
-          ...techStackFrom(row.tech_stack),
-          ...techStackFrom(detail?.tech_stack),
-          ...(fallback?.stack ?? []),
-        ]),
+        new Set(techStackFrom(row.tech_stack)),
       );
 
-      const url =
-        (projectId && category === "Web App"
-          ? await getProjectWebUrl(projectId)
-          : "") || fallback?.url || "";
+      const webApplication = asList(row.web_applications)[0];
+      const url = webApplication
+        ? pick(webApplication, "url", "link", "website", "website_url")
+        : "";
 
-      const downloads =
-        (projectId
-          ? await getProjectDownloads(projectId, category)
-          : []) || fallbackDownloads(fallback);
+      const downloads = getProjectDownloads(row, category);
 
       const image =
         pickNested(row, "images", "background", "image") ||
-        pick(row, "image", "background") ||
-        pickNested(detail ?? {}, "images", "background", "image") ||
-        pick(detail ?? {}, "image", "background") ||
-        fallbackImage(fallback);
+        pick(row, "image", "background");
 
       const blurb =
-        pick(detail ?? row, "about_project", "summary", "description", "blurb") ||
-        fallback?.blurb ||
+        pick(row, "about_project", "summary", "description", "blurb") ||
         "More details coming soon.";
 
       const overview =
-        pick(detail ?? row, "project_goals", "overview", "about_project", "description") ||
-        fallback?.overview ||
+        pick(row, "project_goals", "overview", "about_project", "description") ||
         blurb;
 
       const problem =
-        pick(detail ?? row, "problem", "challenge") ||
-        fallback?.problem ||
+        pick(row, "problem", "challenge") ||
         "Project problem statement coming soon.";
 
       const solution =
-        pick(detail ?? row, "solution", "approach") ||
-        fallback?.solution ||
+        pick(row, "solution", "approach") ||
         "Project solution details coming soon.";
 
       const status =
-        pick(detail ?? row, "status", "project_status", "state") ||
-        fallback?.status ||
+        pick(row, "status", "project_status", "state") ||
         "Completed";
 
       const year =
         dateToYear(
-          pick(detail ?? row, "date_published", "published_at", "created_at"),
-        ) ||
-        fallback?.year ||
-        "";
+          pick(row, "date_published", "published_at", "created_at"),
+        );
 
       return {
-        projectId: projectId || fallback?.projectId,
+        projectId,
         slug,
         name,
         category,
         blurb,
-        stack: stack.length ? stack : fallback?.stack ?? [],
-        image,
+        stack,
+        image: absoluteBackendUrl(image),
         year: year || undefined,
         url: url || undefined,
-        downloads: downloads.length ? downloads : fallback?.downloads,
+        downloads: downloads.length ? downloads : undefined,
         overview,
         problem,
         solution,
         status,
       } satisfies PortfolioProject;
-    }),
-  );
+    });
 
   return projects.length > 0 ? projects : null;
 }
@@ -541,7 +475,7 @@ export async function getLiveTestimonials(): Promise<LiveTestimonial[] | null> {
       quote: pick(row, "comment", "message", "quote", "testimonial", "content", "body"),
       author: pick(row, "name", "author", "client_name", "full_name"),
       role: pick(row, "job_title", "role", "position", "company", "organisation", "title"),
-      image: pick(row, "user_photo", "image", "photo", "avatar", "profile_pic"),
+      image: absoluteBackendUrl(pick(row, "user_photo", "image", "photo", "avatar", "profile_pic")),
     }))
     .filter((t) => t.quote && t.author);
 

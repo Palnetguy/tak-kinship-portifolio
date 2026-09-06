@@ -11,7 +11,8 @@ import SectionHeading from "@/components/section-heading";
 import { MailIcon } from "@/components/icons";
 import { Glow } from "@/components/decor";
 import { getLiveCompanyInfo, getLiveFaqs } from "@/lib/tak-api";
-import { contactHero, contactInfo, faqs } from "@/lib/content";
+import { contactHero } from "@/lib/content";
+import BackendNotice from "@/components/backend-notice";
 
 export const metadata: Metadata = {
   title: "Contact | TAK Kinship",
@@ -61,24 +62,24 @@ function RowIcon({ kind }: { kind: "mail" | "pin" | "phone" }) {
 
 export default async function ContactPage() {
   const liveInfo = await getLiveCompanyInfo();
-  const liveFaqs = (await getLiveFaqs()) ?? faqs;
+  const liveFaqs = (await getLiveFaqs()) ?? [];
   const rows = [
     {
       icon: "mail" as const,
       label: "Email",
-      value: liveInfo?.email || contactInfo.find((item) => item.label === "Email")?.value || "",
-      href: `mailto:${liveInfo?.email || contactInfo.find((item) => item.label === "Email")?.value || "info@takkinship.com"}`,
+      value: liveInfo?.email || "",
+      href: liveInfo?.email ? `mailto:${liveInfo.email}` : "#contact-form",
     },
     {
       icon: "pin" as const,
       label: "Office",
-      value: liveInfo?.location || contactInfo.find((item) => item.label === "Office")?.value || "",
+      value: liveInfo?.location || "",
     },
     {
       icon: "phone" as const,
       label: "Phone",
-      value: liveInfo?.phone || contactInfo.find((item) => item.label === "Phone")?.value || "",
-      href: `tel:${(liveInfo?.phone || contactInfo.find((item) => item.label === "Phone")?.value || "").replace(/\s+/g, "")}`,
+      value: liveInfo?.phone || "",
+      href: liveInfo?.phone ? `tel:${liveInfo.phone.replace(/\s+/g, "")}` : "#contact-form",
     },
   ];
 
@@ -160,7 +161,7 @@ export default async function ContactPage() {
               <h2 className="font-display m-0 mb-7 text-xl font-bold">
                 To Get us
               </h2>
-              <ul className="m-0 flex list-none flex-col gap-6 p-0">
+              {liveInfo ? <ul className="m-0 flex list-none flex-col gap-6 p-0">
                 {rows.map((row) => (
                   <li key={row.label} className="flex items-start gap-4">
                     <span className="mt-0.5 flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-[color-mix(in_srgb,var(--text-accent)_35%,transparent)] text-text-accent">
@@ -185,7 +186,7 @@ export default async function ContactPage() {
                     </span>
                   </li>
                 ))}
-              </ul>
+              </ul> : <BackendNotice title="Contact information unavailable" body="Contact details have not been published yet. Please use the enquiry form and the TAK team will respond." />}
             </div>
           </div>
         </Section>
@@ -222,7 +223,11 @@ export default async function ContactPage() {
               />
             </div>
             <div className="order-1 lg:order-2">
-              <FaqAccordion faqs={liveFaqs} />
+              {liveFaqs.length ? (
+                <FaqAccordion faqs={liveFaqs} />
+              ) : (
+                <BackendNotice title="FAQs unavailable" body="Frequently asked questions have not been published yet. Please use the enquiry form for help." />
+              )}
             </div>
           </div>
         </Section>

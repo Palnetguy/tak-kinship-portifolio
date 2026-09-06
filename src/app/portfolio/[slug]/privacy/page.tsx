@@ -5,9 +5,8 @@ import Footer from "@/components/footer";
 import Section from "@/components/section";
 import PageHero from "@/components/page-hero";
 import Button from "@/components/button";
-import { portfolioProjects } from "@/lib/content";
-import { privacySections } from "@/lib/legal";
 import { getLiveProjectBySlug, getLiveProjectPolicy } from "@/lib/tak-api";
+import BackendNotice from "@/components/backend-notice";
 
 export async function generateMetadata({
   params,
@@ -15,9 +14,7 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const project =
-    (await getLiveProjectBySlug(slug)) ??
-    portfolioProjects.find((item) => item.slug === slug);
+  const project = await getLiveProjectBySlug(slug);
 
   return {
     title: project
@@ -32,9 +29,7 @@ export default async function PortfolioPrivacyPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const project =
-    (await getLiveProjectBySlug(slug)) ??
-    portfolioProjects.find((item) => item.slug === slug);
+  const project = await getLiveProjectBySlug(slug);
 
   if (!project) {
     notFound();
@@ -65,20 +60,7 @@ export default async function PortfolioPrivacyPage({
             <p className="m-0 max-w-[90ch] text-sm leading-relaxed text-text-secondary">
               {policy}
             </p>
-          ) : (
-            <>
-              {privacySections.map((section) => (
-                <div key={section.heading}>
-                  <h2 className="font-display text-xl font-semibold text-text-primary">
-                    {section.heading}
-                  </h2>
-                  <p className="mt-2 mb-10 leading-relaxed text-text-secondary">
-                    {section.body}
-                  </p>
-                </div>
-              ))}
-            </>
-          )}
+          ) : <BackendNotice title="Privacy policy unavailable" body="A privacy policy for this project has not been published yet." />}
         </Section>
       </main>
       <Footer />

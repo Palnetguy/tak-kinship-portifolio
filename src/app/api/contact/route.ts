@@ -46,7 +46,7 @@ export async function POST(request: Request) {
           "We could not send your message right now. Email info@takkinship.com instead.",
         requestId,
       },
-      { status: result.status },
+      { status: result.status, headers: { "X-Request-ID": requestId } },
     );
   }
 
@@ -54,5 +54,8 @@ export async function POST(request: Request) {
     requestId,
     durationMs: Math.round(performance.now() - startedAt),
   });
-  return NextResponse.json({ ok: true, requestId });
+  return NextResponse.json(
+    { ok: true, requestId },
+    { headers: { "X-Request-ID": requestId } },
+  );
 }
