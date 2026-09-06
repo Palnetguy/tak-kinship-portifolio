@@ -7,9 +7,8 @@ import { type Faq, type PortfolioProject } from "@/lib/content";
  *
  * The live CRA site calls this same API straight from the browser with the
  * credential hardcoded in the bundle. This module keeps the credential on the
- * server only: it prefers `TAK_API_KEY` from the environment, but also carries
- * a local development value when no environment variable is loaded. It is
- * never serialized into any payload the browser receives.
+ * server only and requires `TAK_API_KEY` from the environment. It is never
+ * serialized into any payload the browser receives.
  *
  * FAILURE IS NORMAL, NOT EXCEPTIONAL
  *
@@ -17,11 +16,14 @@ import { type Faq, type PortfolioProject } from "@/lib/content";
  * show a clear publishing message instead of substituting static website data.
  */
 
-const BASE = (process.env.TAK_API_BASE?.trim() || "https://takkinship-backend.up.railway.app/api").replace(/\/$/, "");
+const BASE = (
+  process.env.TAK_API_BASE_URL?.trim() ||
+  process.env.TAK_API_BASE?.trim() ||
+  "https://takkinship-backend.up.railway.app/api"
+).replace(/\/$/, "");
 const GOOGLE_DRIVE_DOWNLOAD =
   "https://drive.google.com/uc?export=download&id=";
-const DEFAULT_TAK_API_KEY = "LaaXj3ft.hGbRWxHo6KKsYGJ9SYdTRhwBBGo5fELG";
-const TAK_API_KEY = process.env.TAK_API_KEY?.trim() || DEFAULT_TAK_API_KEY;
+const TAK_API_KEY = process.env.TAK_API_KEY?.trim();
 
 /** Fresh enough that an edit by Martin shows within five minutes, cheap enough
  *  that the API is not hit once per visitor. */
@@ -30,6 +32,7 @@ const LOCAL_BACKEND = /^https?:\/\/(127\.0\.0\.1|localhost)(:\d+)?(?:\/|$)/.test
 
 /** Hard ceiling so a slow upstream never holds a page render open. */
 const TIMEOUT_MS = 6000;
+const WRITE_TIMEOUT_MS = 15000;
 
 if (typeof window !== "undefined") {
   throw new Error(
@@ -73,7 +76,7 @@ async function takWrite<T>(
   if (!key) return { ok: false, status: 503 };
 
   const control = new AbortController();
-  const timer = setTimeout(() => control.abort(), TIMEOUT_MS);
+  const timer = setTimeout(() => control.abort(), WRITE_TIMEOUT_MS);
 
   try {
     const res = await fetch(`${BASE}/${path.replace(/^\/+/, "")}`, {
@@ -88,6 +91,10 @@ async function takWrite<T>(
     });
 
     if (!res.ok) {
+      console.error("TAK API write returned an error", {
+        path,
+        status: res.status,
+      });
       return { ok: false, status: res.status };
     }
 
@@ -98,8 +105,14 @@ async function takWrite<T>(
       payload = null;
     }
     return { ok: true, payload };
-  } catch {
-    return { ok: false, status: 502 };
+  } catch (error) {
+    const timedOut = error instanceof Error && error.name === "AbortError";
+    console.error("TAK API write request failed", {
+      path,
+      timedOut,
+      error: error instanceof Error ? error.message : String(error),
+    });
+    return { ok: false, status: timedOut ? 504 : 502 };
   } finally {
     clearTimeout(timer);
   }
@@ -291,16 +304,6 @@ export async function getLiveGalleryPhotos(): Promise<LiveGalleryPhoto[] | null>
   return photos.length > 0 ? photos : null;
 }
 
-async function getProjectWebUrl(projectId: string): Promise<string> {
-  const rows = asList(
-    await takFetch<unknown>(`project/${projectId}/web-applications/`),
-  );
-  const firstRow = rows[0];
-  return firstRow
-    ? pick(firstRow, "url", "link", "website", "website_url")
-    : "";
-}
-
 function mapDownloadRows(rows: Record<string, unknown>[]) {
   return rows
     .map((row) => {
@@ -324,26 +327,23 @@ function mapDownloadRows(rows: Record<string, unknown>[]) {
     .filter((item): item is NonNullable<typeof item> => Boolean(item));
 }
 
-async function getProjectDownloads(
-  projectId: string,
+function getProjectDownloads(
+  row: Record<string, unknown>,
   category: PortfolioProject["category"],
 ) {
   if (category === "Web App") return [];
-
-  const path =
+  const source =
     category === "Desktop App"
-      ? `project/${projectId}/desktop-applications/`
-      : `project/${projectId}/mobile-applications/`;
-
-  return mapDownloadRows(asList(await takFetch<unknown>(path)));
+      ? row.desktop_applications
+      : row.mobile_applications;
+  return mapDownloadRows(asList(source));
 }
 
 export async function getLiveProjects(): Promise<PortfolioProject[] | null> {
   const rows = asList(await takFetch<unknown>("projects/"));
   if (rows.length === 0) return null;
 
-  const projects = await Promise.all(
-    rows.map(async (row) => {
+  const projects = rows.map((row) => {
       const rawId = first(row, "id", "project_id");
       const projectId = pickText(rawId);
       const name =
@@ -351,61 +351,49 @@ export async function getLiveProjects(): Promise<PortfolioProject[] | null> {
         `Project ${projectId || "untitled"}`;
       const slug = pick(row, "slug") || slugify(name);
 
-      const detail = projectId
-        ? asRecord(await takFetch<unknown>(`project/${projectId}`))
-        : null;
-
       const category =
         mapCategory(
-          pick(detail ?? row, "project_category", "category", "type"),
+          pick(row, "project_category", "category", "type"),
         ) ?? "Web App";
 
       const stack = Array.from(
-        new Set([
-          ...techStackFrom(row.tech_stack),
-          ...techStackFrom(detail?.tech_stack),
-        ]),
+        new Set(techStackFrom(row.tech_stack)),
       );
 
-      const url =
-        (projectId && category === "Web App"
-          ? await getProjectWebUrl(projectId)
-          : "");
+      const webApplication = asList(row.web_applications)[0];
+      const url = webApplication
+        ? pick(webApplication, "url", "link", "website", "website_url")
+        : "";
 
-      const downloads =
-        (projectId
-          ? await getProjectDownloads(projectId, category)
-          : []);
+      const downloads = getProjectDownloads(row, category);
 
       const image =
         pickNested(row, "images", "background", "image") ||
-        pick(row, "image", "background") ||
-        pickNested(detail ?? {}, "images", "background", "image") ||
-        pick(detail ?? {}, "image", "background");
+        pick(row, "image", "background");
 
       const blurb =
-        pick(detail ?? row, "about_project", "summary", "description", "blurb") ||
+        pick(row, "about_project", "summary", "description", "blurb") ||
         "More details coming soon.";
 
       const overview =
-        pick(detail ?? row, "project_goals", "overview", "about_project", "description") ||
+        pick(row, "project_goals", "overview", "about_project", "description") ||
         blurb;
 
       const problem =
-        pick(detail ?? row, "problem", "challenge") ||
+        pick(row, "problem", "challenge") ||
         "Project problem statement coming soon.";
 
       const solution =
-        pick(detail ?? row, "solution", "approach") ||
+        pick(row, "solution", "approach") ||
         "Project solution details coming soon.";
 
       const status =
-        pick(detail ?? row, "status", "project_status", "state") ||
+        pick(row, "status", "project_status", "state") ||
         "Completed";
 
       const year =
         dateToYear(
-          pick(detail ?? row, "date_published", "published_at", "created_at"),
+          pick(row, "date_published", "published_at", "created_at"),
         );
 
       return {
@@ -424,8 +412,7 @@ export async function getLiveProjects(): Promise<PortfolioProject[] | null> {
         solution,
         status,
       } satisfies PortfolioProject;
-    }),
-  );
+    });
 
   return projects.length > 0 ? projects : null;
 }

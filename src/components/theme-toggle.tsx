@@ -23,13 +23,14 @@ export default function ThemeToggle() {
     // unsettable from anywhere but this button.
     const applied = document.documentElement.getAttribute("data-theme");
     if (applied === "light" || applied === "dark") {
-      setTheme(applied);
-      return;
+      const timer = window.setTimeout(() => setTheme(applied), 0);
+      return () => window.clearTimeout(timer);
     }
     const stored = localStorage.getItem("tak:theme") as "dark" | "light" | null;
     const next = stored || "dark";
-    setTheme(next);
+    const timer = window.setTimeout(() => setTheme(next), 0);
     document.documentElement.setAttribute("data-theme", next);
+    return () => window.clearTimeout(timer);
   }, []);
 
   function toggle() {
