@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { submitContactMessage } from "@/lib/tak-api";
 
 export async function POST(request: Request) {
+  const requestId = crypto.randomUUID();
   const body = (await request.json().catch(() => null)) as
     | {
         firstName?: string;
@@ -33,14 +34,21 @@ export async function POST(request: Request) {
   });
 
   if (!result.ok) {
+    console.error("Contact submission failed", {
+      requestId,
+      upstreamStatus: result.status,
+    });
     return NextResponse.json(
       {
         error:
           "We could not send your message right now. Email info@takkinship.com instead.",
       },
-      { status: result.status },
+      { status: result.status, headers: { "X-Request-ID": requestId } },
     );
   }
 
-  return NextResponse.json({ ok: true });
+  return NextResponse.json(
+    { ok: true },
+    { headers: { "X-Request-ID": requestId } },
+  );
 }
