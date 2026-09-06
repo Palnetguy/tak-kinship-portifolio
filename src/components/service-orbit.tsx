@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { ICONS, type IconKey } from "@/components/icons";
 
 /**
@@ -158,25 +158,20 @@ function Pill({
 }
 
 export default function ServiceOrbit() {
-  const [active, setActive] = useState(0);
+  const [motion, setMotion] = useState({ current: 0, previous: 0 });
   const [still, setStill] = useState(false);
-  /** Previous slot per item, so a wrap can be moved without a transition. */
-  const prev = useRef<Record<number, number>>({});
-  /** The authoritative position. Both the timer and scroll write through it. */
-  const cursor = useRef(0);
 
   useEffect(() => {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      setStill(true);
-      return;
+      const timer = window.setTimeout(() => setStill(true), 0);
+      return () => window.clearTimeout(timer);
     }
 
     // One counter, held in a ref, so the timer and the scroll handler can
     // never drift apart. Tracking them separately meant one auto-advance made
     // the next scroll step jump backwards.
     const bump = (n: number) => {
-      cursor.current += n;
-      setActive(cursor.current);
+      setMotion(({ current }) => ({ previous: current, current: current + n }));
     };
 
     let id = window.setInterval(() => bump(1), DWELL);
@@ -296,7 +291,7 @@ export default function ServiceOrbit() {
         {ITEMS.map((item, i) => {
           const slot = still
             ? Math.min(3, Math.max(-2, i - 2))
-            : slotOf(i, active);
+            : slotOf(i, motion.current);
           const style = SLOT[slot];
           // Only a WRAP may skip its transition. The slot range is [-2, 3], so
           // a wrap is a leap of more than 3; anything up to 3 is a genuine
@@ -306,10 +301,8 @@ export default function ServiceOrbit() {
           // scroll of two or more services snapped every pill into place
           // instead of sliding them. That looked exactly like the carousel
           // ignoring the scroll, which is what it was reported as.
-          const jumped =
-            prev.current[i] !== undefined &&
-            Math.abs(slot - prev.current[i]) > 3;
-          prev.current[i] = slot;
+          const previousSlot = slotOf(i, motion.previous);
+          const jumped = Math.abs(slot - previousSlot) > 3;
 
           return (
             <div

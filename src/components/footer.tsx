@@ -43,15 +43,10 @@ const BASE_COLUMNS: { heading: string; links: { label: string; href: string }[] 
 export default async function Footer() {
   const company = await getLiveCompanyInfo();
   const followLinks = [
-    company?.linkedin
-      ? { label: "LinkedIn", href: company.linkedin }
-      : { label: "LinkedIn", href: "https://www.linkedin.com/company/takkinship/" },
+    company?.linkedin ? { label: "LinkedIn", href: company.linkedin } : null,
     company?.instagram ? { label: "Instagram", href: company.instagram } : null,
     company?.twitter ? { label: "X", href: company.twitter } : null,
-    {
-      label: "Email",
-      href: `mailto:${company?.email || "info@takkinship.com"}`,
-    },
+    company?.email ? { label: "Email", href: `mailto:${company.email}` } : null,
   ].filter((item): item is { label: string; href: string } => Boolean(item));
 
   const columns = [
