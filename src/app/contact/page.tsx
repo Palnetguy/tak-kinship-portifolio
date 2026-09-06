@@ -11,7 +11,7 @@ import SectionHeading from "@/components/section-heading";
 import { MailIcon } from "@/components/icons";
 import { Glow } from "@/components/decor";
 import { getLiveCompanyInfo, getLiveFaqs } from "@/lib/tak-api";
-import { contactHero, contactInfo, faqs } from "@/lib/content";
+import { contactHero } from "@/lib/content";
 
 export const metadata: Metadata = {
   title: "Contact | TAK Kinship",
@@ -61,24 +61,24 @@ function RowIcon({ kind }: { kind: "mail" | "pin" | "phone" }) {
 
 export default async function ContactPage() {
   const liveInfo = await getLiveCompanyInfo();
-  const liveFaqs = (await getLiveFaqs()) ?? faqs;
+  const liveFaqs = (await getLiveFaqs()) ?? [];
   const rows = [
     {
       icon: "mail" as const,
       label: "Email",
-      value: liveInfo?.email || contactInfo.find((item) => item.label === "Email")?.value || "",
-      href: `mailto:${liveInfo?.email || contactInfo.find((item) => item.label === "Email")?.value || "info@takkinship.com"}`,
+      value: liveInfo?.email || "",
+      href: liveInfo?.email ? `mailto:${liveInfo.email}` : "#contact-form",
     },
     {
       icon: "pin" as const,
       label: "Office",
-      value: liveInfo?.location || contactInfo.find((item) => item.label === "Office")?.value || "",
+      value: liveInfo?.location || "",
     },
     {
       icon: "phone" as const,
       label: "Phone",
-      value: liveInfo?.phone || contactInfo.find((item) => item.label === "Phone")?.value || "",
-      href: `tel:${(liveInfo?.phone || contactInfo.find((item) => item.label === "Phone")?.value || "").replace(/\s+/g, "")}`,
+      value: liveInfo?.phone || "",
+      href: liveInfo?.phone ? `tel:${liveInfo.phone.replace(/\s+/g, "")}` : "#contact-form",
     },
   ];
 

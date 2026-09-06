@@ -1,6 +1,11 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  // Keep Turbopack inside this repository. The parent workspace also contains
+  // other applications and an unrelated package-lock file.
+  turbopack: {
+    root: process.cwd(),
+  },
   images: {
     /* Live TAK media now comes from the S3 bucket the backend returns, while
        older/static assets still point at Cloudinary. Allow only those exact
@@ -16,6 +21,18 @@ const nextConfig: NextConfig = {
         protocol: "https",
         hostname: "res.cloudinary.com",
         pathname: "/palnet/**",
+      },
+      {
+        protocol: "http",
+        hostname: "127.0.0.1",
+        port: "8000",
+        pathname: "/media/**",
+      },
+      {
+        protocol: "http",
+        hostname: "localhost",
+        port: "8000",
+        pathname: "/media/**",
       },
     ],
   },
