@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
+import { shouldBypassImageOptimization } from "@/lib/media";
 
 type TestimonialItem = {
   quote: string;
@@ -17,9 +18,7 @@ function TestimonialCard({
   item: TestimonialItem;
   onHoverChange: (hovered: boolean) => void;
 }) {
-  const unoptimized = item.image?.startsWith(
-    "https://tak-kinship-bkt.s3.us-west-2.amazonaws.com/",
-  );
+  const unoptimized = shouldBypassImageOptimization(item.image);
   const [imageLoaded, setImageLoaded] = useState(false);
   const [imageFailed, setImageFailed] = useState(false);
 

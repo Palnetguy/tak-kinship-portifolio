@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { type PortfolioProject } from "@/lib/content";
 import MediaPlaceholder from "@/components/media-placeholder";
+import { shouldBypassImageOptimization } from "@/lib/media";
 
 /**
  * Project Details overlay, traced from "Project Details.png".
@@ -25,9 +26,7 @@ export default function ProjectDetailContent({
 }: {
   project: PortfolioProject;
 }) {
-  const unoptimized = project.image.startsWith(
-    "https://tak-kinship-bkt.s3.us-west-2.amazonaws.com/",
-  );
+  const unoptimized = shouldBypassImageOptimization(project.image);
 
   return (
     <div>

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
+import { shouldBypassImageOptimization } from "@/lib/media";
 import NavBar from "@/components/nav-bar";
 import Footer from "@/components/footer";
 import Section from "@/components/section";
@@ -192,7 +193,8 @@ export default async function Page() {
                         alt={m.name}
                         width={520}
                         height={520}
-                        className="h-14 w-14 shrink-0 rounded-full object-cover"
+                        unoptimized={shouldBypassImageOptimization(m.image)}
+                        className="aspect-square h-14 w-14 shrink-0 rounded-full object-cover"
                         sizes="56px"
                       />
                     ) : (

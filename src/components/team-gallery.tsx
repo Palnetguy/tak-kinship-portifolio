@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { shouldBypassImageOptimization } from "@/lib/media";
 
 /**
  * The revolving team gallery.
@@ -70,9 +71,7 @@ function Column({
               src={p.src}
               alt=""
               fill
-              unoptimized={p.src.startsWith(
-                "https://tak-kinship-bkt.s3.us-west-2.amazonaws.com/",
-              )}
+              unoptimized={shouldBypassImageOptimization(p.src)}
               className="object-cover"
               // The tile is about 245px wide at the 1344 column, so this asks
               // for roughly 2x that. The first pass said 22vw and Next served
