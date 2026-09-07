@@ -6,6 +6,7 @@ import { useState } from "react";
 import { type PortfolioProject } from "@/lib/content";
 import Modal from "@/components/modal";
 import MediaPlaceholder from "@/components/media-placeholder";
+import { shouldBypassImageOptimization } from "@/lib/media";
 
 const ProjectDetailContent = dynamic(
   () => import("@/components/project-detail-modal"),
@@ -30,9 +31,7 @@ const ProjectDetailContent = dynamic(
  */
 export default function PortfolioCard({ project }: { project: PortfolioProject }) {
   const [open, setOpen] = useState(false);
-  const unoptimized = project.image.startsWith(
-    "https://tak-kinship-bkt.s3.us-west-2.amazonaws.com/",
-  );
+  const unoptimized = shouldBypassImageOptimization(project.image);
 
   return (
     <>
