@@ -194,7 +194,7 @@ export default async function Page() {
                         width={520}
                         height={520}
                         unoptimized={shouldBypassImageOptimization(m.image)}
-                        className="h-14 w-14 shrink-0 rounded-full object-cover"
+                        className="aspect-square h-14 w-14 shrink-0 rounded-full object-cover"
                         sizes="56px"
                       />
                     ) : (
