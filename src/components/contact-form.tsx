@@ -1,6 +1,16 @@
 "use client";
 
-import { useState, type FormEvent } from "react";
+import Script from "next/script";
+import { useEffect, useRef, useState, type FormEvent } from "react";
+
+declare global {
+  interface Window {
+    turnstile?: {
+      render: (container: HTMLElement, options: Record<string, unknown>) => string;
+      reset: (widgetId?: string) => void;
+    };
+  }
+}
 
 /**
  * Traced from Contact.png y 449-1044.
@@ -46,6 +56,27 @@ export default function ContactForm() {
     "idle",
   );
   const [errorText, setErrorText] = useState("");
+  const [turnstileToken, setTurnstileToken] = useState("");
+  const startedAt = useRef(0);
+  const turnstileContainer = useRef<HTMLDivElement>(null);
+  const turnstileWidget = useRef<string | undefined>(undefined);
+  const turnstileSiteKey = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY;
+
+  useEffect(() => {
+    startedAt.current = Date.now();
+  }, []);
+
+  function renderTurnstile() {
+    if (!turnstileSiteKey || !window.turnstile || !turnstileContainer.current || turnstileWidget.current) return;
+    turnstileWidget.current = window.turnstile.render(turnstileContainer.current, {
+      sitekey: turnstileSiteKey,
+      action: "contact",
+      theme: "auto",
+      callback: (token: string) => setTurnstileToken(token),
+      "expired-callback": () => setTurnstileToken(""),
+      "error-callback": () => setTurnstileToken(""),
+    });
+  }
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -66,11 +97,17 @@ export default function ContactForm() {
         email: String(data.get("email") ?? ""),
         organisation: String(data.get("organisation") ?? ""),
         message: String(data.get("message") ?? ""),
+        website: String(data.get("website") ?? ""),
+        startedAt: startedAt.current,
+        turnstileToken,
       }),
     });
 
     if (response.ok) {
       form.reset();
+      startedAt.current = Date.now();
+      setTurnstileToken("");
+      window.turnstile?.reset(turnstileWidget.current);
       setState("success");
       return;
     }
@@ -87,6 +124,17 @@ export default function ContactForm() {
 
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+      {turnstileSiteKey && (
+        <Script
+          src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit"
+          strategy="afterInteractive"
+          onLoad={renderTurnstile}
+        />
+      )}
+      <label className="absolute -left-[10000px] top-auto h-px w-px overflow-hidden" aria-hidden="true">
+        Website
+        <input name="website" tabIndex={-1} autoComplete="off" />
+      </label>
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <label className="block">
           <span className="sr-only">Last Name</span>
@@ -115,6 +163,7 @@ export default function ContactForm() {
           className={`${FIELD} resize-none`}
         />
       </label>
+      {turnstileSiteKey && <div ref={turnstileContainer} className="min-h-[65px]" />}
       {/* Same press/focus contract as `components/button.tsx`, so the one
           button that is not a <Button> does not behave differently. */}
       <button
