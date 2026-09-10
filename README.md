@@ -9,6 +9,13 @@ The public portfolio website for TAK Kinship, built with Next.js, React, TypeScr
 3. Start the development server with `npm run dev`.
 4. Open [http://localhost:3000](http://localhost:3000).
 
+## Contact-form security
+
+Create a Cloudflare Turnstile widget restricted to `takkinship.com` and
+`www.takkinship.com`. Set `NEXT_PUBLIC_TURNSTILE_SITE_KEY` and the server-only
+`TURNSTILE_SECRET_KEY` in Vercel. When the secret is configured, every contact
+submission must pass server-side Turnstile validation before reaching Django.
+
 ## Checks
 
 Run these commands before opening a pull request:

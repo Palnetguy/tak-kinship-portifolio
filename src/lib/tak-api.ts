@@ -71,6 +71,7 @@ async function takWrite<T>(
   init: {
     method: "POST" | "PUT" | "PATCH" | "DELETE";
     body?: Record<string, unknown>;
+    headers?: Record<string, string>;
   },
 ): Promise<{ ok: true; payload: T | null } | { ok: false; status: number }> {
   const key = TAK_API_KEY;
@@ -85,6 +86,7 @@ async function takWrite<T>(
       headers: {
         Authorization: `Api-Key ${key}`,
         "content-type": "application/json",
+        ...init.headers,
       },
       body: init.body ? JSON.stringify(init.body) : undefined,
       signal: control.signal,
@@ -488,6 +490,9 @@ export async function submitContactMessage(input: {
   email: string;
   organisation?: string;
   message: string;
+  clientIp?: string;
+  userAgent?: string;
+  turnstileVerified?: boolean;
 }): Promise<{ ok: true } | { ok: false; status: number }> {
   const response = await takWrite<unknown>("contact-us/", {
     method: "POST",
@@ -497,8 +502,13 @@ export async function submitContactMessage(input: {
         ? `Website enquiry from ${input.organisation.trim()}`
         : "Website enquiry",
       email: input.email.trim(),
-      phone_number: "0700000000",
+      phone_number: "",
       message: input.message.trim(),
+    },
+    headers: {
+      ...(input.clientIp ? { "X-TAK-Client-IP": input.clientIp } : {}),
+      ...(input.userAgent ? { "X-TAK-User-Agent": input.userAgent.slice(0, 500) } : {}),
+      ...(input.turnstileVerified ? { "X-TAK-Turnstile-Verified": "1" } : {}),
     },
   });
 
